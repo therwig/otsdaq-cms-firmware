@@ -1,0 +1,78 @@
+Vivado Simulator 2018.2
+Copyright 1986-1999, 2001-2018 Xilinx, Inc. All Rights Reserved.
+Running: /opt/local/Xilinx/Vivado/2018.2/bin/unwrapped/lnx64.o/xelab -wto 189797f810984417b91d1567d3375c4b --incr --debug typical --relax --mt 8 -L fifo_generator_v13_2_2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot algorithm_tb_behav xil_defaultlib.algorithm_tb xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.numeric_std
+Compiling package synopsys.attributes
+Compiling package ieee.std_logic_misc
+Compiling package xil_defaultlib.tmux_params_pkg
+Compiling package xil_defaultlib.algo_pkg
+Compiling package xil_defaultlib.txt_util
+Compiling package vl.vl_types
+Compiling module xil_defaultlib.glbl
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling architecture read_from_file of entity xil_defaultlib.FILE_READ [\FILE_READ(stim_file="/data/rriv...]
+Compiling module fifo_generator_v13_2_2.fifo_generator_v13_2_2_sync_stag...
+Compiling module fifo_generator_v13_2_2.fifo_generator_v13_2_2_bhv_ver_a...
+Compiling module fifo_generator_v13_2_2.fifo_generator_v13_2_2_bhv_ver_p...
+Compiling module fifo_generator_v13_2_2.fifo_generator_v13_2_2_CONV_VER(...
+Compiling module fifo_generator_v13_2_2.fifo_generator_vlog_beh(C_DATA_C...
+Compiling module fifo_generator_v13_2_2.fifo_generator_v13_2_2(C_EN_SAFE...
+Compiling module xil_defaultlib.raw_link_buffer_layer0
+Compiling architecture behavioral of entity xil_defaultlib.tmux_wrapper_layer1_buffer [tmux_wrapper_layer1_buffer_defau...]
+Compiling architecture behavioral of entity xil_defaultlib.tmux_wrapper_layer1_buffers [\tmux_wrapper_layer1_buffers(lin...]
+Compiling module unisims_ver.BUFG
+Compiling module unisims_ver.MMCME2_ADV(CLKFBOUT_MULT_F=8.0,C...
+Compiling module xil_defaultlib.tmux_clocks_clk_wiz
+Compiling module xil_defaultlib.tmux_clocks
+Compiling architecture arch of entity xil_defaultlib.tmux_wrapper [tmux_wrapper_default]
+Compiling architecture tb_architecture of entity xil_defaultlib.algorithm_tb
+Built simulation snapshot algorithm_tb_behav

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="raw_link_buffer_layer0_synth_1" LaunchPart="xc7vx690tffg1927-2" LaunchTime="1554668450">
+  <File Type="VDS-TIMING-PB" Name="raw_link_buffer_layer0_timing_summary_synth.pb"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="raw_link_buffer_layer0_timing_summary_synth.rpt"/>
+  <File Type="RDS-DCP" Name="raw_link_buffer_layer0.dcp"/>
+  <File Type="REPORTS-TCL" Name="raw_link_buffer_layer0_reports.tcl"/>
+  <File Type="PA-TCL" Name="raw_link_buffer_layer0.tcl"/>
+  <File Type="RDS-RDS" Name="raw_link_buffer_layer0.vds"/>
+  <File Type="RDS-PROPCONSTRS" Name="raw_link_buffer_layer0_drc_synth.rpt"/>
+  <File Type="RDS-UTIL" Name="raw_link_buffer_layer0_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="raw_link_buffer_layer0_utilization_synth.pb"/>
+  <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/raw_link_buffer_layer0">
+    <File Path="$PSRCDIR/sources_1/ip/raw_link_buffer_layer0/raw_link_buffer_layer0.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="raw_link_buffer_layer0"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="BlockSrcs" RelSrcDir="$PSRCDIR/raw_link_buffer_layer0">
+    <File Path="$PSRCDIR/sources_1/ip/raw_link_buffer_layer0/raw_link_buffer_layer0.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="raw_link_buffer_layer0"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018">
+      <Desc>Vivado Synthesis Defaults</Desc>
+    </StratHandle>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>

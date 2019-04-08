@@ -1,0 +1,13 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../sim/algo_pkg.vhd" \
+"../../../../sim/tmux_params_pkg.vhd" \
+"../../../../sim/txt_util.vhd" \
+"../../../../sim/sim_file_read.vhd" \
+"../../../../sim/tmux_wrapper_layer1_buffer.vhd" \
+"../../../../sim/tmux_wrapper_layer1_buffers.vhd" \
+"../../../../sim/tmux_wrapper.vhd" \
+"../../../../sim/infra_algorithm_TB.vhd" \
+
+# Do not sort compile order
+nosort

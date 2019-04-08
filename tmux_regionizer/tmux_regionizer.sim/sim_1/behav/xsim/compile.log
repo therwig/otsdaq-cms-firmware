@@ -1,0 +1,4 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity tmux_wrapper
+INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/infra_algorithm_TB.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity algorithm_tb
