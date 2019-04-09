@@ -47,184 +47,184 @@ architecture arch of tmux_wrapper is
 --           );
 --    end component;
     
-    component algo_unpacked
-    port (
-      ap_clk   : in  std_logic;
-      ap_rst   : in  std_logic;
-      ap_start : in  std_logic;
-      ap_done  : out std_logic;
-      ap_idle  : out std_logic;
-      ap_ready : out std_logic;
+--    component algo_unpacked
+--    port (
+--      ap_clk   : in  std_logic;
+--      ap_rst   : in  std_logic;
+--      ap_start : in  std_logic;
+--      ap_done  : out std_logic;
+--      ap_idle  : out std_logic;
+--      ap_ready : out std_logic;
     
-      link_in_0_V  : in std_logic_vector (191 downto 0);
-      link_in_1_V  : in std_logic_vector (191 downto 0);
-      link_in_2_V  : in std_logic_vector (191 downto 0);
-      link_in_3_V  : in std_logic_vector (191 downto 0);
-      link_in_4_V  : in std_logic_vector (191 downto 0);
-      link_in_5_V  : in std_logic_vector (191 downto 0);
-      link_in_6_V  : in std_logic_vector (191 downto 0);
-      link_in_7_V  : in std_logic_vector (191 downto 0);
-      link_in_8_V  : in std_logic_vector (191 downto 0);
-      link_in_9_V  : in std_logic_vector (191 downto 0);
-      link_in_10_V : in std_logic_vector (191 downto 0);
-      link_in_11_V : in std_logic_vector (191 downto 0);
-      link_in_12_V : in std_logic_vector (191 downto 0);
-      link_in_13_V : in std_logic_vector (191 downto 0);
-      link_in_14_V : in std_logic_vector (191 downto 0);
-      link_in_15_V : in std_logic_vector (191 downto 0);
-      link_in_16_V : in std_logic_vector (191 downto 0);
-      link_in_17_V : in std_logic_vector (191 downto 0);
-      link_in_18_V : in std_logic_vector (191 downto 0);
-      link_in_19_V : in std_logic_vector (191 downto 0);
-      link_in_20_V : in std_logic_vector (191 downto 0);
-      link_in_21_V : in std_logic_vector (191 downto 0);
-      link_in_22_V : in std_logic_vector (191 downto 0);
-      link_in_23_V : in std_logic_vector (191 downto 0);
-      link_in_24_V : in std_logic_vector (191 downto 0);
-      link_in_25_V : in std_logic_vector (191 downto 0);
-      link_in_26_V : in std_logic_vector (191 downto 0);
-      link_in_27_V : in std_logic_vector (191 downto 0);
-      link_in_28_V : in std_logic_vector (191 downto 0);
-      link_in_29_V : in std_logic_vector (191 downto 0);
-      link_in_30_V : in std_logic_vector (191 downto 0);
-      link_in_31_V : in std_logic_vector (191 downto 0);
-      link_in_32_V : in std_logic_vector (191 downto 0);
-      link_in_33_V : in std_logic_vector (191 downto 0);
-      link_in_34_V : in std_logic_vector (191 downto 0);
-      link_in_35_V : in std_logic_vector (191 downto 0);
-      link_in_36_V : in std_logic_vector (191 downto 0);
-      link_in_37_V : in std_logic_vector (191 downto 0);
-      link_in_38_V : in std_logic_vector (191 downto 0);
-      link_in_39_V : in std_logic_vector (191 downto 0);
-      link_in_40_V : in std_logic_vector (191 downto 0);
-      link_in_41_V : in std_logic_vector (191 downto 0);
-      link_in_42_V : in std_logic_vector (191 downto 0);
-      link_in_43_V : in std_logic_vector (191 downto 0);
-      link_in_44_V : in std_logic_vector (191 downto 0);
-      link_in_45_V : in std_logic_vector (191 downto 0);
-      link_in_46_V : in std_logic_vector (191 downto 0);
-      link_in_47_V : in std_logic_vector (191 downto 0);
+--      link_in_0_V  : in std_logic_vector (191 downto 0);
+--      link_in_1_V  : in std_logic_vector (191 downto 0);
+--      link_in_2_V  : in std_logic_vector (191 downto 0);
+--      link_in_3_V  : in std_logic_vector (191 downto 0);
+--      link_in_4_V  : in std_logic_vector (191 downto 0);
+--      link_in_5_V  : in std_logic_vector (191 downto 0);
+--      link_in_6_V  : in std_logic_vector (191 downto 0);
+--      link_in_7_V  : in std_logic_vector (191 downto 0);
+--      link_in_8_V  : in std_logic_vector (191 downto 0);
+--      link_in_9_V  : in std_logic_vector (191 downto 0);
+--      link_in_10_V : in std_logic_vector (191 downto 0);
+--      link_in_11_V : in std_logic_vector (191 downto 0);
+--      link_in_12_V : in std_logic_vector (191 downto 0);
+--      link_in_13_V : in std_logic_vector (191 downto 0);
+--      link_in_14_V : in std_logic_vector (191 downto 0);
+--      link_in_15_V : in std_logic_vector (191 downto 0);
+--      link_in_16_V : in std_logic_vector (191 downto 0);
+--      link_in_17_V : in std_logic_vector (191 downto 0);
+--      link_in_18_V : in std_logic_vector (191 downto 0);
+--      link_in_19_V : in std_logic_vector (191 downto 0);
+--      link_in_20_V : in std_logic_vector (191 downto 0);
+--      link_in_21_V : in std_logic_vector (191 downto 0);
+--      link_in_22_V : in std_logic_vector (191 downto 0);
+--      link_in_23_V : in std_logic_vector (191 downto 0);
+--      link_in_24_V : in std_logic_vector (191 downto 0);
+--      link_in_25_V : in std_logic_vector (191 downto 0);
+--      link_in_26_V : in std_logic_vector (191 downto 0);
+--      link_in_27_V : in std_logic_vector (191 downto 0);
+--      link_in_28_V : in std_logic_vector (191 downto 0);
+--      link_in_29_V : in std_logic_vector (191 downto 0);
+--      link_in_30_V : in std_logic_vector (191 downto 0);
+--      link_in_31_V : in std_logic_vector (191 downto 0);
+--      link_in_32_V : in std_logic_vector (191 downto 0);
+--      link_in_33_V : in std_logic_vector (191 downto 0);
+--      link_in_34_V : in std_logic_vector (191 downto 0);
+--      link_in_35_V : in std_logic_vector (191 downto 0);
+--      link_in_36_V : in std_logic_vector (191 downto 0);
+--      link_in_37_V : in std_logic_vector (191 downto 0);
+--      link_in_38_V : in std_logic_vector (191 downto 0);
+--      link_in_39_V : in std_logic_vector (191 downto 0);
+--      link_in_40_V : in std_logic_vector (191 downto 0);
+--      link_in_41_V : in std_logic_vector (191 downto 0);
+--      link_in_42_V : in std_logic_vector (191 downto 0);
+--      link_in_43_V : in std_logic_vector (191 downto 0);
+--      link_in_44_V : in std_logic_vector (191 downto 0);
+--      link_in_45_V : in std_logic_vector (191 downto 0);
+--      link_in_46_V : in std_logic_vector (191 downto 0);
+--      link_in_47_V : in std_logic_vector (191 downto 0);
     
-      link_out_0_V  : out std_logic_vector (191 downto 0);
-      link_out_1_V  : out std_logic_vector (191 downto 0);
-      link_out_2_V  : out std_logic_vector (191 downto 0);
-      link_out_3_V  : out std_logic_vector (191 downto 0);
-      link_out_4_V  : out std_logic_vector (191 downto 0);
-      link_out_5_V  : out std_logic_vector (191 downto 0);
-      link_out_6_V  : out std_logic_vector (191 downto 0);
-      link_out_7_V  : out std_logic_vector (191 downto 0);
-      link_out_8_V  : out std_logic_vector (191 downto 0);
-      link_out_9_V  : out std_logic_vector (191 downto 0);
-      link_out_10_V : out std_logic_vector (191 downto 0);
-      link_out_11_V : out std_logic_vector (191 downto 0);
-      link_out_12_V : out std_logic_vector (191 downto 0);
-      link_out_13_V : out std_logic_vector (191 downto 0);
-      link_out_14_V : out std_logic_vector (191 downto 0);
-      link_out_15_V : out std_logic_vector (191 downto 0);
-      link_out_16_V : out std_logic_vector (191 downto 0);
-      link_out_17_V : out std_logic_vector (191 downto 0);
-      link_out_18_V : out std_logic_vector (191 downto 0);
-      link_out_19_V : out std_logic_vector (191 downto 0);
-      link_out_20_V : out std_logic_vector (191 downto 0);
-      link_out_21_V : out std_logic_vector (191 downto 0);
-      link_out_22_V : out std_logic_vector (191 downto 0);
-      link_out_23_V : out std_logic_vector (191 downto 0);
-      link_out_24_V : out std_logic_vector (191 downto 0);
-      link_out_25_V : out std_logic_vector (191 downto 0);
-      link_out_26_V : out std_logic_vector (191 downto 0);
-      link_out_27_V : out std_logic_vector (191 downto 0);
-      link_out_28_V : out std_logic_vector (191 downto 0);
-      link_out_29_V : out std_logic_vector (191 downto 0);
-      link_out_30_V : out std_logic_vector (191 downto 0);
-      link_out_31_V : out std_logic_vector (191 downto 0);
-      link_out_32_V : out std_logic_vector (191 downto 0);
-      link_out_33_V : out std_logic_vector (191 downto 0);
-      link_out_34_V : out std_logic_vector (191 downto 0);
-      link_out_35_V : out std_logic_vector (191 downto 0);
-      link_out_36_V : out std_logic_vector (191 downto 0);
-      link_out_37_V : out std_logic_vector (191 downto 0);
-      link_out_38_V : out std_logic_vector (191 downto 0);
-      link_out_39_V : out std_logic_vector (191 downto 0);
-      link_out_40_V : out std_logic_vector (191 downto 0);
-      link_out_41_V : out std_logic_vector (191 downto 0);
-      link_out_42_V : out std_logic_vector (191 downto 0);
-      link_out_43_V : out std_logic_vector (191 downto 0);
-      link_out_44_V : out std_logic_vector (191 downto 0);
-      link_out_45_V : out std_logic_vector (191 downto 0);
-      link_out_46_V : out std_logic_vector (191 downto 0);
-      link_out_47_V : out std_logic_vector (191 downto 0);
+--      link_out_0_V  : out std_logic_vector (191 downto 0);
+--      link_out_1_V  : out std_logic_vector (191 downto 0);
+--      link_out_2_V  : out std_logic_vector (191 downto 0);
+--      link_out_3_V  : out std_logic_vector (191 downto 0);
+--      link_out_4_V  : out std_logic_vector (191 downto 0);
+--      link_out_5_V  : out std_logic_vector (191 downto 0);
+--      link_out_6_V  : out std_logic_vector (191 downto 0);
+--      link_out_7_V  : out std_logic_vector (191 downto 0);
+--      link_out_8_V  : out std_logic_vector (191 downto 0);
+--      link_out_9_V  : out std_logic_vector (191 downto 0);
+--      link_out_10_V : out std_logic_vector (191 downto 0);
+--      link_out_11_V : out std_logic_vector (191 downto 0);
+--      link_out_12_V : out std_logic_vector (191 downto 0);
+--      link_out_13_V : out std_logic_vector (191 downto 0);
+--      link_out_14_V : out std_logic_vector (191 downto 0);
+--      link_out_15_V : out std_logic_vector (191 downto 0);
+--      link_out_16_V : out std_logic_vector (191 downto 0);
+--      link_out_17_V : out std_logic_vector (191 downto 0);
+--      link_out_18_V : out std_logic_vector (191 downto 0);
+--      link_out_19_V : out std_logic_vector (191 downto 0);
+--      link_out_20_V : out std_logic_vector (191 downto 0);
+--      link_out_21_V : out std_logic_vector (191 downto 0);
+--      link_out_22_V : out std_logic_vector (191 downto 0);
+--      link_out_23_V : out std_logic_vector (191 downto 0);
+--      link_out_24_V : out std_logic_vector (191 downto 0);
+--      link_out_25_V : out std_logic_vector (191 downto 0);
+--      link_out_26_V : out std_logic_vector (191 downto 0);
+--      link_out_27_V : out std_logic_vector (191 downto 0);
+--      link_out_28_V : out std_logic_vector (191 downto 0);
+--      link_out_29_V : out std_logic_vector (191 downto 0);
+--      link_out_30_V : out std_logic_vector (191 downto 0);
+--      link_out_31_V : out std_logic_vector (191 downto 0);
+--      link_out_32_V : out std_logic_vector (191 downto 0);
+--      link_out_33_V : out std_logic_vector (191 downto 0);
+--      link_out_34_V : out std_logic_vector (191 downto 0);
+--      link_out_35_V : out std_logic_vector (191 downto 0);
+--      link_out_36_V : out std_logic_vector (191 downto 0);
+--      link_out_37_V : out std_logic_vector (191 downto 0);
+--      link_out_38_V : out std_logic_vector (191 downto 0);
+--      link_out_39_V : out std_logic_vector (191 downto 0);
+--      link_out_40_V : out std_logic_vector (191 downto 0);
+--      link_out_41_V : out std_logic_vector (191 downto 0);
+--      link_out_42_V : out std_logic_vector (191 downto 0);
+--      link_out_43_V : out std_logic_vector (191 downto 0);
+--      link_out_44_V : out std_logic_vector (191 downto 0);
+--      link_out_45_V : out std_logic_vector (191 downto 0);
+--      link_out_46_V : out std_logic_vector (191 downto 0);
+--      link_out_47_V : out std_logic_vector (191 downto 0);
     
-      link_out_0_V_ap_vld  : out std_logic;
-      link_out_1_V_ap_vld  : out std_logic;
-      link_out_2_V_ap_vld  : out std_logic;
-      link_out_3_V_ap_vld  : out std_logic;
-      link_out_4_V_ap_vld  : out std_logic;
-      link_out_5_V_ap_vld  : out std_logic;
-      link_out_6_V_ap_vld  : out std_logic;
-      link_out_7_V_ap_vld  : out std_logic;
-      link_out_8_V_ap_vld  : out std_logic;
-      link_out_9_V_ap_vld  : out std_logic;
-      link_out_10_V_ap_vld : out std_logic;
-      link_out_11_V_ap_vld : out std_logic;
-      link_out_12_V_ap_vld : out std_logic;
-      link_out_13_V_ap_vld : out std_logic;
-      link_out_14_V_ap_vld : out std_logic;
-      link_out_15_V_ap_vld : out std_logic;
-      link_out_16_V_ap_vld : out std_logic;
-      link_out_17_V_ap_vld : out std_logic;
-      link_out_18_V_ap_vld : out std_logic;
-      link_out_19_V_ap_vld : out std_logic;
-      link_out_20_V_ap_vld : out std_logic;
-      link_out_21_V_ap_vld : out std_logic;
-      link_out_22_V_ap_vld : out std_logic;
-      link_out_23_V_ap_vld : out std_logic;
-      link_out_24_V_ap_vld : out std_logic;
-      link_out_25_V_ap_vld : out std_logic;
-      link_out_26_V_ap_vld : out std_logic;
-      link_out_27_V_ap_vld : out std_logic;
-      link_out_28_V_ap_vld : out std_logic;
-      link_out_29_V_ap_vld : out std_logic;
-      link_out_30_V_ap_vld : out std_logic;
-      link_out_31_V_ap_vld : out std_logic;
-      link_out_32_V_ap_vld : out std_logic;
-      link_out_33_V_ap_vld : out std_logic;
-      link_out_34_V_ap_vld : out std_logic;
-      link_out_35_V_ap_vld : out std_logic;
-      link_out_36_V_ap_vld : out std_logic;
-      link_out_37_V_ap_vld : out std_logic;
-      link_out_38_V_ap_vld : out std_logic;
-      link_out_39_V_ap_vld : out std_logic;
-      link_out_40_V_ap_vld : out std_logic;
-      link_out_41_V_ap_vld : out std_logic;
-      link_out_42_V_ap_vld : out std_logic;
-      link_out_43_V_ap_vld : out std_logic;
-      link_out_44_V_ap_vld : out std_logic;
-      link_out_45_V_ap_vld : out std_logic;
-      link_out_46_V_ap_vld : out std_logic;
-      link_out_47_V_ap_vld : out std_logic
+--      link_out_0_V_ap_vld  : out std_logic;
+--      link_out_1_V_ap_vld  : out std_logic;
+--      link_out_2_V_ap_vld  : out std_logic;
+--      link_out_3_V_ap_vld  : out std_logic;
+--      link_out_4_V_ap_vld  : out std_logic;
+--      link_out_5_V_ap_vld  : out std_logic;
+--      link_out_6_V_ap_vld  : out std_logic;
+--      link_out_7_V_ap_vld  : out std_logic;
+--      link_out_8_V_ap_vld  : out std_logic;
+--      link_out_9_V_ap_vld  : out std_logic;
+--      link_out_10_V_ap_vld : out std_logic;
+--      link_out_11_V_ap_vld : out std_logic;
+--      link_out_12_V_ap_vld : out std_logic;
+--      link_out_13_V_ap_vld : out std_logic;
+--      link_out_14_V_ap_vld : out std_logic;
+--      link_out_15_V_ap_vld : out std_logic;
+--      link_out_16_V_ap_vld : out std_logic;
+--      link_out_17_V_ap_vld : out std_logic;
+--      link_out_18_V_ap_vld : out std_logic;
+--      link_out_19_V_ap_vld : out std_logic;
+--      link_out_20_V_ap_vld : out std_logic;
+--      link_out_21_V_ap_vld : out std_logic;
+--      link_out_22_V_ap_vld : out std_logic;
+--      link_out_23_V_ap_vld : out std_logic;
+--      link_out_24_V_ap_vld : out std_logic;
+--      link_out_25_V_ap_vld : out std_logic;
+--      link_out_26_V_ap_vld : out std_logic;
+--      link_out_27_V_ap_vld : out std_logic;
+--      link_out_28_V_ap_vld : out std_logic;
+--      link_out_29_V_ap_vld : out std_logic;
+--      link_out_30_V_ap_vld : out std_logic;
+--      link_out_31_V_ap_vld : out std_logic;
+--      link_out_32_V_ap_vld : out std_logic;
+--      link_out_33_V_ap_vld : out std_logic;
+--      link_out_34_V_ap_vld : out std_logic;
+--      link_out_35_V_ap_vld : out std_logic;
+--      link_out_36_V_ap_vld : out std_logic;
+--      link_out_37_V_ap_vld : out std_logic;
+--      link_out_38_V_ap_vld : out std_logic;
+--      link_out_39_V_ap_vld : out std_logic;
+--      link_out_40_V_ap_vld : out std_logic;
+--      link_out_41_V_ap_vld : out std_logic;
+--      link_out_42_V_ap_vld : out std_logic;
+--      link_out_43_V_ap_vld : out std_logic;
+--      link_out_44_V_ap_vld : out std_logic;
+--      link_out_45_V_ap_vld : out std_logic;
+--      link_out_46_V_ap_vld : out std_logic;
+--      link_out_47_V_ap_vld : out std_logic
     
-      );
-    end component algo_unpacked;
+--      );
+--    end component algo_unpacked;
 
   
-    signal ap_clk_unp   : std_logic;
-    signal ap_rst_unp   : std_logic;
-    signal ap_start_unp : std_logic;
-    signal ap_done_unp  : std_logic;
-    signal ap_idle_unp  : std_logic;
-    signal ap_ready_unp : std_logic;
+--    signal ap_clk_unp   : std_logic;
+--    signal ap_rst_unp   : std_logic;
+--    signal ap_start_unp : std_logic;
+--    signal ap_done_unp  : std_logic;
+--    signal ap_idle_unp  : std_logic;
+--    signal ap_ready_unp : std_logic;
       
-    type t_cyc_3_arr is array(integer range <>) of integer range 0 to 2;
-    signal in_cyc  : t_cyc_3_arr(MAX_FIBER_COUNT-1 downto 0);
-    signal out_cyc : t_cyc_3_arr(MAX_FIBER_COUNT-1 downto 0);
+--    type t_cyc_3_arr is array(integer range <>) of integer range 0 to 2;
+--    signal in_cyc  : t_cyc_3_arr(MAX_FIBER_COUNT-1 downto 0);
+--    signal out_cyc : t_cyc_3_arr(MAX_FIBER_COUNT-1 downto 0);
     
-    signal link_in      : link_input_data_arr_t(MAX_FIBER_COUNT-1 downto 0);
-    signal link_in_reg  : link_input_data_arr_t(MAX_FIBER_COUNT-1 downto 0);
-    signal link_out     : link_input_data_arr_t(MAX_FIBER_COUNT-1 downto 0);
-    signal link_out_reg : link_input_data_arr_t(MAX_FIBER_COUNT-1 downto 0);  
+--    signal link_in      : link_input_data_arr_t(MAX_FIBER_COUNT-1 downto 0);
+--    signal link_in_reg  : link_input_data_arr_t(MAX_FIBER_COUNT-1 downto 0);
+--    signal link_out     : link_input_data_arr_t(MAX_FIBER_COUNT-1 downto 0);
+--    signal link_out_reg : link_input_data_arr_t(MAX_FIBER_COUNT-1 downto 0);  
     
-    signal link_out_ap_vld : std_logic_vector(MAX_FIBER_COUNT-1 downto 0);
-    signal link_out_ap_vld_latched : std_logic_vector(MAX_FIBER_COUNT-1 downto 0);
+--    signal link_out_ap_vld : std_logic_vector(MAX_FIBER_COUNT-1 downto 0);
+--    signal link_out_ap_vld_latched : std_logic_vector(MAX_FIBER_COUNT-1 downto 0);
     
     --=======================
     -- tmux wrapper additions
@@ -243,8 +243,8 @@ architecture arch of tmux_wrapper is
     -- map tmux_algo_in on algo_in since naming of inputs and outputs to HLS component already done
     signal algo_in      : algo_input_t;
   
-    constant RESET_DELAY : natural := 23;
-    signal ap_rst_delay : std_logic_vector(RESET_DELAY-1 downto 0) := (others => '1');
+--    constant RESET_DELAY : natural := 23;
+--    signal ap_rst_delay : std_logic_vector(RESET_DELAY-1 downto 0) := (others => '1');
     signal has_reset : std_logic := '0';
     
     
@@ -254,86 +254,86 @@ architecture arch of tmux_wrapper is
 begin
     algo_in_debug <= algo_in;
 
-    ap_done <= ap_done_unp;
+--    ap_done <= ap_done_unp;
     
-    ap_clk_unp   <= ap_clk;
-    ap_rst_unp   <= ap_rst;
-    ap_start_unp <= has_reset and (not ap_rst_delay(RESET_DELAY-1));
-    ap_idle      <= ap_idle_unp;
-    ap_ready     <= ap_ready_unp;
+--    ap_clk_unp   <= ap_clk;
+--    ap_rst_unp   <= ap_rst;
+--    ap_start_unp <= has_reset and (not ap_rst_delay(RESET_DELAY-1));
+--    ap_idle      <= ap_idle_unp;
+--    ap_ready     <= ap_ready_unp;
     
     process(ap_clk) is
     begin
         if rising_edge(ap_clk) then
             if(ap_rst = '1') then
-                ap_rst_delay <= (others => '1');
+                --ap_rst_delay <= (others => '1');
                 has_reset <= '1';
             else
-                ap_rst_delay <= ap_rst_delay(RESET_DELAY-2 downto 0) & ap_rst;
+                --ap_rst_delay <= ap_rst_delay(RESET_DELAY-2 downto 0) & ap_rst;
                                
             end if;
         end if;
     end process;
 
-    --group links into 3x 120MHz clocks
-    gen_cyc : for idx in 0 to 47 generate
+--    --group links into 3x 120MHz clocks
+--    gen_cyc : for idx in 0 to 47 generate
         
-    begin
-        process(ap_clk) is
-        begin
-          if rising_edge(ap_clk) then
+--    begin
+--        process(ap_clk) is
+--        begin
+--          if rising_edge(ap_clk) then
         
-            if (link_out_ap_vld(idx) = '1') then
-              link_out_reg(idx) <= link_out(idx);
-            end if;
+--            if (link_out_ap_vld(idx) = '1') then
+--              link_out_reg(idx) <= link_out(idx);
+--            end if;
         
-            if (has_reset = '0' or ap_rst_delay(0) = '1') then
-              in_cyc(idx) <= 0;
-            else
-              in_cyc(idx) <= in_cyc(idx) + 1;
-              if (in_cyc(idx) = 2) then
-                in_cyc(idx) <= 0;
-              end if;
-            end if;
+--            if (has_reset = '0' or ap_rst_delay(0) = '1') then
+--              in_cyc(idx) <= 0;
+--            else
+--              in_cyc(idx) <= in_cyc(idx) + 1;
+--              if (in_cyc(idx) = 2) then
+--                in_cyc(idx) <= 0;
+--              end if;
+--            end if;
         
-            if (ap_rst = '1') then
-              link_out_ap_vld_latched(idx) <= '0';
-            elsif (link_out_ap_vld(idx) = '1') then
-              link_out_ap_vld_latched(idx) <= '1';
-            end if;
+--            if (ap_rst = '1') then
+--              link_out_ap_vld_latched(idx) <= '0';
+--            elsif (link_out_ap_vld(idx) = '1') then
+--              link_out_ap_vld_latched(idx) <= '1';
+--            end if;
         
-            if (link_out_ap_vld_latched(idx) = '0') then
-              out_cyc(idx)                <= 0;
-              link_out_master(idx).tvalid <= '0'; 
-            else
-              link_out_master(idx).tvalid <= has_reset; --RAR '1'; 
-              out_cyc(idx)                <= out_cyc(idx) + 1;
-              if (out_cyc(idx) = 2) then
-                out_cyc(idx) <= 0;
-              end if;
-            end if;
+--            if (link_out_ap_vld_latched(idx) = '0') then
+--              out_cyc(idx)                <= 0;
+--              link_out_master(idx).tvalid <= '0'; 
+--            else
+--              link_out_master(idx).tvalid <= has_reset; --RAR '1'; 
+--              out_cyc(idx)                <= out_cyc(idx) + 1;
+--              if (out_cyc(idx) = 2) then
+--                out_cyc(idx) <= 0;
+--              end if;
+--            end if;
         
-            if (in_cyc(idx) = 0) then 
-                link_in(idx)(63 downto 0)    <= link_in_master(idx).tdata; 
-            end if;
+--            if (in_cyc(idx) = 0) then 
+--                link_in(idx)(63 downto 0)    <= link_in_master(idx).tdata; 
+--            end if;
             
-            if (in_cyc(idx) = 1) then 
-                link_in(idx)(127 downto 64)  <= link_in_master(idx).tdata; 
-            end if;
+--            if (in_cyc(idx) = 1) then 
+--                link_in(idx)(127 downto 64)  <= link_in_master(idx).tdata; 
+--            end if;
             
-            if (in_cyc(idx) = 2) then 
-                link_in_reg(idx)(63 downto 0) <= link_in(idx)(63 downto 0);
-                link_in_reg(idx)(127 downto 64) <= link_in(idx)(127 downto 64);
-                link_in_reg(idx)(191 downto 128) <= link_in_master(idx).tdata; 
-            end if;
+--            if (in_cyc(idx) = 2) then 
+--                link_in_reg(idx)(63 downto 0) <= link_in(idx)(63 downto 0);
+--                link_in_reg(idx)(127 downto 64) <= link_in(idx)(127 downto 64);
+--                link_in_reg(idx)(191 downto 128) <= link_in_master(idx).tdata; 
+--            end if;
         
-            if (out_cyc(idx) = 0) then link_out_master(idx).tdata <= link_out_reg(idx)(63 downto 0); end if;
-            if (out_cyc(idx) = 1) then link_out_master(idx).tdata <= link_out_reg(idx)(127 downto 64); end if;
-            if (out_cyc(idx) = 2) then link_out_master(idx).tdata <= link_out_reg(idx)(191 downto 128); end if;
+--            if (out_cyc(idx) = 0) then link_out_master(idx).tdata <= link_out_reg(idx)(63 downto 0); end if;
+--            if (out_cyc(idx) = 1) then link_out_master(idx).tdata <= link_out_reg(idx)(127 downto 64); end if;
+--            if (out_cyc(idx) = 2) then link_out_master(idx).tdata <= link_out_reg(idx)(191 downto 128); end if;
         
-          end if;
-        end process;
-    end generate;
+--          end if;
+--        end process;
+--    end generate;
     
     
     
@@ -411,23 +411,25 @@ begin
             gen_fiber_buffer : for i in 0 to FIBERS_IN_GROUP-1 generate
             
                 constant l                                  : natural := g*FIBERS_IN_GROUP + i;
-                signal   link_physics_object_buffer         : physics_object_arr_t(2 downto 0) := (others => null_physics_object);               
+                signal   link_physics_object_buffer         : physics_object_arr_t(1 downto 0) := (others => null_physics_object);               
                 
-                signal   physics_object_buffer_state_cnt    : unsigned(3 downto 0) := (others => '0');
+                --signal   physics_object_buffer_state_cnt    : unsigned(3 downto 0) := (others => '0');
                 signal   link_event_index                   : natural := 0;
                
                
                 signal   link_vertex                        : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0) := (others => '0');
                 signal   link_data                          : std_logic_vector(TMUX_INPUT_WORD_SIZE-1 downto 0) := (others => '0');
+                signal   link_data_valid                    : std_logic := '0';
+                signal   link_data_valid_delay              : std_logic := '0';
                 
-                signal   link_cycle                         : integer range 0 to 2;
-                                        
+                signal   link_cycle_state                   : unsigned(7 downto 0) := (others => '0');
+                                       
             begin
                 
-                link_data           <= link_in_reg(l);
-                link_cycle          <= in_cyc(l);
+                link_data           <= link_in_master(l).tdata;
+                link_data_valid     <= link_in_master(l).tvalid;
                 
-                process(ap_clk)
+                link_layer0_buffer_transfer_process : process(ap_clk)
                 begin
                 
                     if(rising_edge(ap_clk)) then
@@ -435,199 +437,229 @@ begin
                         --this fiber controls a physics object and a we
                         link_objects_to_layer1_we(l)    <= '0'; 
                         link_objects_to_layer1(l)       <= null_physics_object;  
-                                    
+                        
+                        link_data_valid_delay           <= '0';
+                            
+-- ===================== -- primary reset or not if statement         
                         if (ap_rst = '1') then
+                            
                             --reset per fiber
-                            physics_object_buffer_state_cnt <= (others => '0');
+                            
+                            --physics_object_buffer_state_cnt <= (others => '0');
                             link_physics_object_buffer      <= (others => null_physics_object);
                             
                             link_vertex                     <= (others => '0');
                             link_event_index                <= 0;
+                            link_cycle_state                <= (others => '0');
                             
                         else
                             
                             
  
-                            -- ==========================================================================================
-                            -- read side process getting 192b every 40MHz                                                       
-                            --read data in 
-                            if (has_reset = '1' and ap_rst_delay(3) = '0') then
+-- ========================= -- read side process getting 64b every 120MHz                                                       
+                            --      read data in 
+                            if (has_reset = '1' and link_data_valid = '1') then
                             
-                                if (link_cycle = 2 and physics_object_buffer_state_cnt = 2) then
-                                    physics_object_buffer_state_cnt <= (others => '0'); --reset state back to 0
-                                elsif (link_cycle = 0) then
-                                                                 
-                                    --each state cnt has 192b on link_in_reg(g*FIBERS_IN_GROUP + i)                                
-                                    physics_object_buffer_state_cnt <= physics_object_buffer_state_cnt + 1;
-                                    
-                                    if(physics_object_buffer_state_cnt = 0) then
-                                        link_vertex <= link_data(31 downto 22);
-                                        link_physics_object_buffer(0)   <= (
-                                                phi                 => signed(link_data(32 + 51 downto 32 + 42)),
-                                                eta                 => signed(link_data(32 + 41 downto 32 + 32)),
-                                                quality             =>          link_data(32 + 63),
-                                                z0                  => unsigned(link_data(32 + 61 downto 32 + 52)),
-                                                otherPt             => unsigned(link_data(32 + 31 downto 32 + 16)),
-                                                pt                  => unsigned(link_data(32 + 15 downto 32 + 0)),
-                                                
-                                                source_fiber        => l,
-                                                source_event_index  => link_event_index,
-                                                small_region_phi    => 2147483647,
-                                                small_region_eta    => 2147483647
-                                            ); 
-                                            
-                                        link_physics_object_buffer(1)   <= (
-                                                phi                 => signed(link_data(96 + 51 downto 96 + 42)),
-                                                eta                 => signed(link_data(96 + 41 downto 96 + 32)),
-                                                quality             =>          link_data(96 + 63),
-                                                z0                  => unsigned(link_data(96 + 61 downto 96 + 52)),
-                                                otherPt             => unsigned(link_data(96 + 31 downto 96 + 16)),
-                                                pt                  => unsigned(link_data(96 + 15 downto 96 + 0)),
-                                                
-                                                source_fiber        => l,
-                                                source_event_index  => link_event_index,
-                                                small_region_phi    => 2147483647,
-                                                small_region_eta    => 2147483647
-                                            ); 
-                                            
-                                        link_physics_object_buffer(2)   <= (
-                                                phi                 => (others => '0'),
-                                                eta                 => (others => '0'),
-                                                quality             => '0',
-                                                z0                  => (others => '0'),
-                                                otherPt             => unsigned(link_data(160 + 31 downto 160 + 16)),
-                                                pt                  => unsigned(link_data(160 + 15 downto 160 + 0)),
-                                                
-                                                source_fiber        => l,
-                                                source_event_index  => link_event_index,
-                                                small_region_phi    => 2147483647,
-                                                small_region_eta    => 2147483647
-                                            ); 
-                                    --end buffer state cnt = 0
-                                    elsif(physics_object_buffer_state_cnt = 1) then                                                                                
-                                        link_physics_object_buffer(0)   <= (
-                                                phi                 => signed(link_data(64 + 51 downto 64 + 42)),
-                                                eta                 => signed(link_data(64 + 41 downto 64 + 32)),
-                                                quality             =>          link_data(64 + 63),
-                                                z0                  => unsigned(link_data(64 + 61 downto 64 + 52)),
-                                                otherPt             => unsigned(link_data(64 + 31 downto 64 + 16)),
-                                                pt                  => unsigned(link_data(64 + 15 downto 64 + 0)),
-                                                
-                                                source_fiber        => l,
-                                                source_event_index  => link_event_index,
-                                                small_region_phi    => 2147483647,
-                                                small_region_eta    => 2147483647
-                                            ); 
-                                            
-                                        link_physics_object_buffer(1)   <= (
-                                                phi                 => signed(link_data(128 + 51 downto 128 + 42)),
-                                                eta                 => signed(link_data(128 + 41 downto 128 + 32)),
-                                                quality             =>          link_data(128 + 63),
-                                                z0                  => unsigned(link_data(128 + 61 downto 128 + 52)),
-                                                otherPt             => unsigned(link_data(128 + 31 downto 128 + 16)),
-                                                pt                  => unsigned(link_data(128 + 15 downto 128 + 0)),
-                                                
-                                                source_fiber        => l,
-                                                source_event_index  => link_event_index,
-                                                small_region_phi    => 2147483647,
-                                                small_region_eta    => 2147483647
-                                            ); 
-                                            
-                                        link_physics_object_buffer(2)   <= (
-                                                phi                 => signed(link_data(0 + 51 downto 0 + 42)),
-                                                eta                 => signed(link_data(0 + 41 downto 0 + 32)),
-                                                quality             =>          link_data(0 + 63),
-                                                z0                  => unsigned(link_data(0 + 61 downto 0 + 52)),
-                                                otherPt             => link_physics_object_buffer(2).otherPt,
-                                                pt                  => link_physics_object_buffer(2).pt,
-                                                
-                                                source_fiber        => l,
-                                                source_event_index  => link_event_index,
-                                                small_region_phi    => 2147483647,
-                                                small_region_eta    => 2147483647
-                                            ); 
-                                    end if;  --end physics_object_buffer_state_cnt
-                                    
-                                end if; --end link_cycle
-                          
-                          -- ==========================================================================================
-                         -- write side process to link buffer run at 120MHz
-                         --  data comes at 40.. 2.5 per 40MHz
-                         --  so 5 objects in per 20MHz.
-                                 
-                         --write data out 
-                         --  clear pt to 0 (null object after write)
-                         if(physics_object_buffer_state_cnt = 1) then --from state 0
-                             if(link_cycle = 1 and link_physics_object_buffer(0).pt /= 0) then 
-                             
-                                 link_objects_to_layer1_we(l) <= '1';
-                                 link_objects_to_layer1(l) <= link_physics_object_buffer(0);
-                                 link_objects_to_layer1(l).small_region_phi <= 
-                                     get_phi_small_region_index(link_physics_object_buffer(0).phi);
-                                 link_objects_to_layer1(l).small_region_eta <= 
-                                     get_eta_small_region_index(link_physics_object_buffer(0).eta);
-                                 
-                                 link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write)
-                                 
-                             elsif(link_cycle = 2 and link_physics_object_buffer(1).pt /= 0) then
-                             
-                                 link_objects_to_layer1_we(l) <= '1';
-                                 link_objects_to_layer1(l) <= link_physics_object_buffer(1);
-                                 link_objects_to_layer1(l).small_region_phi <= 
-                                     get_phi_small_region_index(link_physics_object_buffer(1).phi);
-                                 link_objects_to_layer1(l).small_region_eta <= 
-                                     get_eta_small_region_index(link_physics_object_buffer(1).eta);
-                                 
-                                 link_physics_object_buffer(1).pt <= (others => '0');  --  clear pt to 0 (null object after write)
-                                 
-                             end if;
-                         elsif(physics_object_buffer_state_cnt = 2) then --from state 1
-                             if(link_cycle = 1 and link_physics_object_buffer(2).pt /= 0) then 
-                             
-                                 link_objects_to_layer1_we(l) <= '1';
-                                 link_objects_to_layer1(l) <= link_physics_object_buffer(2);                                    
-                                 link_objects_to_layer1(l).small_region_phi <= 
-                                     get_phi_small_region_index(link_physics_object_buffer(2).phi);
-                                 link_objects_to_layer1(l).small_region_eta <= 
-                                     get_eta_small_region_index(link_physics_object_buffer(2).eta);
-                                 
-                                 link_physics_object_buffer(2).pt <= (others => '0');  --  clear pt to 0 (null object after write)
-                                 
-                             elsif(link_cycle = 2 and link_physics_object_buffer(0).pt /= 0) then
-                                 link_objects_to_layer1_we(l) <= '1';
-                                 link_objects_to_layer1(l) <= link_physics_object_buffer(0);
-                                 link_objects_to_layer1(l).small_region_phi <= 
-                                     get_phi_small_region_index(link_physics_object_buffer(0).phi);
-                                 link_objects_to_layer1(l).small_region_eta <= 
-                                     get_eta_small_region_index(link_physics_object_buffer(0).eta);
-                                 
-                                 link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write)                                    
-                             end if;
-                             
-                         elsif(physics_object_buffer_state_cnt = 0) then --from state 2                            
-                             if(link_cycle = 0 and link_physics_object_buffer(1).pt /= 0) then 
-                                 link_objects_to_layer1_we(l) <= '1';
-                                 link_objects_to_layer1(l) <= link_physics_object_buffer(1);
-                                 link_objects_to_layer1(l).small_region_phi <= 
-                                     get_phi_small_region_index(link_physics_object_buffer(1).phi);
-                                 link_objects_to_layer1(l).small_region_eta <= 
-                                     get_eta_small_region_index(link_physics_object_buffer(1).eta);
-                                 
-                                 link_physics_object_buffer(1).pt <= (others => '0');  --  clear pt to 0 (null object after write)
-                             end if;
-                         end if;
-                         --end write data out section
-                            end if; --end valid after reset data
-                            
-                         
-                            
-                        end if; --end not reset
-                    end if; --end rising edge if
+                                link_data_valid_delay           <= '1';
+                                                    
+                                --manage link cycle state
+                                --  6 states, then repeat action
+                                if (link_cycle_state = 6-1) then
+                                    link_cycle_state                      <= (others => '0');
+                                else
+                                    link_cycle_state                      <= link_cycle_state + 1;
+                                end if;
                                 
+                                
+                                if (link_cycle_state = 0) then
+                                      
+                                    link_vertex <= link_data(31 downto 22);
+                                    link_physics_object_buffer(0)   <= (
+                                        phi                 => (others => '0'),
+                                        eta                 => (others => '0'),
+                                        quality             => '0',
+                                        hwlsEM              => '0',
+                                        z0                  => (others => '0'),
+                                        otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
+                                        pt                  => signed(link_data(32 + 15 downto 32 + 0)),
+                                        
+                                        source_fiber        => l,
+                                        source_event_index  => link_event_index,
+                                        small_region_phi    => 2147483647,
+                                        small_region_eta    => 2147483647
+                                    ); 
+                                elsif (link_cycle_state = 1) then
+                                
+                                    link_physics_object_buffer(0)   <= (
+                                        phi                 => signed(link_data(0 + 19 downto 0 + 10)),
+                                        eta                 => signed(link_data(0 + 9 downto 0 + 0)),
+                                        quality             =>        link_data(0 + 31),
+                                        hwlsEM              =>        link_data(0 + 20),
+                                        z0                  => signed(link_data(0 + 29 downto 0 + 20)),
+                                        otherPt             => link_physics_object_buffer(0).otherPt,
+                                        pt                  => link_physics_object_buffer(0).pt,
+                                        
+                                        source_fiber        => l,
+                                        source_event_index  => link_event_index,
+                                        small_region_phi    => 2147483647,
+                                        small_region_eta    => 2147483647
+                                    );
+                                    link_physics_object_buffer(1)   <= (
+                                        phi                 => (others => '0'),
+                                        eta                 => (others => '0'),
+                                        quality             => '0',
+                                        hwlsEM              => '0',
+                                        z0                  => (others => '0'),
+                                        otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
+                                        pt                  => signed(link_data(32 + 15 downto 32 + 0)),
+                                        
+                                        source_fiber        => l,
+                                        source_event_index  => link_event_index,
+                                        small_region_phi    => 2147483647,
+                                        small_region_eta    => 2147483647
+                                    );
+                                elsif (link_cycle_state = 2) then
+                                                                
+                                    link_physics_object_buffer(1)   <= (
+                                        phi                 => signed(link_data(0 + 19 downto 0 + 10)),
+                                        eta                 => signed(link_data(0 + 9 downto 0 + 0)),
+                                        quality             =>        link_data(0 + 31),
+                                        hwlsEM              =>        link_data(0 + 20),
+                                        z0                  => signed(link_data(0 + 29 downto 0 + 20)),
+                                        otherPt             => link_physics_object_buffer(1).otherPt,
+                                        pt                  => link_physics_object_buffer(1).pt,
+                                        
+                                        source_fiber        => l,
+                                        source_event_index  => link_event_index,
+                                        small_region_phi    => 2147483647,
+                                        small_region_eta    => 2147483647
+                                    ); 
+                                    link_physics_object_buffer(0)   <= (
+                                        phi                 => (others => '0'),
+                                        eta                 => (others => '0'),
+                                        quality             => '0',
+                                        hwlsEM              => '0',
+                                        z0                  => (others => '0'),
+                                        otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
+                                        pt                  => signed(link_data(32 + 15 downto 32 + 0)),
+                                        
+                                        source_fiber        => l,
+                                        source_event_index  => link_event_index,
+                                        small_region_phi    => 2147483647,
+                                        small_region_eta    => 2147483647
+                                    );  
+                                    
+                                 elsif (link_cycle_state = 3) then
+                                     
+                                    --first 32b empty
+                                                                    
+                                    link_physics_object_buffer(0)   <= (
+                                        phi                 => signed(link_data(32 + 19 downto 32 + 10)),
+                                        eta                 => signed(link_data(32 + 9 downto 32 + 0)),
+                                        quality             =>        link_data(32 + 31),
+                                        hwlsEM              =>        link_data(32 + 20),
+                                        z0                  => signed(link_data(32 + 29 downto 32 + 20)),
+                                        otherPt             => link_physics_object_buffer(0).otherPt,
+                                        pt                  => link_physics_object_buffer(0).pt,
+                                        
+                                        source_fiber        => l,
+                                        source_event_index  => link_event_index,
+                                        small_region_phi    => 2147483647,
+                                        small_region_eta    => 2147483647
+                                    );  
+                                    
+                                 elsif (link_cycle_state = 4) then
+                                                                
+                                    link_physics_object_buffer(0)   <= ( --aligned to 64b
+                                        phi                 => signed(link_data(32 + 19 downto 32 + 10)),
+                                        eta                 => signed(link_data(32 + 9 downto 32 + 0)),
+                                        quality             =>        link_data(32 + 31),
+                                        hwlsEM              =>        link_data(32 + 20),
+                                        z0                  => signed(link_data(32 + 29 downto 32 + 20)),
+                                        otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
+                                        pt                  => signed(link_data(0 + 15 downto 0 + 0)),
+                                        
+                                        source_fiber        => l,
+                                        source_event_index  => link_event_index,
+                                        small_region_phi    => 2147483647,
+                                        small_region_eta    => 2147483647
+                                    ); 
+                                    
+                                 elsif (link_cycle_state = 5) then
+                                         
+                                    link_cycle_state        <= (others => '0'); --reset!
+                                                                 
+                                    link_physics_object_buffer(0)   <= ( --aligned to 64b
+                                        phi                 => signed(link_data(32 + 19 downto 32 + 10)),
+                                        eta                 => signed(link_data(32 + 9 downto 32 + 0)),
+                                        quality             =>        link_data(32 + 31),
+                                        hwlsEM              =>        link_data(32 + 20),
+                                        z0                  => signed(link_data(32 + 29 downto 32 + 20)),
+                                        otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
+                                        pt                  => signed(link_data(0 + 15 downto 0 + 0)),
+                                        
+                                        source_fiber        => l,
+                                        source_event_index  => link_event_index,
+                                        small_region_phi    => 2147483647,
+                                        small_region_eta    => 2147483647
+                                    ); 
+                                 
+                                end if; --end link_cycle
+                            end if; --end read valid if
+-- ========================= -- end read side process getting 64b every 120MHz
+                          
+-- ========================= -- write side process to link buffer at 120MHz
+                            --  data comes at 40.. 2.5 per 40MHz
+                            --  so 5 objects in per 20MHz.
+                             
+                            --write data out 
+                            --  clear pt to 0 (null object after write)
+                            if (link_data_valid_delay = '1') then
+                                if(link_cycle_state = 2 and link_physics_object_buffer(0).pt /= 0) then --first valid buffer
+                                
+                                    link_objects_to_layer1_we(l) <= '1';
+                                    link_objects_to_layer1(l) <= link_physics_object_buffer(0);
+                                 
+                                    --                                 link_objects_to_layer1(l).small_region_phi <= 
+                                    --                                     get_phi_small_region_index(link_physics_object_buffer(1).phi);
+                                    --                                 link_objects_to_layer1(l).small_region_eta <= 
+                                    --                                     get_eta_small_region_index(link_physics_object_buffer(1).eta);
+                                    
+                                    link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write)
+                                    
+                                elsif(link_cycle_state = 3 and link_physics_object_buffer(1).pt /= 0) then --first valid buffer
+                                                                    
+                                    link_objects_to_layer1_we(l) <= '1';
+                                    link_objects_to_layer1(l) <= link_physics_object_buffer(1);
+                                    link_physics_object_buffer(1).pt <= (others => '0');  --  clear pt to 0 (null object after write) 
+                                    
+                                elsif(link_cycle_state = 4 and link_physics_object_buffer(0).pt /= 0) then --first valid buffer
+                                                                    
+                                    link_objects_to_layer1_we(l) <= '1';
+                                    link_objects_to_layer1(l) <= link_physics_object_buffer(0);
+                                    link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write) 
+                                    
+                                elsif(link_cycle_state = 5 and link_physics_object_buffer(0).pt /= 0) then --first valid buffer
+                                                                    
+                                    link_objects_to_layer1_we(l) <= '1';
+                                    link_objects_to_layer1(l) <= link_physics_object_buffer(0);
+                                    link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write) 
+                                    
+                                elsif(link_cycle_state = 0 and link_physics_object_buffer(0).pt /= 0) then --first valid buffer
+                                                                    
+                                    link_objects_to_layer1_we(l) <= '1';
+                                    link_objects_to_layer1(l) <= link_physics_object_buffer(0);
+                                    link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write) 
+                                
+                                end if; --end link cycle state if
+                            end if;
+-- ========================= -- end write side process to link buffer at 120MHz
+                         
+                        end if;
+-- ===================== -- primary reset or not if statement
+                    end if; --end rising edge if
                     
-                    
-                end process; --end clk process
-            
+                end process link_layer0_buffer_transfer_process;
             end generate gen_fiber_buffer;
         end generate gen_fiber_group_buffer;
     

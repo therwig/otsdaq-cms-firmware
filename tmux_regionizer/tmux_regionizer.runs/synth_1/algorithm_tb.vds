@@ -1,0 +1,31 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Tue Apr  9 11:08:37 2019
+# Process ID: 5856
+# Current directory: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.runs/synth_1
+# Command line: vivado -log algorithm_tb.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source algorithm_tb.tcl
+# Log file: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.runs/synth_1/algorithm_tb.vds
+# Journal file: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source algorithm_tb.tcl -notrace
+Command: synth_design -top algorithm_tb -part xc7vx690tffg1927-2
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7vx690t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7vx690t'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 5908 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 1438.984 ; gain = 85.996 ; free physical = 19359 ; free virtual = 128106
+---------------------------------------------------------------------------------
+ERROR: [Synth 8-439] module 'algorithm_tb' not found
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:04 . Memory (MB): peak = 1484.609 ; gain = 131.621 ; free physical = 19373 ; free virtual = 128120
+---------------------------------------------------------------------------------
+RTL Elaboration failed
+INFO: [Common 17-83] Releasing license: Synthesis
+2 Infos, 0 Warnings, 0 Critical Warnings and 2 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Tue Apr  9 11:08:51 2019...

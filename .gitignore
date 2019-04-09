@@ -1,3 +1,6 @@
 vivado.*
 vivado_*
 *.log
+.jobs
+*.cache
+webtalk*

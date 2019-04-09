@@ -1,0 +1,18 @@
+0.6
+2018.2
+Jun 14 2018
+20:07:38
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/algo_pkg.vhd,1554579471,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/infra_algorithm_TB.vhd;/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper.vhd,,,algo_pkg,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/infra_algorithm_TB.vhd,1554826327,vhdl,,,,algorithm_tb,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/sim_file_read.vhd,1554579471,vhdl,,,,file_read,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/sim_file_write.vhd,1554579471,vhdl,,,,file_write,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_params_pkg.vhd,1554822984,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/infra_algorithm_TB.vhd;/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper.vhd;/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer1_buffer.vhd;/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer1_buffers.vhd,,,tmux_params_pkg,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper.vhd,1554826077,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/infra_algorithm_TB.vhd,,,tmux_wrapper,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer1_buffer.vhd,1554823187,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer1_buffers.vhd,,,tmux_wrapper_layer1_buffer,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer1_buffers.vhd,1554670054,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper.vhd,,,tmux_wrapper_layer1_buffers,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer2_buffer.vhd,1554579471,vhdl,,,,tmux_wrapper_layer2_buffer,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer2_buffers.vhd,1554579471,vhdl,,,,tmux_wrapper_layer2_buffers,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/txt_util.vhd,1554579471,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/sim_file_read.vhd;/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/sim_file_write.vhd,,,txt_util,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.sim/sim_1/behav/xsim/glbl.v,1529022455,verilog,,,,glbl,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v,1554654391,verilog,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper.vhd,,,tmux_clocks,,,../../../../tmux_regionizer.srcs/sources_1/ip/tmux_clocks,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks_clk_wiz.v,1554654391,verilog,,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v,,tmux_clocks_clk_wiz,,,../../../../tmux_regionizer.srcs/sources_1/ip/tmux_clocks,,,,,

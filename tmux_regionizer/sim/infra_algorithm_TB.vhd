@@ -18,12 +18,24 @@ end algorithm_tb;
 
 architecture TB_ARCHITECTURE of algorithm_tb is
 
+    component FILE_READ 
+        generic (
+                stim_file           : string  := "sim_energy_table.dat"; 
+                BIT_WIDTH           : integer := 5
+              );
+        port(
+                CLK                 : in  std_logic;
+                RST                 : in  std_logic;
+                Y                   : out std_logic_vector(BIT_WIDTH-1 downto 0);
+                VALID               : out std_logic;
+                EOG                 : out std_logic
+              );
+    end component FILE_READ;
     
     constant DATA_CLK_PERIOD : time := 8.333 ns; --120 MHz
-    constant ALGO_CLK_PERIOD : time := 8.333 ns; --120 MHz
 	
-    signal data_clk : STD_LOGIC := '0';    
-    signal algo_clk : STD_LOGIC := '0';        
+    signal data_clk : STD_LOGIC := '0'; 
+    signal system_reset : STD_LOGIC := '0';        
     signal input_fiber_reader_reset : STD_LOGIC := '0';
         
     signal input_fiber_data : input_fiber_t (INPUT_FIBERS-1 downto 0);
@@ -106,13 +118,15 @@ begin
 
 	-- Add your stimulus here ...					
 																							   	
-	data_clk <= not data_clk after DATA_CLK_PERIOD/2;	   
-	algo_clk <= not algo_clk after ALGO_CLK_PERIOD/2;
+	data_clk <= not data_clk after DATA_CLK_PERIOD/2;	
 	
 	stimulator_process: process
 	begin
         wait for DATA_CLK_PERIOD*4;
+        system_reset <= '1';
         input_fiber_reader_reset <= '1';
+        wait for DATA_CLK_PERIOD*4;
+        system_reset <= '0';
         wait for DATA_CLK_PERIOD*4*20;
         has_reset <= '1';
         input_fiber_reader_reset <= '0';
@@ -123,7 +137,7 @@ begin
 	sim_fiber_reader_array: for fiber_index in 0 to INPUT_FIBERS-1 generate
 					
 					   
-		sim_fiber_reader_entity: entity work.FILE_READ
+		sim_fiber_reader_entity: FILE_READ
 			generic map(
 				stim_file => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/sim_data/sim_input_fiber_"&integer'image(fiber_index)&".dat",
 				BIT_WIDTH => INPUT_WORD_SIZE
@@ -157,7 +171,7 @@ begin
     tmux_wrapper_entity: entity work.tmux_wrapper
         port map(
             ap_clk   => data_clk, --120 MHz
-            ap_rst   => input_fiber_reader_reset,
+            ap_rst   => system_reset,
             ap_start => input_fiber_valid(0),
             ap_done  => open,
             ap_idle  => open,

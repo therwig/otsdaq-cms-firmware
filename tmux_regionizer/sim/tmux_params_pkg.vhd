@@ -38,7 +38,8 @@ package tmux_params_pkg is
     constant OUTPUT_FIBERS              : natural := 8;
     constant OUTPUT_WORD_SIZE           : natural := 64; --in bits
     
-    constant TMUX_INPUT_WORD_SIZE       : natural := 192; --in bits 
+    constant TMUX_INPUT_WORD_SIZE       : natural := 64; --in bits
+    constant PHYSICS_OBJECT_BIT_SIZE    : natural := 64; --in bits 
     
 --    constant ALGO_INPUT_CHANNEL_COUNT   : natural := 94;
 --    constant ALGO_INPUT_CHANNEL_SIZE    : natural := 32; --in bits
@@ -78,9 +79,10 @@ package tmux_params_pkg is
         eta                 : signed(9 downto 0);
         
         quality             : std_logic;             --just tracker
-        z0                  : unsigned(9 downto 0);  --just tracker
-        otherPt             : unsigned(15 downto 0); --pt-err or em-pt (for calo)
-        pt                  : unsigned(15 downto 0);
+        hwlsEM              : std_logic;             --just calo
+        z0                  : signed(9 downto 0);  --just tracker
+        otherPt             : signed(15 downto 0); --pt-err or em-pt (for calo)
+        pt                  : signed(15 downto 0);
         
         small_region_eta    : integer range 0 to ALGO_INPUT_SMALL_REGION_ETA_SIZE;   
         small_region_phi    : integer range 0 to ALGO_INPUT_SMALL_REGION_PHI_SIZE;
@@ -139,6 +141,7 @@ package tmux_params_pkg is
             phi                 => (others => '0'),
             eta                 => (others => '0'),
             quality             => '0',
+            hwlsEM              => '0',
             z0                  => (others => '0'),
             otherPt             => (others => '0'),
             pt                  => (others => '0'),
@@ -172,18 +175,37 @@ package tmux_params_pkg is
 --          function find_egamma_pipelined_col(eta_minus:std_logic; egamma: std_logic_vector(3 downto 0))
 --                    return integer;
 
-    function get_number_of_eta_small_regions(
-        eta:signed(9 downto 0))
-                    return integer;
-    function get_number_of_phi_small_regions(
-        phi:signed(9 downto 0))
+    constant ETA_OVERLAP_SIZE       : integer := 20;
+    constant PHI_OVERLAP_SIZE       : integer := 20;    
+
+    function is_eta_small_region_overlap(
+        eta                 : signed(9 downto 0))
+                    return std_logic;
+    function is_phi_small_region_overlap(
+        phi                 : signed(9 downto 0))
+                    return std_logic;
+    function get_eta_small_region_index(
+        eta                 : signed(9 downto 0);
+        i                   : natural) -- i from 0 to 1
                     return integer;
     function get_phi_small_region_index(
-        phi:signed(9 downto 0))
+        phi                 : signed(9 downto 0);
+        i                   : natural) -- i from 0 to 1
                     return integer;
-    function get_eta_small_region_index(
-        eta:signed(9 downto 0))
-                    return integer;
+                    
+    type get_eta_phi_small_region_t is record
+        eta_small_region    : natural;
+        phi_small_region    : natural;
+        eta_phi_small_region: natural;
+        is_another          : std_logic; --indicate there is another small region to get
+    end record;
+    
+    function get_eta_phi_small_region(
+        eta                 : signed(9 downto 0);
+        phi                 : signed(9 downto 0);
+        i                   : natural) -- i from 0 to 3
+       return  get_eta_phi_small_region_t;
+            
 end tmux_params_pkg;
 
 package body tmux_params_pkg is
@@ -219,74 +241,196 @@ package body tmux_params_pkg is
 --        end;     
   
     -- ==========================================================================================
-    --  get_number_of_eta_small_regions
-    --      return 2 if in overlap region
-    function get_number_of_eta_small_regions(
+    --  is_eta_small_region_overlap
+    --      return '1' if in overlap region
+    function is_eta_small_region_overlap(
         eta:signed(9 downto 0))
-        return integer is
+        return std_logic is
             
     begin
     
         if(
-            (eta < -160 and eta > -180) or 
-            (eta > 160 and eta < 180) 
+            (eta > -170 - ETA_OVERLAP_SIZE/2 and 
+            eta > -170 + ETA_OVERLAP_SIZE/2) or 
+            (eta > 170 - ETA_OVERLAP_SIZE/2 and 
+            eta < 170 + ETA_OVERLAP_SIZE/2) 
             ) then
-            return 2;
+            return '1';
         else
-            return 1;
+            return '0';
         end if;
-    end;   --function get_number_of_eta_small_regions 
+    end;   --function is_eta_small_region_overlap 
     
     -- ==========================================================================================
-    --  get_number_of_phi_small_regions
-    --      return 2 if in overlap region
-    function get_number_of_phi_small_regions(
+    --  is_phi_small_region_overlap
+    --      return '1' if in overlap region
+    function is_phi_small_region_overlap(
         phi:signed(9 downto 0))
-        return integer is
+        return std_logic is
             
     begin
     
         if(
-            (phi > -10 and phi < 10) 
+            (phi > 0 - PHI_OVERLAP_SIZE/2 and
+             phi < 0 + PHI_OVERLAP_SIZE/2) 
             ) then
-            return 2;
+            return '1';
         else
-            return 1;
+            return '0';
         end if;
-    end;   --function get_number_of_phi_small_regions 
+    end;   --function is_phi_small_region_overlap 
     
     
     
     -- ==========================================================================================
     --  get_eta_small_region_index
     --      Convert the eta bit field to eta small region index
-    function get_eta_small_region_index(eta:signed(9 downto 0))
+    function get_eta_small_region_index(
+        eta                 : signed(9 downto 0);
+        i                   : natural)
         return integer is
     
     begin
-    
-        if(eta < -170) then
+        
+        --consider potential overlaps first
+        if(eta > -170 - ETA_OVERLAP_SIZE/2 and 
+            eta > -170 + ETA_OVERLAP_SIZE/2) then
+        
+            if(i = 0) then
+                return 0;
+            else
+                return 1;
+            end if;
+            
+        elsif(eta > 170 - ETA_OVERLAP_SIZE/2 and 
+            eta < 170 + ETA_OVERLAP_SIZE/2) then
+         
+            if(i = 0) then
+                return 1;
+            else
+                return 2;
+            end if;
+            
+        elsif(eta < -170) then -- done with overlaps
             return 0;
-        elsif(eta < 171) then
+        elsif(eta < 170) then
             return 1;
         else
             return 2;
         end if;
+        
     end;   --function get_eta_small_region_index     
     
     -- ==========================================================================================
     --  get_phi_small_region_index
     --      Convert the phi bit field to phi small region index
-    function get_phi_small_region_index(phi:signed(9 downto 0))
+    function get_phi_small_region_index(
+        phi                 : signed(9 downto 0);
+        i                   : natural)
         return integer is
     
     begin
     
-        if(phi < 0) then
+        --consider potential overlaps first
+        if(phi > 0 - PHI_OVERLAP_SIZE/2 and
+                 phi < 0 + PHI_OVERLAP_SIZE/2) then
+                
+            if(i = 0) then
+                return 0;
+            else
+                return 1;
+            end if;
+            
+        elsif(phi < 0) then -- done with overlaps
             return 0;
         else
             return 1;
         end if;
+        
+    end;   --function get_phi_small_region_index               
+          
+    -- ==========================================================================================
+    --  get_eta_phi_small_region
+    --      Get the eta-phi small region index
+    --      Note: for a given eta-phi pair, there may be 
+    --          1,2 or 4 associated small regions. Use i to index
+    --          the associate small regions.
+    function get_eta_phi_small_region(
+        eta                 : signed(9 downto 0);
+        phi                 : signed(9 downto 0);
+        i                   : natural) -- i from 0 to 3
+            return  get_eta_phi_small_region_t is
+        variable return_object : get_eta_phi_small_region_t;
+    begin
+        
+        if(i = 0) then
+        
+            return_object.eta_small_region := 
+                get_eta_small_region_index(eta,0);
+            return_object.phi_small_region := 
+                get_phi_small_region_index(phi,0);  
+            return_object.eta_phi_small_region := 
+                ALGO_INPUT_SMALL_REGION_ETA_SIZE * 
+                return_object.phi_small_region +
+                return_object.eta_small_region;
+            return_object.is_another := 
+                is_eta_small_region_overlap(eta) or
+                is_phi_small_region_overlap(phi);
+                
+        elsif(i = 1) then
+        
+            --take from eta first if both, otherwise take phi
+            if(is_eta_small_region_overlap(eta) = '1') then
+                return_object.eta_small_region := 
+                    get_eta_small_region_index(eta,1);
+                return_object.phi_small_region := 
+                    get_phi_small_region_index(phi,0);
+            else
+                return_object.eta_small_region := 
+                    get_eta_small_region_index(eta,0);
+                return_object.phi_small_region := 
+                    get_phi_small_region_index(phi,1); 
+            end if;
+            
+            return_object.eta_phi_small_region := 
+                ALGO_INPUT_SMALL_REGION_ETA_SIZE * 
+                return_object.phi_small_region +
+                return_object.eta_small_region;
+            return_object.is_another := 
+                is_eta_small_region_overlap(eta) and
+                is_phi_small_region_overlap(phi);
+                
+        elsif(i = 2) then
+        
+            --take from phi now
+            return_object.eta_small_region := 
+                get_eta_small_region_index(eta,0);
+            return_object.phi_small_region := 
+                get_phi_small_region_index(phi,1); 
+            
+            return_object.eta_phi_small_region := 
+                ALGO_INPUT_SMALL_REGION_ETA_SIZE * 
+                return_object.phi_small_region +
+                return_object.eta_small_region;
+            return_object.is_another := '1'; -- must get 4th
+            
+        elsif(i = 3) then
+        
+            --take second from eta and phi last
+            return_object.eta_small_region := 
+                get_eta_small_region_index(eta,1);
+            return_object.phi_small_region := 
+                get_phi_small_region_index(phi,1); 
+            
+            return_object.eta_phi_small_region := 
+                ALGO_INPUT_SMALL_REGION_ETA_SIZE * 
+                return_object.phi_small_region +
+                return_object.eta_small_region;
+            return_object.is_another := '0'; -- no more
+                
+        end if;
+        
+        return return_object;
     end;   --function get_phi_small_region_index               
           
     

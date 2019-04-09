@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="tmux_clocks_synth_1" LaunchPart="xc7vx690tffg1927-2" LaunchTime="1554654392">
-  <File Type="VDS-TIMING-PB" Name="tmux_clocks_timing_summary_synth.pb"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="tmux_clocks_timing_summary_synth.rpt"/>
-  <File Type="RDS-DCP" Name="tmux_clocks.dcp"/>
-  <File Type="REPORTS-TCL" Name="tmux_clocks_reports.tcl"/>
-  <File Type="PA-TCL" Name="tmux_clocks.tcl"/>
-  <File Type="RDS-RDS" Name="tmux_clocks.vds"/>
-  <File Type="RDS-PROPCONSTRS" Name="tmux_clocks_drc_synth.rpt"/>
-  <File Type="RDS-UTIL" Name="tmux_clocks_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="tmux_clocks_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="tmux_clocks_utilization_synth.rpt"/>
+  <File Type="RDS-RDS" Name="tmux_clocks.vds"/>
+  <File Type="RDS-DCP" Name="tmux_clocks.dcp"/>
+  <File Type="PA-TCL" Name="tmux_clocks.tcl"/>
+  <File Type="REPORTS-TCL" Name="tmux_clocks_reports.tcl"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/tmux_clocks">
     <File Path="$PSRCDIR/sources_1/ip/tmux_clocks/tmux_clocks.xci">
       <FileInfo>
@@ -36,9 +33,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018">
-      <Desc>Vivado Synthesis Defaults</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018"/>
     <Step Id="synth_design"/>
   </Strategy>
 </GenRun>
