@@ -175,8 +175,15 @@ package tmux_params_pkg is
 --          function find_egamma_pipelined_col(eta_minus:std_logic; egamma: std_logic_vector(3 downto 0))
 --                    return integer;
 
-    constant ETA_OVERLAP_SIZE       : integer := 20;
-    constant PHI_OVERLAP_SIZE       : integer := 20;    
+    constant ETA_OVERLAP_SIZE       : integer := 32;
+    constant PHI_OVERLAP_SIZE       : integer := 32;
+    
+    -- apply big region offset to center in region associated wit this FPGA
+    --  TODO -- make these big region offsets registers
+    constant ETA_BIG_REGION_OFFSET  : integer := 0; -- eta big regions boundaries are at BR0 | -243 | BR1 | +243 | BR2 
+                                                    -- possible eta offsets ?: +486, 0, -486
+    constant PHI_BIG_REGION_OFFSET  : integer := 0; -- phi big regions boundaries are at BR0 | -170 | BR1 | +170 | BR2
+                                                    -- possible phi offsets ?: +240, 0, -240    
 
     function is_eta_small_region_overlap(
         eta                 : signed(9 downto 0))
@@ -209,36 +216,7 @@ package tmux_params_pkg is
 end tmux_params_pkg;
 
 package body tmux_params_pkg is
-  
-   
-    
---    --EXAMPLE from AlgorithmConstants from old CMS_CAL/work
---    --  Find col from Fiber Pair Number, Card, Region
---          function find_egamma_pipelined_col(eta_minus:std_logic; egamma: std_logic_vector(3 downto 0))
---                    return integer is
-          
---            variable egamma_card : unsigned(2 downto 0);
---            variable egamma_card_rounded_region : unsigned(2 downto 0);
---                                        --variable egamma_region : unsigned
---                                        --(0 downto 0);
---            variable egamma_col : integer;
-            
---        begin
-          
---          egamma_card_rounded_region := unsigned(egamma(3 downto 2) & egamma(0));
---          egamma_card := unsigned(egamma(3 downto 1));
---          if (eta_minus='1' and egamma_card<6 ) then
---            egamma_col := CENTRAL_ETA_SLICES/2 - 1 - to_integer(egamma_card_rounded_region);
---          elsif (eta_minus='1' and egamma_card=6 ) then
---            egamma_col := 0;
---          elsif (eta_minus='0' and egamma_card<6 ) then
---            egamma_col := to_integer(egamma_card_rounded_region);
---          elsif (eta_minus='0' and egamma_card=6 ) then
---            egamma_col := CENTRAL_ETA_SLICES/22147483647;
---          end if;
-          
---          return egamma_col;
---        end;     
+     
   
     -- ==========================================================================================
     --  is_eta_small_region_overlap
@@ -251,7 +229,7 @@ package body tmux_params_pkg is
     
         if(
             (eta > -170 - ETA_OVERLAP_SIZE/2 and 
-            eta > -170 + ETA_OVERLAP_SIZE/2) or 
+            eta < -170 + ETA_OVERLAP_SIZE/2) or 
             (eta > 170 - ETA_OVERLAP_SIZE/2 and 
             eta < 170 + ETA_OVERLAP_SIZE/2) 
             ) then
@@ -294,7 +272,7 @@ package body tmux_params_pkg is
         
         --consider potential overlaps first
         if(eta > -170 - ETA_OVERLAP_SIZE/2 and 
-            eta > -170 + ETA_OVERLAP_SIZE/2) then
+            eta < -170 + ETA_OVERLAP_SIZE/2) then
         
             if(i = 0) then
                 return 0;
