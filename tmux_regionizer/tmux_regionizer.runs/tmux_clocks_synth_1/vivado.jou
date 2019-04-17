@@ -2,8 +2,8 @@
 # Vivado v2018.2 (64-bit)
 # SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
 # IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
-# Start of session at: Sun Apr  7 11:26:34 2019
-# Process ID: 40837
+# Start of session at: Tue Apr 16 21:27:54 2019
+# Process ID: 113777
 # Current directory: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.runs/tmux_clocks_synth_1
 # Command line: vivado -log tmux_clocks.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source tmux_clocks.tcl
 # Log file: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.runs/tmux_clocks_synth_1/tmux_clocks.vds

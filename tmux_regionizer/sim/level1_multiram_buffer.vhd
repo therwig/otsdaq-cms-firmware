@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 04/01/2019 11:23:13 AM
 -- Design Name: 
--- Module Name: tmux_wrapper_layer1_buffer - Behavioral
+-- Module Name: level1_multiram_buffer - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -30,7 +30,7 @@ use work.tmux_params_pkg.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity tmux_wrapper_layer1_buffer is
+entity level1_multiram_buffer is
     --generic (
         --LINK_COUNT_G  : integer
     --);
@@ -44,9 +44,9 @@ entity tmux_wrapper_layer1_buffer is
         link_object_in          : in physics_object_t;
         link_object_we_in       : in std_logic;
         layer2_token_in         : in std_logic_vector (5 downto 0));
-end tmux_wrapper_layer1_buffer;
+end level1_multiram_buffer;
 
-architecture Behavioral of tmux_wrapper_layer1_buffer is
+architecture Behavioral of level1_multiram_buffer is
 
     constant    LAYER_BRAM_ADDR_SIZE        : natural := 10; --bits
      

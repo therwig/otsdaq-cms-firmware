@@ -41,6 +41,12 @@ package tmux_params_pkg is
     constant TMUX_INPUT_WORD_SIZE       : natural := 64; --in bits
     constant PHYSICS_OBJECT_BIT_SIZE    : natural := 64; --in bits 
     
+    
+    constant LEVEL1_SR_SEGMENTS         : natural := 6; -- Level-1 RAMs per link (i.e. if 6, then 5 of 30 s.r. in each RAM)
+    constant LEVEL2_SR_SEGMENTS         : natural := 3; -- Level-2 RAMs per Algo-input-opbject (i.e. if 3, then 10 of 30 s.r. in each RAM)
+    
+    constant ALGO_INPUT_OBJECTS_COUNT   : natural := 100;
+    
 --    constant ALGO_INPUT_CHANNEL_COUNT   : natural := 94;
 --    constant ALGO_INPUT_CHANNEL_SIZE    : natural := 32; --in bits
 --    constant ALGO_DATA_SIZE             : natural := ALGO_INPUT_CHANNEL_SIZE * ALGO_INPUT_CHANNEL_COUNT;  
@@ -48,6 +54,11 @@ package tmux_params_pkg is
 --    constant TMUX_BUFFER_DATA_SIZE : natural := ALGO_DATA_SIZE / TMUX_INPUT_WORD_SIZE;
         
     type link_input_data_arr_t is array(integer range <>) of std_logic_vector(TMUX_INPUT_WORD_SIZE-1 downto 0); 
+    
+    subtype raw_phyiscs_object_t is std_logic_vector(PHYSICS_OBJECT_BIT_SIZE-1 downto 0);
+    type raw_phyiscs_object_arr_t is array(integer range <>) of raw_phyiscs_object_t;
+    
+    
     --type algo_tmux_buffer_data_arr_t is array(integer range <>) of std_logic_vector(ALGO_DATA_SIZE-1 downto 0);   
     
 --    --single input link buffer and debugging info
@@ -79,7 +90,7 @@ package tmux_params_pkg is
         eta                 : signed(9 downto 0);
         
         quality             : std_logic;             --just tracker
-        hwlsEM              : std_logic;             --just calo
+        lsEM              : std_logic;             --just calo
         z0                  : signed(9 downto 0);  --just tracker
         otherPt             : signed(15 downto 0); --pt-err or em-pt (for calo)
         pt                  : signed(15 downto 0);
@@ -141,7 +152,7 @@ package tmux_params_pkg is
             phi                 => (others => '0'),
             eta                 => (others => '0'),
             quality             => '0',
-            hwlsEM              => '0',
+            lsEM                => '0',
             z0                  => (others => '0'),
             otherPt             => (others => '0'),
             pt                  => (others => '0'),

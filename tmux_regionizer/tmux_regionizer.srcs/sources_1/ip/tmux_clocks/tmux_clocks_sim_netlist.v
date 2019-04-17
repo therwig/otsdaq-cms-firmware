@@ -1,14 +1,14 @@
 // Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.2 (lin64) Build 2258646 Thu Jun 14 20:02:38 MDT 2018
-// Date        : Sun Apr  7 11:29:28 2019
+// Date        : Tue Apr 16 21:30:33 2019
 // Host        : correlator2.fnal.gov running 64-bit Scientific Linux release 7.6 (Nitrogen)
 // Command     : write_verilog -force -mode funcsim
 //               /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks_sim_netlist.v
 // Design      : tmux_clocks
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
-// Device      : xc7vx690tffg1927-2
+// Device      : xcvu9p-flgb2104-2-i
 // --------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
@@ -16,16 +16,19 @@
 module tmux_clocks
    (clk_40,
     clk_240,
+    clk_360,
     reset,
     locked,
     clk_in1);
   output clk_40;
   output clk_240;
+  output clk_360;
   input reset;
   output locked;
   input clk_in1;
 
   wire clk_240;
+  wire clk_360;
   wire clk_40;
   wire clk_in1;
   wire locked;
@@ -33,6 +36,7 @@ module tmux_clocks
 
   tmux_clocks_tmux_clocks_clk_wiz inst
        (.clk_240(clk_240),
+        .clk_360(clk_360),
         .clk_40(clk_40),
         .clk_in1(clk_in1),
         .locked(locked),
@@ -43,17 +47,21 @@ endmodule
 module tmux_clocks_tmux_clocks_clk_wiz
    (clk_40,
     clk_240,
+    clk_360,
     reset,
     locked,
     clk_in1);
   output clk_40;
   output clk_240;
+  output clk_360;
   input reset;
   output locked;
   input clk_in1;
 
   wire clk_240;
   wire clk_240_tmux_clocks;
+  wire clk_360;
+  wire clk_360_tmux_clocks;
   wire clk_40;
   wire clk_40_tmux_clocks;
   wire clk_in1;
@@ -62,55 +70,79 @@ module tmux_clocks_tmux_clocks_clk_wiz
   wire clkfbout_tmux_clocks;
   wire locked;
   wire reset;
-  wire NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT0B_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT1B_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT2_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT2B_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT3_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT3B_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT4_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT5_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_CLKOUT6_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_DRDY_UNCONNECTED;
-  wire NLW_mmcm_adv_inst_PSDONE_UNCONNECTED;
-  wire [15:0]NLW_mmcm_adv_inst_DO_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CDDCDONE_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKFBOUTB_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKFBSTOPPED_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKINSTOPPED_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKOUT0B_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKOUT1B_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKOUT2B_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKOUT3_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKOUT3B_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKOUT4_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKOUT5_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_CLKOUT6_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_DRDY_UNCONNECTED;
+  wire NLW_mmcme4_adv_inst_PSDONE_UNCONNECTED;
+  wire [15:0]NLW_mmcme4_adv_inst_DO_UNCONNECTED;
 
   (* BOX_TYPE = "PRIMITIVE" *) 
-  BUFG clkf_buf
-       (.I(clkfbout_tmux_clocks),
+  (* XILINX_LEGACY_PRIM = "BUFG" *) 
+  BUFGCE #(
+    .CE_TYPE("ASYNC")) 
+    clkf_buf
+       (.CE(1'b1),
+        .I(clkfbout_tmux_clocks),
         .O(clkfbout_buf_tmux_clocks));
   (* BOX_TYPE = "PRIMITIVE" *) 
-  BUFG clkin1_bufg
-       (.I(clk_in1),
+  (* XILINX_LEGACY_PRIM = "BUFG" *) 
+  BUFGCE #(
+    .CE_TYPE("ASYNC")) 
+    clkin1_bufg
+       (.CE(1'b1),
+        .I(clk_in1),
         .O(clk_in1_tmux_clocks));
   (* BOX_TYPE = "PRIMITIVE" *) 
-  BUFG clkout1_buf
-       (.I(clk_40_tmux_clocks),
+  (* XILINX_LEGACY_PRIM = "BUFG" *) 
+  BUFGCE #(
+    .CE_TYPE("ASYNC")) 
+    clkout1_buf
+       (.CE(1'b1),
+        .I(clk_40_tmux_clocks),
         .O(clk_40));
   (* BOX_TYPE = "PRIMITIVE" *) 
-  BUFG clkout2_buf
-       (.I(clk_240_tmux_clocks),
+  (* XILINX_LEGACY_PRIM = "BUFG" *) 
+  BUFGCE #(
+    .CE_TYPE("ASYNC")) 
+    clkout2_buf
+       (.CE(1'b1),
+        .I(clk_240_tmux_clocks),
         .O(clk_240));
   (* BOX_TYPE = "PRIMITIVE" *) 
-  MMCME2_ADV #(
+  (* XILINX_LEGACY_PRIM = "BUFG" *) 
+  BUFGCE #(
+    .CE_TYPE("ASYNC")) 
+    clkout3_buf
+       (.CE(1'b1),
+        .I(clk_360_tmux_clocks),
+        .O(clk_360));
+  (* BOX_TYPE = "PRIMITIVE" *) 
+  MMCME4_ADV #(
     .BANDWIDTH("OPTIMIZED"),
-    .CLKFBOUT_MULT_F(8.000000),
+    .CLKFBOUT_MULT_F(12.000000),
     .CLKFBOUT_PHASE(0.000000),
     .CLKFBOUT_USE_FINE_PS("FALSE"),
     .CLKIN1_PERIOD(8.333000),
     .CLKIN2_PERIOD(0.000000),
-    .CLKOUT0_DIVIDE_F(24.000000),
+    .CLKOUT0_DIVIDE_F(36.000000),
     .CLKOUT0_DUTY_CYCLE(0.500000),
     .CLKOUT0_PHASE(0.000000),
     .CLKOUT0_USE_FINE_PS("FALSE"),
-    .CLKOUT1_DIVIDE(4),
+    .CLKOUT1_DIVIDE(6),
     .CLKOUT1_DUTY_CYCLE(0.500000),
     .CLKOUT1_PHASE(0.000000),
     .CLKOUT1_USE_FINE_PS("FALSE"),
-    .CLKOUT2_DIVIDE(1),
+    .CLKOUT2_DIVIDE(4),
     .CLKOUT2_DUTY_CYCLE(0.500000),
     .CLKOUT2_PHASE(0.000000),
     .CLKOUT2_USE_FINE_PS("FALSE"),
@@ -133,6 +165,9 @@ module tmux_clocks_tmux_clocks_clk_wiz
     .CLKOUT6_USE_FINE_PS("FALSE"),
     .COMPENSATION("BUF_IN"),
     .DIVCLK_DIVIDE(1),
+    .IS_CLKFBIN_INVERTED(1'b0),
+    .IS_CLKIN1_INVERTED(1'b0),
+    .IS_CLKIN2_INVERTED(1'b0),
     .IS_CLKINSEL_INVERTED(1'b0),
     .IS_PSEN_INVERTED(1'b0),
     .IS_PSINCDEC_INVERTED(1'b0),
@@ -144,36 +179,38 @@ module tmux_clocks_tmux_clocks_clk_wiz
     .SS_MODE("CENTER_HIGH"),
     .SS_MOD_PERIOD(10000),
     .STARTUP_WAIT("FALSE")) 
-    mmcm_adv_inst
-       (.CLKFBIN(clkfbout_buf_tmux_clocks),
+    mmcme4_adv_inst
+       (.CDDCDONE(NLW_mmcme4_adv_inst_CDDCDONE_UNCONNECTED),
+        .CDDCREQ(1'b0),
+        .CLKFBIN(clkfbout_buf_tmux_clocks),
         .CLKFBOUT(clkfbout_tmux_clocks),
-        .CLKFBOUTB(NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED),
-        .CLKFBSTOPPED(NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED),
+        .CLKFBOUTB(NLW_mmcme4_adv_inst_CLKFBOUTB_UNCONNECTED),
+        .CLKFBSTOPPED(NLW_mmcme4_adv_inst_CLKFBSTOPPED_UNCONNECTED),
         .CLKIN1(clk_in1_tmux_clocks),
         .CLKIN2(1'b0),
         .CLKINSEL(1'b1),
-        .CLKINSTOPPED(NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED),
+        .CLKINSTOPPED(NLW_mmcme4_adv_inst_CLKINSTOPPED_UNCONNECTED),
         .CLKOUT0(clk_40_tmux_clocks),
-        .CLKOUT0B(NLW_mmcm_adv_inst_CLKOUT0B_UNCONNECTED),
+        .CLKOUT0B(NLW_mmcme4_adv_inst_CLKOUT0B_UNCONNECTED),
         .CLKOUT1(clk_240_tmux_clocks),
-        .CLKOUT1B(NLW_mmcm_adv_inst_CLKOUT1B_UNCONNECTED),
-        .CLKOUT2(NLW_mmcm_adv_inst_CLKOUT2_UNCONNECTED),
-        .CLKOUT2B(NLW_mmcm_adv_inst_CLKOUT2B_UNCONNECTED),
-        .CLKOUT3(NLW_mmcm_adv_inst_CLKOUT3_UNCONNECTED),
-        .CLKOUT3B(NLW_mmcm_adv_inst_CLKOUT3B_UNCONNECTED),
-        .CLKOUT4(NLW_mmcm_adv_inst_CLKOUT4_UNCONNECTED),
-        .CLKOUT5(NLW_mmcm_adv_inst_CLKOUT5_UNCONNECTED),
-        .CLKOUT6(NLW_mmcm_adv_inst_CLKOUT6_UNCONNECTED),
+        .CLKOUT1B(NLW_mmcme4_adv_inst_CLKOUT1B_UNCONNECTED),
+        .CLKOUT2(clk_360_tmux_clocks),
+        .CLKOUT2B(NLW_mmcme4_adv_inst_CLKOUT2B_UNCONNECTED),
+        .CLKOUT3(NLW_mmcme4_adv_inst_CLKOUT3_UNCONNECTED),
+        .CLKOUT3B(NLW_mmcme4_adv_inst_CLKOUT3B_UNCONNECTED),
+        .CLKOUT4(NLW_mmcme4_adv_inst_CLKOUT4_UNCONNECTED),
+        .CLKOUT5(NLW_mmcme4_adv_inst_CLKOUT5_UNCONNECTED),
+        .CLKOUT6(NLW_mmcme4_adv_inst_CLKOUT6_UNCONNECTED),
         .DADDR({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
         .DCLK(1'b0),
         .DEN(1'b0),
         .DI({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
-        .DO(NLW_mmcm_adv_inst_DO_UNCONNECTED[15:0]),
-        .DRDY(NLW_mmcm_adv_inst_DRDY_UNCONNECTED),
+        .DO(NLW_mmcme4_adv_inst_DO_UNCONNECTED[15:0]),
+        .DRDY(NLW_mmcme4_adv_inst_DRDY_UNCONNECTED),
         .DWE(1'b0),
         .LOCKED(locked),
         .PSCLK(1'b0),
-        .PSDONE(NLW_mmcm_adv_inst_PSDONE_UNCONNECTED),
+        .PSDONE(NLW_mmcme4_adv_inst_PSDONE_UNCONNECTED),
         .PSEN(1'b0),
         .PSINCDEC(1'b0),
         .PWRDWN(1'b0),

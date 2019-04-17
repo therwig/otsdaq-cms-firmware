@@ -56,8 +56,9 @@
 //  Output     Output      Phase    Duty Cycle   Pk-to-Pk     Phase
 //   Clock     Freq (MHz)  (degrees)    (%)     Jitter (ps)  Error (ps)
 //----------------------------------------------------------------------------
-// __clk_40____40.000______0.000______50.0______154.911_____99.820
-// _clk_240___240.000______0.000______50.0______108.425_____99.820
+// __clk_40____40.000______0.000______50.0______117.299_____76.136
+// _clk_240___240.000______0.000______50.0_______84.420_____76.136
+// _clk_360___360.000______0.000______50.0_______78.430_____76.136
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -72,6 +73,7 @@ module tmux_clocks_clk_wiz
   // Clock out ports
   output        clk_40,
   output        clk_240,
+  output        clk_360,
   // Status and control signals
   input         reset,
   output        locked,
@@ -97,7 +99,7 @@ wire clk_in2_tmux_clocks;
 
   wire        clk_40_tmux_clocks;
   wire        clk_240_tmux_clocks;
-  wire        clk_out3_tmux_clocks;
+  wire        clk_360_tmux_clocks;
   wire        clk_out4_tmux_clocks;
   wire        clk_out5_tmux_clocks;
   wire        clk_out6_tmux_clocks;
@@ -112,7 +114,6 @@ wire clk_in2_tmux_clocks;
   wire        clkfboutb_unused;
     wire clkout0b_unused;
    wire clkout1b_unused;
-   wire clkout2_unused;
    wire clkout2b_unused;
    wire clkout3_unused;
    wire clkout3b_unused;
@@ -123,25 +124,33 @@ wire clk_in2_tmux_clocks;
   wire        clkinstopped_unused;
   wire        reset_high;
 
-  MMCME2_ADV
+
+  
+    MMCME4_ADV
+
   #(.BANDWIDTH            ("OPTIMIZED"),
     .CLKOUT4_CASCADE      ("FALSE"),
-    .COMPENSATION         ("ZHOLD"),
+    .COMPENSATION         ("AUTO"),
     .STARTUP_WAIT         ("FALSE"),
     .DIVCLK_DIVIDE        (1),
-    .CLKFBOUT_MULT_F      (8.000),
+    .CLKFBOUT_MULT_F      (12.000),
     .CLKFBOUT_PHASE       (0.000),
     .CLKFBOUT_USE_FINE_PS ("FALSE"),
-    .CLKOUT0_DIVIDE_F     (24.000),
+    .CLKOUT0_DIVIDE_F     (36.000),
     .CLKOUT0_PHASE        (0.000),
     .CLKOUT0_DUTY_CYCLE   (0.500),
     .CLKOUT0_USE_FINE_PS  ("FALSE"),
-    .CLKOUT1_DIVIDE       (4),
+    .CLKOUT1_DIVIDE       (6),
     .CLKOUT1_PHASE        (0.000),
     .CLKOUT1_DUTY_CYCLE   (0.500),
     .CLKOUT1_USE_FINE_PS  ("FALSE"),
+    .CLKOUT2_DIVIDE       (4),
+    .CLKOUT2_PHASE        (0.000),
+    .CLKOUT2_DUTY_CYCLE   (0.500),
+    .CLKOUT2_USE_FINE_PS  ("FALSE"),
     .CLKIN1_PERIOD        (8.333))
-  mmcm_adv_inst
+  
+  mmcme4_adv_inst
     // Output clocks
    (
     .CLKFBOUT            (clkfbout_tmux_clocks),
@@ -150,7 +159,7 @@ wire clk_in2_tmux_clocks;
     .CLKOUT0B            (clkout0b_unused),
     .CLKOUT1             (clk_240_tmux_clocks),
     .CLKOUT1B            (clkout1b_unused),
-    .CLKOUT2             (clkout2_unused),
+    .CLKOUT2             (clk_360_tmux_clocks),
     .CLKOUT2B            (clkout2b_unused),
     .CLKOUT3             (clkout3_unused),
     .CLKOUT3B            (clkout3b_unused),
@@ -171,6 +180,8 @@ wire clk_in2_tmux_clocks;
     .DO                  (do_unused),
     .DRDY                (drdy_unused),
     .DWE                 (1'b0),
+    .CDDCDONE            (),
+    .CDDCREQ             (1'b0),
     // Ports for dynamic phase shift
     .PSCLK               (1'b0),
     .PSEN                (1'b0),
@@ -207,6 +218,10 @@ wire clk_in2_tmux_clocks;
   BUFG clkout2_buf
    (.O   (clk_240),
     .I   (clk_240_tmux_clocks));
+
+  BUFG clkout3_buf
+   (.O   (clk_360),
+    .I   (clk_360_tmux_clocks));
 
 
 

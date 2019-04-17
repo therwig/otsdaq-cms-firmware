@@ -1,7 +1,7 @@
 onbreak {quit -f}
 onerror {quit -f}
 
-vsim -t 1ps -lib xil_defaultlib tmux_clocks_opt
+vsim -t 1ps -lib work tmux_clocks_opt
 
 do {wave.do}
 

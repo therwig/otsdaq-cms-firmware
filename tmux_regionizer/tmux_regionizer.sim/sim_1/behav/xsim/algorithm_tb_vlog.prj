@@ -7,6 +7,9 @@ verilog xil_defaultlib  --include "../../../../tmux_regionizer.srcs/sources_1/ip
 "../../../../tmux_regionizer.srcs/sources_1/ip/raw_link_buffer_layer0/sim/raw_link_buffer_layer0.v" \
 "../../../../tmux_regionizer.srcs/sources_1/ip/physics_object_bram/sim/physics_object_bram.v" \
 
+verilog work  --include "../../../../tmux_regionizer.srcs/sources_1/ip/tmux_clocks" \
+"../../../../tmux_regionizer.srcs/sources_1/ip/algo_object_bram/sim/algo_object_bram.v" \
+
 # compile glbl module
 verilog work "glbl.v"
 

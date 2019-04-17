@@ -1,8 +1,14 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_params_pkg.vhd" into library work
 INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer1_buffer.vhd" into library work
 INFO: [VRFC 10-307] analyzing entity tmux_wrapper_layer1_buffer
 INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer1_buffers.vhd" into library work
 INFO: [VRFC 10-307] analyzing entity tmux_wrapper_layer1_buffers
 INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper.vhd" into library work
 INFO: [VRFC 10-307] analyzing entity tmux_wrapper
-INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/infra_algorithm_TB.vhd" into library work
-INFO: [VRFC 10-307] analyzing entity algorithm_tb
+INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer2_buffer.vhd" into library work
+INFO: [VRFC 10-307] analyzing entity tmux_wrapper_layer2_buffer
+INFO: [VRFC 10-163] Analyzing VHDL file "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer2_buffers.vhd" into library work
+INFO: [VRFC 10-307] analyzing entity tmux_wrapper_layer2_buffers
+ERROR: [VRFC 10-2666] formal port layer2_we_in has no actual or default value [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer2_buffers.vhd:54]
+ERROR: [VRFC 10-1504] unit behavioral ignored due to previous errors [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer2_buffers.vhd:42]
+INFO: [VRFC 10-240] VHDL file /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/tmux_wrapper_layer2_buffers.vhd ignored due to errors

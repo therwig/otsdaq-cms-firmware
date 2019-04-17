@@ -55,8 +55,9 @@
 --  Output     Output      Phase    Duty Cycle   Pk-to-Pk     Phase
 --   Clock     Freq (MHz)  (degrees)    (%)     Jitter (ps)  Error (ps)
 ------------------------------------------------------------------------------
--- __clk_40____40.000______0.000______50.0______154.911_____99.820
--- _clk_240___240.000______0.000______50.0______108.425_____99.820
+-- __clk_40____40.000______0.000______50.0______117.299_____76.136
+-- _clk_240___240.000______0.000______50.0_______84.420_____76.136
+-- _clk_360___360.000______0.000______50.0_______78.430_____76.136
 --
 ------------------------------------------------------------------------------
 -- Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -72,6 +73,7 @@ port
   -- Clock out ports
   clk_40          : out    std_logic;
   clk_240          : out    std_logic;
+  clk_360          : out    std_logic;
   -- Status and control signals
   reset             : in     std_logic;
   locked            : out    std_logic;
@@ -88,6 +90,7 @@ your_instance_name : tmux_clocks
   -- Clock out ports  
    clk_40 => clk_40,
    clk_240 => clk_240,
+   clk_360 => clk_360,
   -- Status and control signals                
    reset => reset,
    locked => locked,

@@ -1,7 +1,7 @@
 onbreak {quit -force}
 onerror {quit -force}
 
-asim -t 1ps +access +r +m+tmux_clocks -L xil_defaultlib -L xpm -L unisims_ver -L unimacro_ver -L secureip -O5 xil_defaultlib.tmux_clocks xil_defaultlib.glbl
+asim -t 1ps +access +r +m+tmux_clocks -L xil_defaultlib -L xpm -L work -L unisims_ver -L unimacro_ver -L secureip -O5 work.tmux_clocks work.glbl
 
 do {wave.do}
 

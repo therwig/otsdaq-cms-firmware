@@ -76,6 +76,8 @@ Compiling module blk_mem_gen_v8_4_1.blk_mem_gen_v8_4_1(C_ELABORATION...
 Compiling module xil_defaultlib.physics_object_bram
 Compiling architecture behavioral of entity work.tmux_wrapper_layer1_buffer [tmux_wrapper_layer1_buffer_defau...]
 Compiling architecture behavioral of entity work.tmux_wrapper_layer1_buffers [\tmux_wrapper_layer1_buffers(lin...]
+Compiling architecture behavioral of entity work.tmux_wrapper_layer2_buffer [\tmux_wrapper_layer2_buffer(obje...]
+Compiling architecture behavioral of entity work.tmux_wrapper_layer2_buffers [tmux_wrapper_layer2_buffers_defa...]
 Compiling module unisims_ver.BUFG
 Compiling module unisims_ver.MMCME2_ADV(CLKFBOUT_MULT_F=8.0,C...
 Compiling module work.tmux_clocks_clk_wiz

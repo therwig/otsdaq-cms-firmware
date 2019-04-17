@@ -9,35 +9,35 @@
     ** Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 
 source tmux_clocks.tcl -notrace
-Command: synth_design -top tmux_clocks -part xc7vx690tffg1927-2 -mode out_of_context
+Command: synth_design -top tmux_clocks -part xcvu9p-flgb2104-2-i -mode out_of_context
 Starting synth_design
-Attempting to get a license for feature 'Synthesis' and/or device 'xc7vx690t'
-INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7vx690t'
+Attempting to get a license for feature 'Synthesis' and/or device 'xcvu9p'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xcvu9p'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 40863 
+INFO: Helper process launched with PID 114458 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:02 . Memory (MB): peak = 1435.980 ; gain = 83.996 ; free physical = 14475 ; free virtual = 177639
+Starting RTL Elaboration : Time (s): cpu = 00:00:01 ; elapsed = 00:00:03 . Memory (MB): peak = 1766.992 ; gain = 0.000 ; free physical = 65987 ; free virtual = 165175
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'tmux_clocks' [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v:71]
-INFO: [Synth 8-6157] synthesizing module 'tmux_clocks_clk_wiz' [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks_clk_wiz.v:69]
+INFO: [Synth 8-6157] synthesizing module 'tmux_clocks' [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v:72]
+INFO: [Synth 8-6157] synthesizing module 'tmux_clocks_clk_wiz' [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks_clk_wiz.v:70]
 INFO: [Synth 8-6157] synthesizing module 'BUFG' [/opt/local/Xilinx/Vivado/2018.2/scripts/rt/data/unisim_comp.v:609]
 INFO: [Synth 8-6155] done synthesizing module 'BUFG' (1#1) [/opt/local/Xilinx/Vivado/2018.2/scripts/rt/data/unisim_comp.v:609]
-INFO: [Synth 8-6157] synthesizing module 'MMCME2_ADV' [/opt/local/Xilinx/Vivado/2018.2/scripts/rt/data/unisim_comp.v:25762]
+INFO: [Synth 8-6157] synthesizing module 'MMCME4_ADV' [/opt/local/Xilinx/Vivado/2018.2/scripts/rt/data/unisim_comp.v:26155]
 	Parameter BANDWIDTH bound to: OPTIMIZED - type: string 
-	Parameter CLKFBOUT_MULT_F bound to: 8.000000 - type: float 
+	Parameter CLKFBOUT_MULT_F bound to: 12.000000 - type: float 
 	Parameter CLKFBOUT_PHASE bound to: 0.000000 - type: float 
 	Parameter CLKFBOUT_USE_FINE_PS bound to: FALSE - type: string 
 	Parameter CLKIN1_PERIOD bound to: 8.333000 - type: float 
 	Parameter CLKIN2_PERIOD bound to: 0.000000 - type: float 
-	Parameter CLKOUT0_DIVIDE_F bound to: 24.000000 - type: float 
+	Parameter CLKOUT0_DIVIDE_F bound to: 36.000000 - type: float 
 	Parameter CLKOUT0_DUTY_CYCLE bound to: 0.500000 - type: float 
 	Parameter CLKOUT0_PHASE bound to: 0.000000 - type: float 
 	Parameter CLKOUT0_USE_FINE_PS bound to: FALSE - type: string 
-	Parameter CLKOUT1_DIVIDE bound to: 4 - type: integer 
+	Parameter CLKOUT1_DIVIDE bound to: 6 - type: integer 
 	Parameter CLKOUT1_DUTY_CYCLE bound to: 0.500000 - type: float 
 	Parameter CLKOUT1_PHASE bound to: 0.000000 - type: float 
 	Parameter CLKOUT1_USE_FINE_PS bound to: FALSE - type: string 
-	Parameter CLKOUT2_DIVIDE bound to: 1 - type: integer 
+	Parameter CLKOUT2_DIVIDE bound to: 4 - type: integer 
 	Parameter CLKOUT2_DUTY_CYCLE bound to: 0.500000 - type: float 
 	Parameter CLKOUT2_PHASE bound to: 0.000000 - type: float 
 	Parameter CLKOUT2_USE_FINE_PS bound to: FALSE - type: string 
@@ -58,8 +58,11 @@ INFO: [Synth 8-6157] synthesizing module 'MMCME2_ADV' [/opt/local/Xilinx/Vivado/
 	Parameter CLKOUT6_DUTY_CYCLE bound to: 0.500000 - type: float 
 	Parameter CLKOUT6_PHASE bound to: 0.000000 - type: float 
 	Parameter CLKOUT6_USE_FINE_PS bound to: FALSE - type: string 
-	Parameter COMPENSATION bound to: ZHOLD - type: string 
+	Parameter COMPENSATION bound to: AUTO - type: string 
 	Parameter DIVCLK_DIVIDE bound to: 1 - type: integer 
+	Parameter IS_CLKFBIN_INVERTED bound to: 1'b0 
+	Parameter IS_CLKIN1_INVERTED bound to: 1'b0 
+	Parameter IS_CLKIN2_INVERTED bound to: 1'b0 
 	Parameter IS_CLKINSEL_INVERTED bound to: 1'b0 
 	Parameter IS_PSEN_INVERTED bound to: 1'b0 
 	Parameter IS_PSINCDEC_INVERTED bound to: 1'b0 
@@ -71,11 +74,11 @@ INFO: [Synth 8-6157] synthesizing module 'MMCME2_ADV' [/opt/local/Xilinx/Vivado/
 	Parameter SS_MODE bound to: CENTER_HIGH - type: string 
 	Parameter SS_MOD_PERIOD bound to: 10000 - type: integer 
 	Parameter STARTUP_WAIT bound to: FALSE - type: string 
-INFO: [Synth 8-6155] done synthesizing module 'MMCME2_ADV' (2#1) [/opt/local/Xilinx/Vivado/2018.2/scripts/rt/data/unisim_comp.v:25762]
-INFO: [Synth 8-6155] done synthesizing module 'tmux_clocks_clk_wiz' (3#1) [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks_clk_wiz.v:69]
-INFO: [Synth 8-6155] done synthesizing module 'tmux_clocks' (4#1) [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v:71]
+INFO: [Synth 8-6155] done synthesizing module 'MMCME4_ADV' (2#1) [/opt/local/Xilinx/Vivado/2018.2/scripts/rt/data/unisim_comp.v:26155]
+INFO: [Synth 8-6155] done synthesizing module 'tmux_clocks_clk_wiz' (3#1) [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks_clk_wiz.v:70]
+INFO: [Synth 8-6155] done synthesizing module 'tmux_clocks' (4#1) [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v:72]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 1481.613 ; gain = 129.629 ; free physical = 14428 ; free virtual = 177633
+Finished RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:04 . Memory (MB): peak = 1766.996 ; gain = 0.004 ; free physical = 66002 ; free virtual = 165190
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -88,14 +91,14 @@ Report Check Netlist:
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:02 ; elapsed = 00:00:04 . Memory (MB): peak = 1481.613 ; gain = 129.629 ; free physical = 14414 ; free virtual = 177632
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:02 ; elapsed = 00:00:04 . Memory (MB): peak = 1766.996 ; gain = 0.004 ; free physical = 65998 ; free virtual = 165186
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:02 ; elapsed = 00:00:04 . Memory (MB): peak = 1481.613 ; gain = 129.629 ; free physical = 14414 ; free virtual = 177632
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:02 ; elapsed = 00:00:04 . Memory (MB): peak = 1766.996 ; gain = 0.004 ; free physical = 65998 ; free virtual = 165186
 ---------------------------------------------------------------------------------
-INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 6 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
-INFO: [Device 21-403] Loading part xc7vx690tffg1927-2
+INFO: [Device 21-403] Loading part xcvu9p-flgb2104-2-i
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -111,29 +114,30 @@ Finished Parsing XDC File [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/t
 Completed Processing XDC Constraints
 
 INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
+  A total of 5 instances were transformed.
+  BUFG => BUFGCE: 5 instances
 
 INFO: [Timing 38-2] Deriving generated clocks
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.08 . Memory (MB): peak = 1938.219 ; gain = 0.004 ; free physical = 620 ; free virtual = 176650
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.08 . Memory (MB): peak = 2471.102 ; gain = 0.000 ; free physical = 65110 ; free virtual = 164336
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:29 ; elapsed = 00:02:26 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 651 ; free virtual = 176727
+Finished Constraint Validation : Time (s): cpu = 00:00:23 ; elapsed = 00:00:56 . Memory (MB): peak = 2471.102 ; gain = 704.109 ; free physical = 65190 ; free virtual = 164416
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
-Loading part: xc7vx690tffg1927-2
+Loading part: xcvu9p-flgb2104-2-i
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:29 ; elapsed = 00:02:27 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 639 ; free virtual = 176725
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:23 ; elapsed = 00:00:56 . Memory (MB): peak = 2471.102 ; gain = 704.109 ; free physical = 65190 ; free virtual = 164416
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 Applied set_property DONT_TOUCH = true for inst. (constraint file  /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.runs/tmux_clocks_synth_1/dont_touch.xdc, line 9).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:29 ; elapsed = 00:02:27 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 640 ; free virtual = 176727
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:23 ; elapsed = 00:00:56 . Memory (MB): peak = 2471.102 ; gain = 704.109 ; free physical = 65190 ; free virtual = 164416
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:29 ; elapsed = 00:02:27 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 623 ; free virtual = 176727
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:23 ; elapsed = 00:00:56 . Memory (MB): peak = 2471.102 ; gain = 704.109 ; free physical = 65188 ; free virtual = 164415
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -159,8 +163,8 @@ Finished RTL Hierarchical Component Statistics
 Start Part Resource Summary
 ---------------------------------------------------------------------------------
 Part Resources:
-DSPs: 3600 (col length:200)
-BRAMs: 2940 (col length: RAMB18 200 RAMB36 100)
+DSPs: 6840 (col length:120)
+BRAMs: 4320 (col length: RAMB18 360 RAMB36 180)
 ---------------------------------------------------------------------------------
 Finished Part Resource Summary
 ---------------------------------------------------------------------------------
@@ -169,7 +173,7 @@ Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 Warning: Parallel synthesis criteria is not met 
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:30 ; elapsed = 00:02:28 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 630 ; free virtual = 176729
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:57 . Memory (MB): peak = 2471.102 ; gain = 704.109 ; free physical = 65186 ; free virtual = 164414
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -181,13 +185,13 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:35 ; elapsed = 00:02:41 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 621 ; free virtual = 176547
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:47 ; elapsed = 00:02:13 . Memory (MB): peak = 2716.621 ; gain = 949.629 ; free physical = 62464 ; free virtual = 161707
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:35 ; elapsed = 00:02:41 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 621 ; free virtual = 176547
+Finished Timing Optimization : Time (s): cpu = 00:00:47 ; elapsed = 00:02:13 . Memory (MB): peak = 2716.621 ; gain = 949.629 ; free physical = 62464 ; free virtual = 161706
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -199,7 +203,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:35 ; elapsed = 00:02:41 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 619 ; free virtual = 176546
+Finished Technology Mapping : Time (s): cpu = 00:00:47 ; elapsed = 00:02:13 . Memory (MB): peak = 2716.621 ; gain = 949.629 ; free physical = 62464 ; free virtual = 161706
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -223,7 +227,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:36 ; elapsed = 00:02:42 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 621 ; free virtual = 176547
+Finished IO Insertion : Time (s): cpu = 00:00:48 ; elapsed = 00:02:14 . Memory (MB): peak = 2716.625 ; gain = 949.633 ; free physical = 62465 ; free virtual = 161707
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -236,7 +240,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:36 ; elapsed = 00:02:42 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 621 ; free virtual = 176547
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:48 ; elapsed = 00:02:14 . Memory (MB): peak = 2716.625 ; gain = 949.633 ; free physical = 62465 ; free virtual = 161707
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -248,25 +252,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:36 ; elapsed = 00:02:42 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 621 ; free virtual = 176546
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:48 ; elapsed = 00:02:14 . Memory (MB): peak = 2716.625 ; gain = 949.633 ; free physical = 62465 ; free virtual = 161707
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:36 ; elapsed = 00:02:42 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 621 ; free virtual = 176546
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:48 ; elapsed = 00:02:14 . Memory (MB): peak = 2716.625 ; gain = 949.633 ; free physical = 62465 ; free virtual = 161707
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:36 ; elapsed = 00:02:42 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 621 ; free virtual = 176546
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:48 ; elapsed = 00:02:14 . Memory (MB): peak = 2716.625 ; gain = 949.633 ; free physical = 62465 ; free virtual = 161707
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:36 ; elapsed = 00:02:42 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 621 ; free virtual = 176546
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:48 ; elapsed = 00:02:14 . Memory (MB): peak = 2716.625 ; gain = 949.633 ; free physical = 62465 ; free virtual = 161707
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -282,40 +286,41 @@ Report Cell Usage:
 +------+-----------+------+
 |      |Cell       |Count |
 +------+-----------+------+
-|1     |BUFG       |     4|
-|2     |MMCME2_ADV |     1|
+|1     |BUFG       |     5|
+|2     |MMCME4_ADV |     1|
 +------+-----------+------+
 
 Report Instance Areas: 
 +------+---------+--------------------+------+
 |      |Instance |Module              |Cells |
 +------+---------+--------------------+------+
-|1     |top      |                    |     5|
-|2     |  inst   |tmux_clocks_clk_wiz |     5|
+|1     |top      |                    |     6|
+|2     |  inst   |tmux_clocks_clk_wiz |     6|
 +------+---------+--------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:36 ; elapsed = 00:02:42 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 620 ; free virtual = 176546
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:48 ; elapsed = 00:02:14 . Memory (MB): peak = 2716.625 ; gain = 949.633 ; free physical = 62465 ; free virtual = 161707
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:10 ; elapsed = 00:00:22 . Memory (MB): peak = 1938.219 ; gain = 129.629 ; free physical = 671 ; free virtual = 176602
-Synthesis Optimization Complete : Time (s): cpu = 00:00:36 ; elapsed = 00:02:42 . Memory (MB): peak = 1938.219 ; gain = 586.234 ; free physical = 671 ; free virtual = 176602
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:29 ; elapsed = 00:01:24 . Memory (MB): peak = 2717.621 ; gain = 246.523 ; free physical = 62490 ; free virtual = 161733
+Synthesis Optimization Complete : Time (s): cpu = 00:00:48 ; elapsed = 00:02:14 . Memory (MB): peak = 2717.629 ; gain = 950.629 ; free physical = 62490 ; free virtual = 161733
 INFO: [Project 1-571] Translating synthesized netlist
-INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 6 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
 INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
+  A total of 5 instances were transformed.
+  BUFG => BUFGCE: 5 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
 22 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:38 ; elapsed = 00:02:43 . Memory (MB): peak = 1955.199 ; gain = 626.801 ; free physical = 661 ; free virtual = 176580
+synth_design: Time (s): cpu = 00:00:50 ; elapsed = 00:02:15 . Memory (MB): peak = 2789.766 ; gain = 1034.902 ; free physical = 62393 ; free virtual = 161636
 WARNING: [Constraints 18-5210] No constraint will be written out.
 INFO: [Common 17-1381] The checkpoint '/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.runs/tmux_clocks_synth_1/tmux_clocks.dcp' has been generated.
 INFO: [Coretcl 2-1482] Added synthesis output to IP cache for IP /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.xci
 WARNING: [Constraints 18-5210] No constraint will be written out.
 INFO: [Common 17-1381] The checkpoint '/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/tmux_regionizer.runs/tmux_clocks_synth_1/tmux_clocks.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file tmux_clocks_utilization_synth.rpt -pb tmux_clocks_utilization_synth.pb
-report_utilization: Time (s): cpu = 00:00:00.62 ; elapsed = 00:00:00.68 . Memory (MB): peak = 1959.207 ; gain = 0.000 ; free physical = 623 ; free virtual = 176580
-INFO: [Common 17-206] Exiting Vivado at Sun Apr  7 11:29:28 2019...
+report_utilization: Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 2795.770 ; gain = 0.000 ; free physical = 62260 ; free virtual = 161502
+INFO: [Common 17-206] Exiting Vivado at Tue Apr 16 21:30:33 2019...

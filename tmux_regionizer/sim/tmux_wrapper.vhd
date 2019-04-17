@@ -36,16 +36,28 @@ end;
    
 architecture arch of tmux_wrapper is
   
---    component tmux_wrapper_layer1_buffers    
---           generic (
---               LINK_COUNT_G   : integer     
---           );
---           port (
---               link_object_in       : in physics_object_arr_t (LINK_COUNT_G-1 downto 0);
---               link_object_we_in    : in STD_LOGIC_VECTOR (LINK_COUNT_G-1 downto 0);
---               layer2_token_in      : in STD_LOGIC_VECTOR (5 downto 0)
---           );
---    end component;
+    component tmux_wrapper_layer1_buffers    
+           generic (
+               LINK_COUNT   : integer     
+           );
+           port (
+               reset                   : in std_logic;
+               clk120                  : in std_logic;
+               clk240                  : in std_logic; 
+               link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
+               link_object_in          : in physics_object_arr_t (LINK_COUNT-1 downto 0);
+               link_object_we_in       : in std_logic_vector (LINK_COUNT-1 downto 0);
+               layer2_token_in         : in std_logic_vector (5 downto 0)
+           );
+    end component;
+ 
+    component tmux_wrapper_layer2_buffers 
+           port (
+               reset                   : in std_logic;
+               clk120                  : in std_logic;
+               clk240                  : in std_logic
+           );
+    end component;
     
 --    component algo_unpacked
 --    port (
@@ -251,16 +263,22 @@ architecture arch of tmux_wrapper is
     constant EVENT_BUFFER_COUNT   : natural := 3;
     signal event_buffers : event_small_region_phi_eta_buffer_arr_t(EVENT_BUFFER_COUNT-1 downto 0);
     
+    signal clk_40, clk_240                  : std_logic;
 begin
+
     algo_in_debug <= algo_in;
 
---    ap_done <= ap_done_unp;
-    
---    ap_clk_unp   <= ap_clk;
---    ap_rst_unp   <= ap_rst;
---    ap_start_unp <= has_reset and (not ap_rst_delay(RESET_DELAY-1));
---    ap_idle      <= ap_idle_unp;
---    ap_ready     <= ap_ready_unp;
+
+    clk_tmux : entity work.tmux_clocks 
+        port map(
+            -- Clock out ports
+            reset => ap_rst,
+            clk_40 => clk_40,
+            --clk_120 => open,
+            clk_240 => clk_240,
+            -- Clock in ports
+            clk_in1 => ap_clk
+        );        
     
     process(ap_clk) is
     begin
@@ -274,70 +292,7 @@ begin
             end if;
         end if;
     end process;
-
---    --group links into 3x 120MHz clocks
---    gen_cyc : for idx in 0 to 47 generate
-        
---    begin
---        process(ap_clk) is
---        begin
---          if rising_edge(ap_clk) then
-        
---            if (link_out_ap_vld(idx) = '1') then
---              link_out_reg(idx) <= link_out(idx);
---            end if;
-        
---            if (has_reset = '0' or ap_rst_delay(0) = '1') then
---              in_cyc(idx) <= 0;
---            else
---              in_cyc(idx) <= in_cyc(idx) + 1;
---              if (in_cyc(idx) = 2) then
---                in_cyc(idx) <= 0;
---              end if;
---            end if;
-        
---            if (ap_rst = '1') then
---              link_out_ap_vld_latched(idx) <= '0';
---            elsif (link_out_ap_vld(idx) = '1') then
---              link_out_ap_vld_latched(idx) <= '1';
---            end if;
-        
---            if (link_out_ap_vld_latched(idx) = '0') then
---              out_cyc(idx)                <= 0;
---              link_out_master(idx).tvalid <= '0'; 
---            else
---              link_out_master(idx).tvalid <= has_reset; --RAR '1'; 
---              out_cyc(idx)                <= out_cyc(idx) + 1;
---              if (out_cyc(idx) = 2) then
---                out_cyc(idx) <= 0;
---              end if;
---            end if;
-        
---            if (in_cyc(idx) = 0) then 
---                link_in(idx)(63 downto 0)    <= link_in_master(idx).tdata; 
---            end if;
-            
---            if (in_cyc(idx) = 1) then 
---                link_in(idx)(127 downto 64)  <= link_in_master(idx).tdata; 
---            end if;
-            
---            if (in_cyc(idx) = 2) then 
---                link_in_reg(idx)(63 downto 0) <= link_in(idx)(63 downto 0);
---                link_in_reg(idx)(127 downto 64) <= link_in(idx)(127 downto 64);
---                link_in_reg(idx)(191 downto 128) <= link_in_master(idx).tdata; 
---            end if;
-        
---            if (out_cyc(idx) = 0) then link_out_master(idx).tdata <= link_out_reg(idx)(63 downto 0); end if;
---            if (out_cyc(idx) = 1) then link_out_master(idx).tdata <= link_out_reg(idx)(127 downto 64); end if;
---            if (out_cyc(idx) = 2) then link_out_master(idx).tdata <= link_out_reg(idx)(191 downto 128); end if;
-        
---          end if;
---        end process;
---    end generate;
-    
-    
-    
-    
+  
  
     --for every fiber...
     --  18*3 = 54 x 120MHz clocks of data per event 
@@ -356,56 +311,19 @@ begin
     --          19:10   := phi
     --          9:0     := eta
     
-    gen_link_object_buffer : if TRUE generate
+    gen_physics_object_buffer_layers : if TRUE generate
     
         signal link_objects_to_layer1           : physics_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0);
         signal link_objects_to_layer1_we        : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0) := (others => '0');
-        
-        signal clk_40, clk_240                  : std_logic;
+        signal link_big_region_ends             : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0) := (others => '0');
         
     begin
-    
-        clk_tmux : entity work.tmux_clocks 
-            port map(
-                -- Clock out ports
-                reset => ap_rst,
-                clk_40 => clk_40,
-                --clk_120 => open,
-                clk_240 => clk_240,
-                -- Clock in ports
-                clk_in1 => ap_clk
-            );
+            
          
         --generate fiber buffer approach 
         --    (each fiber should buffer the same way in a group of 6)  
-        gen_fiber_group_buffer : for g in 0 to FIBER_GROUPS-1 generate
-        
-            --signal fiber_group_event_buffer         : event_small_region_phi_eta_buffer_t;   
-            --signal fiber_group_event_counter        : unsigned(15 downto 0) := (others => '0');     
-          
-            
-        begin
-        
-        
---            process(ap_clk)
---            begin
---                if(rising_edge(ap_clk)) then
-                
-                                
---                    if (ap_rst = '1') then
---                        physics_object_buffer_state_cnt     <= (others => '0');
---                        fiber_group_event_counter           <= (others => '0');
---                    else
---                        physics_object_buffer_state_cnt <= physics_object_buffer_state_cnt + 1;
---                        if(physics_object_buffer_state_cnt = 0) then
---                            fiber_group_event_buffer <= null_event_buffer; --reset event buffer
---                        end if;
---                    end if;
-                    
---                end if; 
-                
---            end process;
-                        
+        gen_fiber_group_buffer : for g in 0 to FIBER_GROUPS-1 generate        
+        begin        
                         
             --generate per fiber
             gen_fiber_buffer : for i in 0 to FIBERS_IN_GROUP-1 generate
@@ -413,9 +331,7 @@ begin
                 constant l                                  : natural := g*FIBERS_IN_GROUP + i;
                 signal   link_physics_object_buffer         : physics_object_arr_t(1 downto 0) := (others => null_physics_object);               
                 
-                --signal   physics_object_buffer_state_cnt    : unsigned(3 downto 0) := (others => '0');
                 signal   link_event_index                   : natural := 0;
-               
                
                 signal   link_vertex                        : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0) := (others => '0');
                 signal   link_data                          : std_logic_vector(TMUX_INPUT_WORD_SIZE-1 downto 0) := (others => '0');
@@ -423,6 +339,7 @@ begin
                 signal   link_data_valid_delay              : std_logic := '0';
                 
                 signal   link_cycle_state                   : unsigned(7 downto 0) := (others => '0');
+                signal   link_big_region_state              : unsigned(7 downto 0) := (others => '0');
                                        
             begin
                 
@@ -438,6 +355,8 @@ begin
                         link_objects_to_layer1_we(l)    <= '0'; 
                         link_objects_to_layer1(l)       <= null_physics_object;  
                         
+                        link_big_region_ends(l)         <= '0';
+                        
                         link_data_valid_delay           <= '0';
                             
 -- ===================== -- primary reset or not if statement         
@@ -450,7 +369,9 @@ begin
                             
                             link_vertex                     <= (others => '0');
                             link_event_index                <= 0;
+                            
                             link_cycle_state                <= (others => '0');
+                            link_big_region_state           <= (others => '0');
                             
                         else
                             
@@ -461,13 +382,22 @@ begin
                             if (has_reset = '1' and link_data_valid = '1') then
                             
                                 link_data_valid_delay           <= '1';
-                                                    
+                                
+                                --manage big region state
+                                --  18 BX then repeat
+                                if (link_big_region_state = 18*3-1) then 
+                                    link_big_region_state               <= (others => '0');
+                                    link_big_region_ends(l)             <= '1';
+                                else
+                                    link_big_region_state               <= link_big_region_state + 1;
+                                end if;
+                                                                                        
                                 --manage link cycle state
                                 --  6 states, then repeat action
                                 if (link_cycle_state = 6-1) then
-                                    link_cycle_state                      <= (others => '0');
+                                    link_cycle_state                    <= (others => '0');
                                 else
-                                    link_cycle_state                      <= link_cycle_state + 1;
+                                    link_cycle_state                    <= link_cycle_state + 1;
                                 end if;
                                 
                                 
@@ -478,7 +408,7 @@ begin
                                         phi                 => (others => '0'),
                                         eta                 => (others => '0'),
                                         quality             => '0',
-                                        hwlsEM              => '0',
+                                        lsEM                => '0',
                                         z0                  => (others => '0'),
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
@@ -494,7 +424,7 @@ begin
                                         phi                 => signed(link_data(0 + 19 downto 0 + 10)),
                                         eta                 => signed(link_data(0 + 9 downto 0 + 0)),
                                         quality             =>        link_data(0 + 31),
-                                        hwlsEM              =>        link_data(0 + 20),
+                                        lsEM              =>        link_data(0 + 20),
                                         z0                  => signed(link_data(0 + 29 downto 0 + 20)),
                                         otherPt             => link_physics_object_buffer(0).otherPt,
                                         pt                  => link_physics_object_buffer(0).pt,
@@ -508,7 +438,7 @@ begin
                                         phi                 => (others => '0'),
                                         eta                 => (others => '0'),
                                         quality             => '0',
-                                        hwlsEM              => '0',
+                                        lsEM                => '0',
                                         z0                  => (others => '0'),
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
@@ -524,7 +454,7 @@ begin
                                         phi                 => signed(link_data(0 + 19 downto 0 + 10)),
                                         eta                 => signed(link_data(0 + 9 downto 0 + 0)),
                                         quality             =>        link_data(0 + 31),
-                                        hwlsEM              =>        link_data(0 + 20),
+                                        lsEM                =>        link_data(0 + 20),
                                         z0                  => signed(link_data(0 + 29 downto 0 + 20)),
                                         otherPt             => link_physics_object_buffer(1).otherPt,
                                         pt                  => link_physics_object_buffer(1).pt,
@@ -538,7 +468,7 @@ begin
                                         phi                 => (others => '0'),
                                         eta                 => (others => '0'),
                                         quality             => '0',
-                                        hwlsEM              => '0',
+                                        lsEM                => '0',
                                         z0                  => (others => '0'),
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
@@ -557,7 +487,7 @@ begin
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
                                         quality             =>        link_data(32 + 31),
-                                        hwlsEM              =>        link_data(32 + 20),
+                                        lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => link_physics_object_buffer(0).otherPt,
                                         pt                  => link_physics_object_buffer(0).pt,
@@ -574,7 +504,7 @@ begin
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
                                         quality             =>        link_data(32 + 31),
-                                        hwlsEM              =>        link_data(32 + 20),
+                                        lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
                                         pt                  => signed(link_data(0 + 15 downto 0 + 0)),
@@ -593,7 +523,7 @@ begin
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
                                         quality             =>        link_data(32 + 31),
-                                        hwlsEM              =>        link_data(32 + 20),
+                                        lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
                                         pt                  => signed(link_data(0 + 15 downto 0 + 0)),
@@ -664,22 +594,38 @@ begin
         end generate gen_fiber_group_buffer;
     
     
-        layer1_buffers : entity work.tmux_wrapper_layer1_buffers    
-            generic map (
-                LINK_COUNT => FIBER_GROUPS * FIBERS_IN_GROUP 
-            )
-            port map (
-                reset                           => ap_rst,
-                clk120                          => ap_clk,
-                clk240                          => clk_240,
-                link_object_in                  => link_objects_to_layer1,
-                link_object_we_in               => link_objects_to_layer1_we,
-                layer2_token_in                 => (others => '0')
-            );
+        gen_object_buffer_layers_1_and_2 : if TRUE generate
+        begin
+            layer1_buffers : tmux_wrapper_layer1_buffers    
+                generic map (
+                    LINK_COUNT => FIBER_GROUPS * FIBERS_IN_GROUP 
+                )
+                port map (
+                    reset                           => ap_rst,
+                    clk120                          => ap_clk,
+                    clk240                          => clk_240,
+                    
+                    link_big_region_end             => link_big_region_ends,
+                    
+                    link_object_in                  => link_objects_to_layer1,
+                    link_object_we_in               => link_objects_to_layer1_we,
+                    layer2_token_in                 => (others => '0')
+                );
+            layer2_buffers : tmux_wrapper_layer2_buffers 
+                port map (
+                    reset                           => ap_rst,
+                    clk120                          => ap_clk,
+                    clk240                          => clk_240--,
+                    --link_object_in                  => link_objects_to_layer1,
+                    --link_object_we_in               => link_objects_to_layer1_we,
+                    --layer2_token_in                 => (others => '0')
+                );
             
-            
-   end generate gen_link_object_buffer; 
+        end generate gen_object_buffer_layers_1_and_2;
         
+   end generate gen_physics_object_buffer_layers; 
+        
+   
      
     
 --    --for every 6 fibers.. use tmux_buffers for ...
