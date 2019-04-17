@@ -42,9 +42,11 @@ package tmux_params_pkg is
     constant PHYSICS_OBJECT_BIT_SIZE    : natural := 64; --in bits 
     
     
-    constant LEVEL1_SR_SEGMENTS         : natural := 6; -- Level-1 RAMs per link (i.e. if 6, then 5 of 30 s.r. in each RAM)
+    constant LEVEL1_RAMS_PER_LINK       : natural := 6; -- Level-1 RAMs per link (i.e. if 6, then 5 of 30 s.r. in each RAM)    
     constant LEVEL2_SR_SEGMENTS         : natural := 3; -- Level-2 RAMs per Algo-input-opbject (i.e. if 3, then 10 of 30 s.r. in each RAM)
     
+    constant INPUT_DECTECTOR_COUNT      : natural := 3;
+    constant ALGO_MAX_DETECTOR_OBJECTS  : natural := 30;
     constant ALGO_INPUT_OBJECTS_COUNT   : natural := 100;
     
 --    constant ALGO_INPUT_CHANNEL_COUNT   : natural := 94;
@@ -90,7 +92,7 @@ package tmux_params_pkg is
         eta                 : signed(9 downto 0);
         
         quality             : std_logic;             --just tracker
-        lsEM              : std_logic;             --just calo
+        lsEM                : std_logic;             --just calo
         z0                  : signed(9 downto 0);  --just tracker
         otherPt             : signed(15 downto 0); --pt-err or em-pt (for calo)
         pt                  : signed(15 downto 0);
