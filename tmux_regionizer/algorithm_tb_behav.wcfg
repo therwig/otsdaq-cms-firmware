@@ -14,378 +14,115 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="745996000fs"></ZoomStartTime>
-      <ZoomEndTime time="886996001fs"></ZoomEndTime>
-      <Cursor1Time time="812370000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="10000000001fs"></ZoomEndTime>
+      <Cursor1Time time="3429319000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="241"></NameColumnWidth>
-      <ValueColumnWidth column_width="189"></ValueColumnWidth>
+      <ValueColumnWidth column_width="185"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="60" />
-   <wave_markers>
-      <marker label="" time="739496000" />
-   </wave_markers>
+   <WVObjectSize size="17" />
    <wvobject type="logic" fp_name="/algorithm_tb/data_clk">
       <obj_property name="ElementShortName">data_clk</obj_property>
       <obj_property name="ObjectShortName">data_clk</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/algorithm_tb/system_reset">
+      <obj_property name="ElementShortName">system_reset</obj_property>
+      <obj_property name="ObjectShortName">system_reset</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/algorithm_tb/input_fiber_reader_reset">
       <obj_property name="ElementShortName">input_fiber_reader_reset</obj_property>
       <obj_property name="ObjectShortName">input_fiber_reader_reset</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/input_fiber_data">
       <obj_property name="ElementShortName">input_fiber_data[41:0][63:0]</obj_property>
       <obj_property name="ObjectShortName">input_fiber_data[41:0][63:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/input_fiber_valid">
       <obj_property name="ElementShortName">input_fiber_valid[41:0]</obj_property>
       <obj_property name="ObjectShortName">input_fiber_valid[41:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/output_fiber_data">
       <obj_property name="ElementShortName">output_fiber_data[7:0][63:0]</obj_property>
       <obj_property name="ObjectShortName">output_fiber_data[7:0][63:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/output_fiber_valid">
       <obj_property name="ElementShortName">output_fiber_valid[7:0]</obj_property>
       <obj_property name="ObjectShortName">output_fiber_valid[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/EOF_input_fiber">
       <obj_property name="ElementShortName">EOF_input_fiber[41:0]</obj_property>
       <obj_property name="ObjectShortName">EOF_input_fiber[41:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/link_in_master">
       <obj_property name="ElementShortName">link_in_master[47:0]</obj_property>
       <obj_property name="ObjectShortName">link_in_master[47:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/link_in_slave">
       <obj_property name="ElementShortName">link_in_slave[47:0]</obj_property>
       <obj_property name="ObjectShortName">link_in_slave[47:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/link_out_master">
       <obj_property name="ElementShortName">link_out_master[47:0]</obj_property>
       <obj_property name="ObjectShortName">link_out_master[47:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/link_out_slave">
       <obj_property name="ElementShortName">link_out_slave[47:0]</obj_property>
       <obj_property name="ObjectShortName">link_out_slave[47:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/link_out_master2">
       <obj_property name="ElementShortName">link_out_master2[47:0]</obj_property>
       <obj_property name="ObjectShortName">link_out_master2[47:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/link_out_slave2">
       <obj_property name="ElementShortName">link_out_slave2[47:0]</obj_property>
       <obj_property name="ObjectShortName">link_out_slave2[47:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/algorithm_tb/has_reset">
       <obj_property name="ElementShortName">has_reset</obj_property>
       <obj_property name="ObjectShortName">has_reset</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/algorithm_tb/algo_in">
       <obj_property name="ElementShortName">algo_in</obj_property>
       <obj_property name="ObjectShortName">algo_in</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="other" fp_name="/algorithm_tb/DATA_CLK_PERIOD">
       <obj_property name="ElementShortName">DATA_CLK_PERIOD</obj_property>
       <obj_property name="ObjectShortName">DATA_CLK_PERIOD</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/wr_rst_busy">
-      <obj_property name="ElementShortName">wr_rst_busy</obj_property>
-      <obj_property name="ObjectShortName">wr_rst_busy</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/rd_rst_busy">
-      <obj_property name="ElementShortName">rd_rst_busy</obj_property>
-      <obj_property name="ObjectShortName">rd_rst_busy</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/empty">
-      <obj_property name="ElementShortName">empty</obj_property>
-      <obj_property name="ObjectShortName">empty</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/din">
-      <obj_property name="ElementShortName">din[63:0]</obj_property>
-      <obj_property name="ObjectShortName">din[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/wr_en">
-      <obj_property name="ElementShortName">wr_en</obj_property>
-      <obj_property name="ObjectShortName">wr_en</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/rd_en">
-      <obj_property name="ElementShortName">rd_en</obj_property>
-      <obj_property name="ObjectShortName">rd_en</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/dout">
-      <obj_property name="ElementShortName">dout[63:0]</obj_property>
-      <obj_property name="ObjectShortName">dout[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_data">
-      <obj_property name="ElementShortName">link_data[63:0]</obj_property>
-      <obj_property name="ObjectShortName">link_data[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer">
-      <obj_property name="ElementShortName">link_physics_object_buffer[1:0]</obj_property>
-      <obj_property name="ObjectShortName">link_physics_object_buffer[1:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/link_objects_to_layer1_we[0]">
-      <obj_property name="ElementShortName">[0]</obj_property>
-      <obj_property name="ObjectShortName">[0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_data_valid">
-      <obj_property name="ElementShortName">link_data_valid</obj_property>
-      <obj_property name="ObjectShortName">link_data_valid</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_data_valid_delay">
-      <obj_property name="ElementShortName">link_data_valid_delay</obj_property>
-      <obj_property name="ObjectShortName">link_data_valid_delay</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/ap_clk">
-      <obj_property name="ElementShortName">ap_clk</obj_property>
-      <obj_property name="ObjectShortName">ap_clk</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_cycle_state">
-      <obj_property name="ElementShortName">link_cycle_state[7:0]</obj_property>
-      <obj_property name="ObjectShortName">link_cycle_state[7:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/link_objects_to_layer1[0]">
-      <obj_property name="ElementShortName">[0]</obj_property>
-      <obj_property name="ObjectShortName">[0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/link_object_in">
-      <obj_property name="ElementShortName">link_object_in</obj_property>
-      <obj_property name="ObjectShortName">link_object_in</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/link_object_we_in">
-      <obj_property name="ElementShortName">link_object_we_in</obj_property>
-      <obj_property name="ObjectShortName">link_object_we_in</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/din">
-      <obj_property name="ElementShortName">din[63:0]</obj_property>
-      <obj_property name="ObjectShortName">din[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/wr_en">
-      <obj_property name="ElementShortName">wr_en</obj_property>
-      <obj_property name="ObjectShortName">wr_en</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/ap_clk">
-      <obj_property name="ElementShortName">ap_clk</obj_property>
-      <obj_property name="ObjectShortName">ap_clk</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/clk_240">
-      <obj_property name="ElementShortName">clk_240</obj_property>
-      <obj_property name="ObjectShortName">clk_240</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_empty">
-      <obj_property name="ElementShortName">layer0_empty</obj_property>
-      <obj_property name="ObjectShortName">layer0_empty</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/empty">
-      <obj_property name="ElementShortName">empty</obj_property>
-      <obj_property name="ObjectShortName">empty</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/dout">
-      <obj_property name="ElementShortName">dout[63:0]</obj_property>
-      <obj_property name="ObjectShortName">dout[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/reset">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_transfer_state">
-      <obj_property name="ElementShortName">layer1_transfer_state[7:0]</obj_property>
-      <obj_property name="ObjectShortName">layer1_transfer_state[7:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object">
-      <obj_property name="ElementShortName">layer0_rd_object</obj_property>
-      <obj_property name="ObjectShortName">layer0_rd_object</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.phi">
-         <obj_property name="ElementShortName">.phi[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.phi[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.eta">
-         <obj_property name="ElementShortName">.eta[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.eta[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.quality">
-         <obj_property name="ElementShortName">.quality</obj_property>
-         <obj_property name="ObjectShortName">.quality</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.hwlsEM">
-         <obj_property name="ElementShortName">.hwlsEM</obj_property>
-         <obj_property name="ObjectShortName">.hwlsEM</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.z0">
-         <obj_property name="ElementShortName">.z0[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.z0[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.otherPt">
-         <obj_property name="ElementShortName">.otherPt[15:0]</obj_property>
-         <obj_property name="ObjectShortName">.otherPt[15:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.pt">
-         <obj_property name="ElementShortName">.pt[15:0]</obj_property>
-         <obj_property name="ObjectShortName">.pt[15:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="other" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.small_region_eta">
-         <obj_property name="ElementShortName">.small_region_eta</obj_property>
-         <obj_property name="ObjectShortName">.small_region_eta</obj_property>
-      </wvobject>
-      <wvobject type="other" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.small_region_phi">
-         <obj_property name="ElementShortName">.small_region_phi</obj_property>
-         <obj_property name="ObjectShortName">.small_region_phi</obj_property>
-      </wvobject>
-      <wvobject type="other" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.source_fiber">
-         <obj_property name="ElementShortName">.source_fiber</obj_property>
-         <obj_property name="ObjectShortName">.source_fiber</obj_property>
-      </wvobject>
-      <wvobject type="other" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_rd_object.source_event_index">
-         <obj_property name="ElementShortName">.source_event_index</obj_property>
-         <obj_property name="ObjectShortName">.source_event_index</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer0_eta_phi_index_object">
-      <obj_property name="ElementShortName">layer0_eta_phi_index_object</obj_property>
-      <obj_property name="ObjectShortName">layer0_eta_phi_index_object</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject type="other" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/debug_layer0_eta_index">
-      <obj_property name="ElementShortName">debug_layer0_eta_index</obj_property>
-      <obj_property name="ObjectShortName">debug_layer0_eta_index</obj_property>
-   </wvobject>
-   <wvobject type="other" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/debug_layer0_eta_overlap_index">
-      <obj_property name="ElementShortName">debug_layer0_eta_overlap_index</obj_property>
-      <obj_property name="ObjectShortName">debug_layer0_eta_overlap_index</obj_property>
-   </wvobject>
-   <wvobject type="other" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/debug_layer0_phi_index">
-      <obj_property name="ElementShortName">debug_layer0_phi_index</obj_property>
-      <obj_property name="ObjectShortName">debug_layer0_phi_index</obj_property>
-   </wvobject>
-   <wvobject type="other" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/debug_layer0_phi_overlap_index">
-      <obj_property name="ElementShortName">debug_layer0_phi_overlap_index</obj_property>
-      <obj_property name="ObjectShortName">debug_layer0_phi_overlap_index</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/clk_240">
-      <obj_property name="ElementShortName">clk_240</obj_property>
-      <obj_property name="ObjectShortName">clk_240</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_transfer_state">
-      <obj_property name="ElementShortName">layer1_transfer_state[7:0]</obj_property>
-      <obj_property name="ObjectShortName">layer1_transfer_state[7:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_arr">
-      <obj_property name="ElementShortName">layer1_waddr_arr[5:0][9:0]</obj_property>
-      <obj_property name="ObjectShortName">layer1_waddr_arr[5:0][9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_arr[5]">
-         <obj_property name="ElementShortName">[5][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[5][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_arr[4]">
-         <obj_property name="ElementShortName">[4][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[4][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_arr[3]">
-         <obj_property name="ElementShortName">[3][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[3][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_arr[2]">
-         <obj_property name="ElementShortName">[2][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[2][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_arr[1]">
-         <obj_property name="ElementShortName">[1][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[1][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_arr[0]">
-         <obj_property name="ElementShortName">[0][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[0][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_base_arr">
-      <obj_property name="ElementShortName">layer1_waddr_base_arr[5:0][9:0]</obj_property>
-      <obj_property name="ObjectShortName">layer1_waddr_base_arr[5:0][9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_base_arr[5]">
-         <obj_property name="ElementShortName">[5][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[5][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_base_arr[4]">
-         <obj_property name="ElementShortName">[4][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[4][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_base_arr[3]">
-         <obj_property name="ElementShortName">[3][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[3][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_base_arr[2]">
-         <obj_property name="ElementShortName">[2][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[2][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_base_arr[1]">
-         <obj_property name="ElementShortName">[1][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[1][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr_base_arr[0]">
-         <obj_property name="ElementShortName">[0][9:0]</obj_property>
-         <obj_property name="ObjectShortName">[0][9:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_waddr">
-      <obj_property name="ElementShortName">layer1_waddr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">layer1_waddr[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/gen_transfer_to_layer1/layer1_we">
-      <obj_property name="ElementShortName">layer1_we</obj_property>
-      <obj_property name="ObjectShortName">layer1_we</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/ap_clk">
-      <obj_property name="ElementShortName">ap_clk</obj_property>
-      <obj_property name="ObjectShortName">ap_clk</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/clk_240">
-      <obj_property name="ElementShortName">clk_240</obj_property>
-      <obj_property name="ObjectShortName">clk_240</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/wr_en">
-      <obj_property name="ElementShortName">wr_en</obj_property>
-      <obj_property name="ObjectShortName">wr_en</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/empty">
-      <obj_property name="ElementShortName">empty</obj_property>
-      <obj_property name="ObjectShortName">empty</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/rd_en">
-      <obj_property name="ElementShortName">rd_en</obj_property>
-      <obj_property name="ObjectShortName">rd_en</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/algorithm_tb/tmux_wrapper_entity/gen_link_object_buffer/layer1_buffers/\gen_layer1_buffers(0)\/layer1_buffer/layer0_fifo/dout">
-      <obj_property name="ElementShortName">dout[63:0]</obj_property>
-      <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
 </wave_config>

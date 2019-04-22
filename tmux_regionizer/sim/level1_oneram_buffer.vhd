@@ -90,7 +90,7 @@ architecture Behavioral of level1_oneram_buffer is
     
     signal layer0_din               : raw_phyiscs_object_t;
     signal layer0_dout              : raw_phyiscs_object_t;
-    signal layer1_dout              : raw_phyiscs_object_t;
+    signal level1_dout              : raw_phyiscs_object_t;
     
     signal layer0_rd_big_region_end : std_logic;
     
@@ -170,26 +170,26 @@ begin
 
    
     -- ==========================================================================================
-    gen_transfer_to_layer1 : if TRUE generate
+    gen_transfer_to_level1 : if TRUE generate
     
         constant    BRAM_SMALL_REGION_STEP_SIZE : natural := 170; --1024/6         
         constant    LAYER_REGION_COUNT          : natural := 6;
                 
-        signal      layer1_we                   : std_logic := '0';
+        signal      level1_we                   : std_logic := '0';
         signal      layer0_rd_en_sig            : std_logic := '0';
         signal      layer0_rd_en_latch          : std_logic;
         
-        signal      layer1_waddr                : std_logic_vector(LAYER_BRAM_ADDR_SIZE-1 downto 0);
+        signal      level1_waddr                : std_logic_vector(LAYER_BRAM_ADDR_SIZE-1 downto 0);
         
-        type layer1_small_region_waddr_arr_t is array(integer range <>) of unsigned(LAYER_BRAM_ADDR_SIZE-1 downto 0);
-        signal      layer1_waddr_arr            : layer1_small_region_waddr_arr_t(LAYER_REGION_COUNT-1 downto 0);
-        signal      layer1_waddr_base_arr       : layer1_small_region_waddr_arr_t(LAYER_REGION_COUNT-1 downto 0);
-        signal      layer1_waddr_big_region_end_arr       : layer1_small_region_waddr_arr_t(LAYER_REGION_COUNT-1 downto 0);
+        type level1_small_region_waddr_arr_t is array(integer range <>) of unsigned(LAYER_BRAM_ADDR_SIZE-1 downto 0);
+        signal      level1_waddr_arr            : level1_small_region_waddr_arr_t(LAYER_REGION_COUNT-1 downto 0);
+        signal      level1_waddr_base_arr       : level1_small_region_waddr_arr_t(LAYER_REGION_COUNT-1 downto 0);
+        signal      level1_waddr_big_region_end_arr       : level1_small_region_waddr_arr_t(LAYER_REGION_COUNT-1 downto 0);
         
-        signal      layer1_raddr                : std_logic_vector(LAYER_BRAM_ADDR_SIZE-1 downto 0);
-        signal      layer1_din                  : std_logic_vector(PHYSICS_OBJECT_BIT_SIZE-1 downto 0);
+        signal      level1_raddr                : std_logic_vector(LAYER_BRAM_ADDR_SIZE-1 downto 0);
+        signal      level1_din                  : std_logic_vector(PHYSICS_OBJECT_BIT_SIZE-1 downto 0);
         
-        signal      layer1_transfer_state       : unsigned(7 downto 0) := (others => '0');
+        signal      level1_transfer_state       : unsigned(7 downto 0) := (others => '0');
         
         signal      layer0_eta_phi_index_object : get_eta_phi_small_region_t;
         signal      layer0_rd_object_latch      : physics_object_t;
@@ -202,8 +202,8 @@ begin
     
         layer0_rd_en                        <= layer0_rd_en_sig and (not layer0_empty);
         
-        transfer_to_layer1_buffer_process : process(clk240)
-            variable layer1_waddr_base          : unsigned(LAYER_BRAM_ADDR_SIZE-1 downto 0) := (others => '0');
+        transfer_to_level1_buffer_process : process(clk240)
+            variable level1_waddr_base          : unsigned(LAYER_BRAM_ADDR_SIZE-1 downto 0) := (others => '0');
             variable s                          : natural; --small region index shorthand
         begin
             
@@ -211,20 +211,20 @@ begin
             
                 s                           := layer0_eta_phi_index_object.eta_phi_small_region;
                 layer0_rd_en_sig            <= '0';
-                layer1_we                   <= '0';
+                level1_we                   <= '0';
                 layer0_rd_en_latch          <= layer0_rd_en; --monitor when read enable actually happens
                 
 -- ============= -- primary reset or not if statement         
                 if (reset = '1') then                
-                    layer1_transfer_state                   <= (others => '0');
+                    level1_transfer_state                   <= (others => '0');
                     layer0_eta_phi_index_object.is_another  <= '0';
                     
                     --initialize write address arrays
                     for i in 0 to LAYER_REGION_COUNT-1 loop
-                        layer1_waddr_arr(i)                 <= layer1_waddr_base;
-                        layer1_waddr_base_arr(i)            <= layer1_waddr_base;
-                        layer1_waddr_big_region_end_arr(i)  <= layer1_waddr_base;
-                        layer1_waddr_base                   := layer1_waddr_base + BRAM_SMALL_REGION_STEP_SIZE; 
+                        level1_waddr_arr(i)                 <= level1_waddr_base;
+                        level1_waddr_base_arr(i)            <= level1_waddr_base;
+                        level1_waddr_big_region_end_arr(i)  <= level1_waddr_base;
+                        level1_waddr_base                   := level1_waddr_base + BRAM_SMALL_REGION_STEP_SIZE; 
                     end loop;
                     
                 else --not reset 
@@ -234,40 +234,40 @@ begin
                     --  write to next RAM position for small region
                     --      writing means controlling the write address
                     --  if another small region, get it, and repeat 
-                    if(layer0_rd_en_latch = '0' and layer1_transfer_state = 1) then --ignore read on empty fifo
+                    if(layer0_rd_en_latch = '0' and level1_transfer_state = 1) then --ignore read on empty fifo
                         layer0_eta_phi_index_object.is_another  <= '0'; --clear
-                        layer1_transfer_state                   <= (others => '0'); --reset transfer state    
-                    elsif(layer1_transfer_state > 0) then
+                        level1_transfer_state                   <= (others => '0'); --reset transfer state    
+                    elsif(level1_transfer_state > 0) then
                     
                         -- write to RAM position associated with small region
-                        layer1_waddr            <= std_logic_vector(layer1_waddr_arr(s));
-                        layer1_we               <= '1';
+                        level1_waddr            <= std_logic_vector(level1_waddr_arr(s));
+                        level1_we               <= '1';
                         
                         --capture end waddrs for every small region at end of big region
                         if(layer0_rd_big_region_end_latch = '1') then
                             for i in 0 to LAYER_REGION_COUNT-1 loop
-                                layer1_waddr_big_region_end_arr(i) <= layer1_waddr_arr(i); 
+                                level1_waddr_big_region_end_arr(i) <= level1_waddr_arr(i); 
                             end loop;
                         end if;
                         
                         -- and increment write address
-                        if(layer1_waddr_arr(s) + 1 < 
-                            layer1_waddr_base_arr(s) + BRAM_SMALL_REGION_STEP_SIZE) then
-                            layer1_waddr_arr(s) <= layer1_waddr_arr(s) + 1;
+                        if(level1_waddr_arr(s) + 1 < 
+                            level1_waddr_base_arr(s) + BRAM_SMALL_REGION_STEP_SIZE) then
+                            level1_waddr_arr(s) <= level1_waddr_arr(s) + 1;
                         else -- wrap around case
-                            layer1_waddr_arr(s) <= layer1_waddr_base_arr(s);
+                            level1_waddr_arr(s) <= level1_waddr_base_arr(s);
                         end if;   
                         
                         -- if another, go on, else check for another physics object
                         if(layer0_eta_phi_index_object.is_another = '1') then
-                            layer1_transfer_state <= layer1_transfer_state + 1;
+                            level1_transfer_state <= level1_transfer_state + 1;
                             layer0_eta_phi_index_object <= 
                                 get_eta_phi_small_region(
                                     layer0_rd_object_latch.eta,
                                     layer0_rd_object_latch.phi,
-                                    to_integer(layer1_transfer_state)); -- get next overlapping small region   
+                                    to_integer(level1_transfer_state)); -- get next overlapping small region   
                         else
-                            layer1_transfer_state <= (others => '0'); --reset transfer state
+                            level1_transfer_state <= (others => '0'); --reset transfer state
                         end if;
                         
                         
@@ -280,7 +280,7 @@ begin
                     if(layer0_eta_phi_index_object.is_another = '0' and 
                         layer0_empty = '0') then -- have new data!
                         
-                        layer1_transfer_state       <= (0 => '1', others => '0'); -- proceed to state = 1
+                        level1_transfer_state       <= (0 => '1', others => '0'); -- proceed to state = 1
                         layer0_rd_object_latch      <= layer0_rd_object;
                         layer0_rd_big_region_end_latch <= layer0_rd_big_region_end;
                         layer0_rd_en_sig            <= '1'; --retrieve next data from layer0                        
@@ -317,19 +317,19 @@ begin
                 
             end if; --end rising edge if
        
-        end process transfer_to_layer1_buffer_process;   
+        end process transfer_to_level1_buffer_process;   
         
         
-        layer1_din(63)                        <= layer0_rd_object_latch.quality;
-        layer1_din(62)                        <= '0';
-        layer1_din(52)                        <= layer0_rd_object_latch.lsEM;
-        layer1_din(61 downto 52)              <= std_logic_vector(layer0_rd_object_latch.z0);
-        layer1_din(51 downto 42)              <= std_logic_vector(layer0_rd_object_latch.phi);
-        layer1_din(41 downto 32)              <= std_logic_vector(layer0_rd_object_latch.eta);
-        layer1_din(31 downto 16)              <= std_logic_vector(layer0_rd_object_latch.otherPt);
-        layer1_din(15 downto 0)               <= std_logic_vector(layer0_rd_object_latch.pt);
+        level1_din(63)                        <= layer0_rd_object_latch.quality;
+        level1_din(62)                        <= '0';
+        level1_din(52)                        <= layer0_rd_object_latch.lsEM;
+        level1_din(61 downto 52)              <= std_logic_vector(layer0_rd_object_latch.z0);
+        level1_din(51 downto 42)              <= std_logic_vector(layer0_rd_object_latch.phi);
+        level1_din(41 downto 32)              <= std_logic_vector(layer0_rd_object_latch.eta);
+        level1_din(31 downto 16)              <= std_logic_vector(layer0_rd_object_latch.otherPt);
+        level1_din(15 downto 0)               <= std_logic_vector(layer0_rd_object_latch.pt);
         
-        layer1_bram: physics_object_bram
+        level1_bram: physics_object_bram
             port map (
 --                clka : IN STD_LOGIC;
 --                wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
@@ -342,18 +342,18 @@ begin
 --                dinb : IN STD_LOGIC_VECTOR(63 DOWNTO 0);
 --                doutb : OUT STD_LOGIC_VECTOR(63 DOWNTO 0)
                 clka                => clk240,
-                wea(0)              => layer1_we,
-                addra               => layer1_waddr,
-                dina                => layer1_din,
+                wea(0)              => level1_we,
+                addra               => level1_waddr,
+                dina                => level1_din,
                 douta               => open,
                 clkb                => clk240,
                 web(0)              => '0',
-                addrb               => layer1_raddr,
+                addrb               => level1_raddr,
                 dinb                => (others => '0'),
-                doutb               => layer1_dout
+                doutb               => level1_dout
             );  
 
-    end generate gen_transfer_to_layer1;
+    end generate gen_transfer_to_level1;
     
           
 end Behavioral;

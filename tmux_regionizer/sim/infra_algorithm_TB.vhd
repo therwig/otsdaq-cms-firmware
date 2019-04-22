@@ -139,7 +139,7 @@ begin
 					   
 		sim_fiber_reader_entity: FILE_READ
 			generic map(
-				stim_file => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/sim_data/sim_input_fiber_"&integer'image(fiber_index)&".dat",
+				stim_file => "/home/rrivera/CMSCorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim/sim_data/sim_input_fiber_"&integer'image(fiber_index)&".dat",
 				BIT_WIDTH => INPUT_WORD_SIZE
 			)
 			port map(

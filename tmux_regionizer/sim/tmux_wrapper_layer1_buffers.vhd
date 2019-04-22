@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 04/01/2019 11:23:13 AM
 -- Design Name: 
--- Module Name: tmux_wrapper_layer1_buffers - Behavioral
+-- Module Name: tmux_wrapper_level1_buffers - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -29,7 +29,7 @@ use work.tmux_params_pkg.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity tmux_wrapper_layer1_buffers is
+entity tmux_wrapper_level1_buffers is
    generic (
         LINK_COUNT              : natural := MAX_FIBER_COUNT
    );
@@ -43,9 +43,9 @@ entity tmux_wrapper_layer1_buffers is
         link_object_in          : in physics_object_arr_t (LINK_COUNT-1 downto 0);
         link_object_we_in       : in std_logic_vector (LINK_COUNT-1 downto 0);
         layer2_token_in         : in std_logic_vector (5 downto 0));
-end tmux_wrapper_layer1_buffers;
+end tmux_wrapper_level1_buffers;
 
-architecture Behavioral of tmux_wrapper_layer1_buffers is
+architecture Behavioral of tmux_wrapper_level1_buffers is
 
 begin
 
@@ -64,9 +64,9 @@ begin
     -- 
 
 
-    gen_layer1_buffers : for i in 0 to LINK_COUNT-1 generate
+    gen_level1_buffers : for i in 0 to LINK_COUNT-1 generate
     begin
-        layer1_buffer: entity work.tmux_wrapper_layer1_buffer
+        level1_buffer: entity work.tmux_wrapper_level1_buffer
             port map (
                 reset                           => reset,
                 clk120                          => clk120,

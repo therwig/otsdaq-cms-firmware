@@ -1,0 +1,2 @@
+algo_object_bram.v,verilog,work,../../../ip/algo_object_bram/sim/algo_object_bram.v,
+glbl.v,Verilog,work,glbl.v

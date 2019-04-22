@@ -1,0 +1,6 @@
+verilog work  \
+"../../../ip/physics_object_bram/sim/physics_object_bram.v" \
+
+verilog work "glbl.v"
+
+nosort

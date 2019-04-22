@@ -1,0 +1,6 @@
+verilog work  \
+"../../../ip/algo_object_bram/sim/algo_object_bram.v" \
+
+verilog work "glbl.v"
+
+nosort

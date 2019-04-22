@@ -89,7 +89,7 @@ begin
         signal layer2_waddr             : std_logic_vector(LAYER_BRAM_ADDR_SIZE-1 DOWNTO 0);
     begin
     
-        layer1_bram: physics_object_bram
+        level1_bram: physics_object_bram
                 port map (
     --                clka : IN STD_LOGIC;
     --                wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);

@@ -23,6 +23,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 use ieee.std_logic_misc.all;
+
 use work.tmux_params_pkg.all;
 
 -- Uncomment the following library declaration if instantiating
@@ -36,13 +37,16 @@ entity level2_pipelined_buffer is
         OUT_OBJECT_COUNT        : integer := ALGO_MAX_DETECTOR_OBJECTS
     );
     port ( 
-        reset                   : in std_logic;
-        level_1to2_clk          : in std_logic;
-        level_2toAlgo_clk       : in std_logic; 
-        layer2_we_in            : in std_logic_vector(IN_OBJECT_COUNT-1 downto 0);
-        layer2_data_in          : in raw_phyiscs_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
-                
-        layer2_data_out         : out raw_phyiscs_object_arr_t(OUT_OBJECT_COUNT-1 downto 0)
+        
+        clk_level1_to_2         : in std_logic;
+        
+        level2_din_valid        : in std_logic_vector(IN_OBJECT_COUNT-1 downto 0);
+        level2_din              : in raw_phyiscs_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
+        
+        level2_dout_valid       : out std_logic;         
+        level2_dout             : out raw_phyiscs_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
+        
+        reset                   : in std_logic        
     );
 end level2_pipelined_buffer;
 
@@ -63,7 +67,7 @@ begin
     --
     --  When Level-1 identifies a big-region has closed,
     --      all Level-1 RAMs for a detector write simultaneously to pipeline in.
-    --      e.g. 30 links x 18 RAMs =  540  x 64b words in.  
+    --      e.g. 10 links x 18 RAMs =  180  x 64b words in.  
     --      The first clock with we '1' is small-region[0] objects, then
     --          the next clock in is small-region[1], and so on.
     --          There must be enough clocks to finish all small-regions in the big
@@ -85,17 +89,45 @@ begin
     --      at the end of the pipeline.
     --    
     
-    pipeline_process: process(level_1to2_clk)
+    -- ========================================
+    pipeline_process: process(clk_level1_to_2)
     begin
     
-        if (rising_edge(level_1to2_clk)) then
+        if (rising_edge(clk_level1_to_2)) then
         
-            pipeline_valid <= pipeline_valid(PIPE_LINE_STAGES-2 downto 0) & layer2_we_in;
+            pipeline_valid <= pipeline_valid(PIPE_LINE_STAGES-2 downto 0) & 
+                or_reduce(level2_din_valid);
             
-            if(layer2_we_in)
-                pipeline(0) <=  
+            --by default, take input when valid and shift pipeline down,
+            --  override with special behavior
+            pipeline(PIPE_LINE_STAGES-1 downto 1) <= pipeline(PIPE_LINE_STAGES-2 downto 0);
+            for i in 0 to IN_OBJECT_COUNT-1 loop
+                if(level2_din_valid(i) = '1') then
+                    pipeline(0)(i) <= level2_din(i);
+                else
+                    pipeline(0)(i) <= (others => '0');
+                end if;
+            end loop;
             
-        
+            -- could just do HLS sort of IN_OBJECT_COUNT --> high OUT_OBJECT_COUNT
+            --  
+--              for ( int i=0; i < OUT_OBJECT_COUNT; ++i) 
+--              {
+--                  max = 0;
+--                  maxj = -1;
+--                  for( int j=i; j < IN_OBJECT_COUNT; ++j)
+--                  {
+--                      if(data[j] > max) 
+--                          { max = data[j]; maxj = j; }
+--                  }            --     
+--                  tmp = data[i];
+--                  data[i] = data[maxj];
+--                  data[maxj] = tmp;          
+--              }
+            
+            
+            
+            
         end if; --end rising_edge
     
     end process pipeline_process;

@@ -1,0 +1,2 @@
+raw_link_buffer_layer0.v,verilog,work,../../../ip/raw_link_buffer_layer0/sim/raw_link_buffer_layer0.v,
+glbl.v,Verilog,work,glbl.v

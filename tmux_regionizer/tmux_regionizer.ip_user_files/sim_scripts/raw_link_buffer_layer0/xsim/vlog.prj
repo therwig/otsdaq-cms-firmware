@@ -1,0 +1,6 @@
+verilog work  \
+"../../../ip/raw_link_buffer_layer0/sim/raw_link_buffer_layer0.v" \
+
+verilog work "glbl.v"
+
+nosort

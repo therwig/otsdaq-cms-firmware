@@ -4,7 +4,7 @@
 -- 
 -- Create Date: 04/01/2019 11:23:13 AM
 -- Design Name: 
--- Module Name: level2_pipelined_buffers - Behavioral
+-- Module Name: level2_ram_buffers - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -34,7 +34,7 @@ use work.tmux_params_pkg.all;
 ----------------------------------------------------------------------------------
 
 
-entity level2_pipelined_buffers is
+entity level2_ram_buffers is
     port ( 
         reset                   : in std_logic;
         level_1to2_clk          : in std_logic;
@@ -44,9 +44,9 @@ entity level2_pipelined_buffers is
                 
         layer2_token_start      : out std_logic_vector (INPUT_FIBERS-1 downto 0)
     );
-end level2_pipelined_buffers;
+end level2_ram_buffers;
 
-architecture Behavioral of level2_pipelined_buffers is
+architecture Behavioral of level2_ram_buffers is
 
     component level2_ram_buffer
         generic (

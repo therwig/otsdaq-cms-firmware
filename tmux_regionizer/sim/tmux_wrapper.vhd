@@ -36,28 +36,63 @@ end;
    
 architecture arch of tmux_wrapper is
   
-    component tmux_wrapper_layer1_buffers    
+    component tmux_clocks 
+           port (
+               reset                    : in std_logic;
+               clk_in1                  : in std_logic;
+               clk_40                   : out std_logic;
+               clk_240                  : out std_logic;
+               clk_360                  : out std_logic;
+               locked                   : out std_logic
+           );
+    end component tmux_clocks;
+    
+    component level1_multiram_buffers    
            generic (
-               LINK_COUNT   : integer     
+               LINK_COUNT               : integer     
            );
            port (
-               reset                   : in std_logic;
-               clk120                  : in std_logic;
-               clk240                  : in std_logic; 
-               link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
-               link_object_in          : in physics_object_arr_t (LINK_COUNT-1 downto 0);
-               link_object_we_in       : in std_logic_vector (LINK_COUNT-1 downto 0);
-               layer2_token_in         : in std_logic_vector (5 downto 0)
+               
+                clk_link_to_level1       : in std_logic; 
+               
+                link_big_region_end      : in std_logic_vector (LINK_COUNT-1 downto 0);
+               
+                link_object_we_in        : in std_logic_vector (LINK_COUNT-1 downto 0);
+                link_object_in           : in physics_object_arr_t (LINK_COUNT-1 downto 0);
+               
+                level2_re_in             : in std_logic_vector(FIBER_GROUPS-1 downto 0);
+                level2_eta_phi_rindex    : in get_eta_phi_small_region_t;
+                
+                objects_out_valid        : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                objects_out              : out raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                
+                overflow_error           : out std_logic;
+                reset                    : in std_logic
            );
-    end component;
+    end component level1_multiram_buffers;
  
-    component tmux_wrapper_layer2_buffers 
-           port (
-               reset                   : in std_logic;
-               clk120                  : in std_logic;
-               clk240                  : in std_logic
-           );
-    end component;
+    component level2_pipelined_buffers 
+        generic (
+            LINK_COUNT              : integer := MAX_FIBER_COUNT
+        );
+        port ( 
+            
+            clk_level1_to_2         : in std_logic;
+            
+            link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
+             
+            level2_re               : out std_logic_vector(FIBER_GROUPS-1 downto 0);
+            level2_eta_phi_rindex   : out get_eta_phi_small_region_t;
+                   
+            level2_din_valid        : in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+            level2_din              : in raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+            
+            level2_dout_valid       : out std_logic;
+            level2_dout             : out raw_phyiscs_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
+                    
+            reset                   : in std_logic
+        );
+    end component level2_pipelined_buffers;
     
 --    component algo_unpacked
 --    port (
@@ -253,31 +288,35 @@ architecture arch of tmux_wrapper is
 --    signal tmux_algo_in : algo_tmux_buffer_t;
 
     -- map tmux_algo_in on algo_in since naming of inputs and outputs to HLS component already done
-    signal algo_in      : algo_input_t;
+    signal algo_in                      : algo_input_t;
   
 --    constant RESET_DELAY : natural := 23;
 --    signal ap_rst_delay : std_logic_vector(RESET_DELAY-1 downto 0) := (others => '1');
-    signal has_reset : std_logic := '0';
+    signal has_reset                    : std_logic := '0';
     
     
-    constant EVENT_BUFFER_COUNT   : natural := 3;
-    signal event_buffers : event_small_region_phi_eta_buffer_arr_t(EVENT_BUFFER_COUNT-1 downto 0);
+    constant EVENT_BUFFER_COUNT         : natural := 3;
+    signal event_buffers                : event_small_region_phi_eta_buffer_arr_t(EVENT_BUFFER_COUNT-1 downto 0);
     
-    signal clk_40, clk_240                  : std_logic;
+    signal clk_40, clk_240, clk_360     : std_logic;
 begin
 
     algo_in_debug <= algo_in;
 
 
-    clk_tmux : entity work.tmux_clocks 
+    clk_tmux : tmux_clocks 
         port map(
+        
             -- Clock out ports
-            reset => ap_rst,
-            clk_40 => clk_40,
+            clk_40      => clk_40,
             --clk_120 => open,
-            clk_240 => clk_240,
+            clk_240     => clk_240,
+            clk_360     => clk_360,
+            locked      => open,
+            
             -- Clock in ports
-            clk_in1 => ap_clk
+            reset       => ap_rst,
+            clk_in1     => ap_clk
         );        
     
     process(ap_clk) is
@@ -311,10 +350,10 @@ begin
     --          19:10   := phi
     --          9:0     := eta
     
-    gen_physics_object_buffer_layers : if TRUE generate
+    gen_physics_object_buffer_levels : if TRUE generate
     
-        signal link_objects_to_layer1           : physics_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0);
-        signal link_objects_to_layer1_we        : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0) := (others => '0');
+        signal link_objects_to_level1           : physics_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0);
+        signal link_objects_to_level1_we        : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0) := (others => '0');
         signal link_big_region_ends             : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0) := (others => '0');
         
     begin
@@ -346,14 +385,14 @@ begin
                 link_data           <= link_in_master(l).tdata;
                 link_data_valid     <= link_in_master(l).tvalid;
                 
-                link_layer0_buffer_transfer_process : process(ap_clk)
+                link_level0_buffer_transfer_process : process(ap_clk)
                 begin
                 
                     if(rising_edge(ap_clk)) then
                             
                         --this fiber controls a physics object and a we
-                        link_objects_to_layer1_we(l)    <= '0'; 
-                        link_objects_to_layer1(l)       <= null_physics_object;  
+                        link_objects_to_level1_we(l)    <= '0'; 
+                        link_objects_to_level1(l)       <= null_physics_object;  
                         
                         link_big_region_ends(l)         <= '0';
                         
@@ -415,8 +454,8 @@ begin
                                         
                                         source_fiber        => l,
                                         source_event_index  => link_event_index,
-                                        small_region_phi    => 2147483647,
-                                        small_region_eta    => 2147483647
+                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
+                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
                                     ); 
                                 elsif (link_cycle_state = 1) then
                                 
@@ -424,15 +463,15 @@ begin
                                         phi                 => signed(link_data(0 + 19 downto 0 + 10)),
                                         eta                 => signed(link_data(0 + 9 downto 0 + 0)),
                                         quality             =>        link_data(0 + 31),
-                                        lsEM              =>        link_data(0 + 20),
+                                        lsEM                =>        link_data(0 + 20),
                                         z0                  => signed(link_data(0 + 29 downto 0 + 20)),
                                         otherPt             => link_physics_object_buffer(0).otherPt,
                                         pt                  => link_physics_object_buffer(0).pt,
                                         
                                         source_fiber        => l,
                                         source_event_index  => link_event_index,
-                                        small_region_phi    => 2147483647,
-                                        small_region_eta    => 2147483647
+                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
+                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
                                     );
                                     link_physics_object_buffer(1)   <= (
                                         phi                 => (others => '0'),
@@ -445,8 +484,8 @@ begin
                                         
                                         source_fiber        => l,
                                         source_event_index  => link_event_index,
-                                        small_region_phi    => 2147483647,
-                                        small_region_eta    => 2147483647
+                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
+                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
                                     );
                                 elsif (link_cycle_state = 2) then
                                                                 
@@ -461,8 +500,8 @@ begin
                                         
                                         source_fiber        => l,
                                         source_event_index  => link_event_index,
-                                        small_region_phi    => 2147483647,
-                                        small_region_eta    => 2147483647
+                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
+                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
                                     ); 
                                     link_physics_object_buffer(0)   <= (
                                         phi                 => (others => '0'),
@@ -475,8 +514,8 @@ begin
                                         
                                         source_fiber        => l,
                                         source_event_index  => link_event_index,
-                                        small_region_phi    => 2147483647,
-                                        small_region_eta    => 2147483647
+                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
+                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
                                     );  
                                     
                                  elsif (link_cycle_state = 3) then
@@ -494,8 +533,8 @@ begin
                                         
                                         source_fiber        => l,
                                         source_event_index  => link_event_index,
-                                        small_region_phi    => 2147483647,
-                                        small_region_eta    => 2147483647
+                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
+                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
                                     );  
                                     
                                  elsif (link_cycle_state = 4) then
@@ -511,8 +550,8 @@ begin
                                         
                                         source_fiber        => l,
                                         source_event_index  => link_event_index,
-                                        small_region_phi    => 2147483647,
-                                        small_region_eta    => 2147483647
+                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
+                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
                                     ); 
                                     
                                  elsif (link_cycle_state = 5) then
@@ -530,8 +569,8 @@ begin
                                         
                                         source_fiber        => l,
                                         source_event_index  => link_event_index,
-                                        small_region_phi    => 2147483647,
-                                        small_region_eta    => 2147483647
+                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
+                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
                                     ); 
                                  
                                 end if; --end link_cycle
@@ -547,38 +586,38 @@ begin
                             if (link_data_valid_delay = '1') then
                                 if(link_cycle_state = 2 and link_physics_object_buffer(0).pt /= 0) then --first valid buffer
                                 
-                                    link_objects_to_layer1_we(l) <= '1';
-                                    link_objects_to_layer1(l) <= link_physics_object_buffer(0);
+                                    link_objects_to_level1_we(l) <= '1';
+                                    link_objects_to_level1(l) <= link_physics_object_buffer(0);
                                  
-                                    --                                 link_objects_to_layer1(l).small_region_phi <= 
+                                    --                                 link_objects_to_level1(l).small_region_phi <= 
                                     --                                     get_phi_small_region_index(link_physics_object_buffer(1).phi);
-                                    --                                 link_objects_to_layer1(l).small_region_eta <= 
+                                    --                                 link_objects_to_level1(l).small_region_eta <= 
                                     --                                     get_eta_small_region_index(link_physics_object_buffer(1).eta);
                                     
                                     link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write)
                                     
                                 elsif(link_cycle_state = 3 and link_physics_object_buffer(1).pt /= 0) then --first valid buffer
                                                                     
-                                    link_objects_to_layer1_we(l) <= '1';
-                                    link_objects_to_layer1(l) <= link_physics_object_buffer(1);
+                                    link_objects_to_level1_we(l) <= '1';
+                                    link_objects_to_level1(l) <= link_physics_object_buffer(1);
                                     link_physics_object_buffer(1).pt <= (others => '0');  --  clear pt to 0 (null object after write) 
                                     
                                 elsif(link_cycle_state = 4 and link_physics_object_buffer(0).pt /= 0) then --first valid buffer
                                                                     
-                                    link_objects_to_layer1_we(l) <= '1';
-                                    link_objects_to_layer1(l) <= link_physics_object_buffer(0);
+                                    link_objects_to_level1_we(l) <= '1';
+                                    link_objects_to_level1(l) <= link_physics_object_buffer(0);
                                     link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write) 
                                     
                                 elsif(link_cycle_state = 5 and link_physics_object_buffer(0).pt /= 0) then --first valid buffer
                                                                     
-                                    link_objects_to_layer1_we(l) <= '1';
-                                    link_objects_to_layer1(l) <= link_physics_object_buffer(0);
+                                    link_objects_to_level1_we(l) <= '1';
+                                    link_objects_to_level1(l) <= link_physics_object_buffer(0);
                                     link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write) 
                                     
                                 elsif(link_cycle_state = 0 and link_physics_object_buffer(0).pt /= 0) then --first valid buffer
                                                                     
-                                    link_objects_to_layer1_we(l) <= '1';
-                                    link_objects_to_layer1(l) <= link_physics_object_buffer(0);
+                                    link_objects_to_level1_we(l) <= '1';
+                                    link_objects_to_level1(l) <= link_physics_object_buffer(0);
                                     link_physics_object_buffer(0).pt <= (others => '0');  --  clear pt to 0 (null object after write) 
                                 
                                 end if; --end link cycle state if
@@ -589,41 +628,98 @@ begin
 -- ===================== -- primary reset or not if statement
                     end if; --end rising edge if
                     
-                end process link_layer0_buffer_transfer_process;
+                end process link_level0_buffer_transfer_process;
             end generate gen_fiber_buffer;
         end generate gen_fiber_group_buffer;
     
     
-        gen_object_buffer_layers_1_and_2 : if TRUE generate
+        -- ========================= 
+        gen_object_buffer_levels_1_and_2 : if TRUE generate
+        
+            signal level2_re                        : std_logic_vector(FIBER_GROUPS-1 downto 0);
+            signal level2_eta_phi_rindex            : get_eta_phi_small_region_t;
+            
+            signal level2_din_valid                 : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
+            signal level2_din                       : raw_phyiscs_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
+            
         begin
-            layer1_buffers : tmux_wrapper_layer1_buffers    
+            level1_buffers : level1_multiram_buffers    
                 generic map (
                     LINK_COUNT => FIBER_GROUPS * FIBERS_IN_GROUP 
                 )
                 port map (
-                    reset                           => ap_rst,
-                    clk120                          => ap_clk,
-                    clk240                          => clk_240,
                     
-                    link_big_region_end             => link_big_region_ends,
+                    clk_link_to_level1       => ap_clk,                         --: in std_logic; 
+               
+                    link_big_region_end      => link_big_region_ends,           --: in std_logic_vector (LINK_COUNT-1 downto 0);
+                   
+                    link_object_we_in        => link_objects_to_level1_we,      --: in std_logic_vector (LINK_COUNT-1 downto 0);
+                    link_object_in           => link_objects_to_level1,         --: in physics_object_arr_t (LINK_COUNT-1 downto 0);
+                   
+                    level2_re_in             => level2_re,                      --: in std_logic_vector(FIBER_GROUPS-1 downto 0);
+                    level2_eta_phi_rindex    => level2_eta_phi_rindex,          --: in get_eta_phi_small_region_t;
                     
-                    link_object_in                  => link_objects_to_layer1,
-                    link_object_we_in               => link_objects_to_layer1_we,
-                    layer2_token_in                 => (others => '0')
+                    objects_out_valid        => level2_din_valid,               --: out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                    objects_out              => level2_din,                     --: out raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                    
+                    overflow_error           => open,                           --: out std_logic;
+                    reset                    => ap_rst                          --: in std_logic                  
                 );
-            layer2_buffers : tmux_wrapper_layer2_buffers 
-                port map (
-                    reset                           => ap_rst,
-                    clk120                          => ap_clk,
-                    clk240                          => clk_240--,
-                    --link_object_in                  => link_objects_to_layer1,
-                    --link_object_we_in               => link_objects_to_layer1_we,
-                    --layer2_token_in                 => (others => '0')
+                
+            level2_buffers : level2_pipelined_buffers 
+                generic map (
+                    LINK_COUNT => FIBER_GROUPS * FIBERS_IN_GROUP --: integer := MAX_FIBER_COUNT
+                )
+                port map ( 
+                    clk_level1_to_2          => ap_clk,                         --: in std_logic; 
+               
+                    link_big_region_end      => link_big_region_ends,           --: in std_logic_vector (LINK_COUNT-1 downto 0);
+                   
+                    level2_re                => level2_re,                      --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
+                    level2_eta_phi_rindex    => level2_eta_phi_rindex,          --: out get_eta_phi_small_region_t;
+                    
+                    level2_din_valid         => level2_din_valid,               --: in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                    level2_din               => level2_din,                     --: in raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                    
+                    level2_dout_valid        => open,                           --: out std_logic;
+                    level2_dout              => open,                           --: out raw_phyiscs_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
+                    
+                    reset                    => ap_rst                          --: in std_logic
                 );
             
-        end generate gen_object_buffer_layers_1_and_2;
+        end generate gen_object_buffer_levels_1_and_2;
         
-   end generate gen_physics_object_buffer_layers; 
+        -- ========================= 
+--        gen_object_buffer_levels_1_and_2 : if FALSE generate
+--        begin
+--            level1_buffers : tmux_wrapper_level1_buffers    
+--                generic map (
+--                    LINK_COUNT => FIBER_GROUPS * FIBERS_IN_GROUP 
+--                )
+--                port map (
+--                    reset                           => ap_rst,
+--                    clk120                          => ap_clk,
+--                    clk240                          => clk_240,
+                    
+--                    link_big_region_end             => link_big_region_ends,
+                    
+--                    link_object_in                  => link_objects_to_level1,
+--                    link_object_we_in               => link_objects_to_level1_we,
+--                    level2_token_in                 => (others => '0')
+--                );
+--            level2_buffers : tmux_wrapper_level2_buffers 
+--                port map (
+--                    reset                           => ap_rst,
+--                    clk120                          => ap_clk,
+--                    clk240                          => clk_240--,
+--                    --link_object_in                  => link_objects_to_level1,
+--                    --link_object_we_in               => link_objects_to_level1_we,
+--                    --level2_token_in                 => (others => '0')
+--                );
+            
+--        end generate gen_object_buffer_levels_1_and_2;
+        
+   end generate gen_physics_object_buffer_levels; 
         
    
      
