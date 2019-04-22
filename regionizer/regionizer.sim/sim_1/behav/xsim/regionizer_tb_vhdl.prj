@@ -1,0 +1,16 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../sim/algo_pkg.vhd" \
+"../../../../sim/tmux_params_pkg.vhd" \
+"../../../../sim/level1_multiram_buffer.vhd" \
+"../../../../sim/level1_multiram_buffers.vhd" \
+"../../../../sim/level1_uram_buffer.vhd" \
+"../../../../sim/level2_pipelined_buffer.vhd" \
+"../../../../sim/level2_pipelined_buffers.vhd" \
+"../../../../sim/tmux_wrapper.vhd" \
+"../../../../sim/txt_util.vhd" \
+"../../../../sim/sim_file_read.vhd" \
+"../../../../sim/regionizer_TB.vhd" \
+
+# Do not sort compile order
+nosort

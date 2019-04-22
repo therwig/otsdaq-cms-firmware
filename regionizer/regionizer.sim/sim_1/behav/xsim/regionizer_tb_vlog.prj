@@ -1,0 +1,10 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../regionizer.srcs/sources_1/ip/tmux_clocks" \
+"../../../../regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks_clk_wiz.v" \
+"../../../../regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="regionizer_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="algo_pkg" />
+            <top_module name="glbl" />
+            <top_module name="regionizer_tb" />
+            <top_module name="tmux_params_pkg" />
+            <top_module name="txt_util" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="74500001fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="241"></NameColumnWidth>
+      <ValueColumnWidth column_width="185"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="10" />
+   <wave_markers>
+      <marker label="" time="745714000" />
+   </wave_markers>
+   <wvobject type="logic" fp_name="/regionizer_tb/data_clk">
+      <obj_property name="ElementShortName">data_clk</obj_property>
+      <obj_property name="ObjectShortName">data_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/regionizer_tb/system_reset">
+      <obj_property name="ElementShortName">system_reset</obj_property>
+      <obj_property name="ObjectShortName">system_reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/regionizer_tb/input_fiber_reader_reset">
+      <obj_property name="ElementShortName">input_fiber_reader_reset</obj_property>
+      <obj_property name="ObjectShortName">input_fiber_reader_reset</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/input_fiber_data">
+      <obj_property name="ElementShortName">input_fiber_data[41:0][63:0]</obj_property>
+      <obj_property name="ObjectShortName">input_fiber_data[41:0][63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/input_fiber_valid">
+      <obj_property name="ElementShortName">input_fiber_valid[41:0]</obj_property>
+      <obj_property name="ObjectShortName">input_fiber_valid[41:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/regionizer_tb/has_reset">
+      <obj_property name="ElementShortName">has_reset</obj_property>
+      <obj_property name="ObjectShortName">has_reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/regionizer_tb/tmux_wrapper_entity/ap_clk">
+      <obj_property name="ElementShortName">ap_clk</obj_property>
+      <obj_property name="ObjectShortName">ap_clk</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/tmux_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer">
+      <obj_property name="ElementShortName">link_physics_object_buffer[1:0]</obj_property>
+      <obj_property name="ObjectShortName">link_physics_object_buffer[1:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/regionizer_tb/tmux_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/object_we">
+      <obj_property name="ElementShortName">object_we</obj_property>
+      <obj_property name="ObjectShortName">object_we</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/tmux_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/object">
+      <obj_property name="ElementShortName">object</obj_property>
+      <obj_property name="ObjectShortName">object</obj_property>
+   </wvobject>
+</wave_config>
