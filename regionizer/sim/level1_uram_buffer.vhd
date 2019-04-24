@@ -37,14 +37,14 @@ entity level1_uram_buffer is
         
         link_big_region_end     : in std_logic;
         
-        link_object_in          : in physics_object_t;
+        link_object_in          : in raw_physics_object_t;
         link_object_we_in       : in std_logic;
         wobject_eta_phi_index   : in get_eta_phi_small_region_t;
         
         level2_re_in            : in std_logic;
         robject_eta_phi_index   : in get_eta_phi_small_region_t;
         robject_valid           : out std_logic;
-        robject_dout            : out raw_phyiscs_object_t;
+        robject_dout            : out raw_physics_object_t;
                 
         overflow_error          : out std_logic;
         reset                   : in std_logic
@@ -87,19 +87,19 @@ begin
         signal      level1_re                   : std_logic := '0';
         signal      no_more_data                : std_logic;
         
-        signal      level1_waddr                : std_logic_vector(LEVEL_RAM_ADDR_SIZE-1 downto 0);
+        signal      level1_waddr                : std_logic_vector(LEVEL_RAM_ADDR_SIZE-1 downto 0) := (others => '0');
                
         
         type level1_small_region_addr_arr_t is array(integer range <>) of unsigned(LEVEL_RAM_ADDR_SIZE-2 downto 0);
         type level1_ram_addr_arr_t is array(1 downto 0) of level1_small_region_addr_arr_t(LEVEL_SMALL_REGION_COUNT-1 downto 0);
         
-        signal      level1_waddr_arr            : level1_ram_addr_arr_t;
+        signal      level1_waddr_arr            : level1_ram_addr_arr_t := (others => (others => (others => '0')));
         signal      level1_waddr_base_arr       : level1_ram_addr_arr_t;        
-        signal      level1_raddr_arr            : level1_small_region_addr_arr_t(LEVEL_SMALL_REGION_COUNT-1 downto 0);
+        signal      level1_raddr_arr            : level1_small_region_addr_arr_t(LEVEL_SMALL_REGION_COUNT-1 downto 0)  := (others => (others => '0'));
         
-        signal      level1_raddr                : std_logic_vector(LEVEL_RAM_ADDR_SIZE-1 downto 0);
-        signal      level1_din                  : raw_phyiscs_object_t;
-        signal      level1_dout                 : raw_phyiscs_object_t;
+        signal      level1_raddr                : std_logic_vector(LEVEL_RAM_ADDR_SIZE-1 downto 0) := (others => '0');
+        signal      level1_din                  : raw_physics_object_t;
+        signal      level1_dout                 : raw_physics_object_t;
                 
          
     begin     
@@ -126,6 +126,10 @@ begin
                                 to_integer(unsigned'("" & 
                                     level1_waddr(LEVEL_RAM_ADDR_SIZE-1))))
                                     (s);
+                target_waddr_base           := level1_waddr_base_arr(
+                                to_integer(unsigned'("" & 
+                                    level1_waddr(LEVEL_RAM_ADDR_SIZE-1))))
+                                    (s);
                                     
                 level1_re                   <= '0';
                 no_more_data                <= '0';
@@ -142,6 +146,8 @@ begin
                 if (reset = '1') then                
                     
                     overflow_error <= '0';
+                    level1_waddr <= (others => '0');
+                    level1_raddr <= (others => '0');
                     
                     --initialize write address arrays
                     for i in 0 to 1 loop
@@ -168,6 +174,8 @@ begin
                         
                         level1_waddr(LEVEL_RAM_ADDR_SIZE-1) <= 
                             not level1_waddr(LEVEL_RAM_ADDR_SIZE-1);
+                        level1_raddr(LEVEL_RAM_ADDR_SIZE-1) <=  --reads from non-write half   
+                            level1_waddr(LEVEL_RAM_ADDR_SIZE-1); 
                         
                         --reset write address arrays for new target big-region (use not)
                         level1_addr_base := (others => '0');
@@ -191,26 +199,21 @@ begin
                     if (link_object_we_in = '1') then
                     
                         -- write to RAM position associated with small region
-                        level1_waddr(LEVEL_RAM_ADDR_SIZE-2 downto 0) <= 
+                        level1_waddr(LEVEL_RAM_ADDR_SIZE-2 downto 0)    <= 
                                 std_logic_vector(target_waddr);
-                        level1_we            <= '1';
+                        level1_we                                       <= '1';
                         
-                        level1_din(63)                        <= link_object_in.quality;
-                        level1_din(62)                        <= '0'; 
-                        level1_din(52)                        <= link_object_in.lsEM;
-                        level1_din(61 downto 52)              <= std_logic_vector(link_object_in.z0);
-                        level1_din(51 downto 42)              <= std_logic_vector(link_object_in.phi);
-                        level1_din(41 downto 32)              <= std_logic_vector(link_object_in.eta);
-                        level1_din(31 downto 16)              <= std_logic_vector(link_object_in.otherPt);
-                        level1_din(15 downto 0)               <= std_logic_vector(link_object_in.pt);                        
+                        level1_din                                      <= link_object_in;                       
                         
                         -- increment write address
                         if(target_waddr + 1 < 
                             target_waddr_base + RAM_SMALL_REGION_STEP_SIZE) then
+                            
                             level1_waddr_arr(
                                 to_integer(unsigned'("" & 
                                     level1_waddr(LEVEL_RAM_ADDR_SIZE-1))))
                                     (s) <= target_waddr + 1;
+                                    
                         else -- wrap around case
                             overflow_error <= '1';
                         end if;                
@@ -264,9 +267,9 @@ begin
         
             ram_din_we      <= (others => level1_we);
             
-            ram_waddr(URAM_ADDR_SIZE-1 downto 22-LEVEL_RAM_ADDR_SIZE+1) <= 
+            ram_waddr(URAM_ADDR_SIZE-1 downto URAM_ADDR_SIZE-LEVEL_RAM_ADDR_SIZE) <= 
                 level1_waddr;
-            ram_waddr(URAM_ADDR_SIZE-LEVEL_RAM_ADDR_SIZE downto 0)      <= 
+            ram_waddr(URAM_ADDR_SIZE-LEVEL_RAM_ADDR_SIZE-1 downto 0)      <= 
                 (others => '0');
             
             ram_din(URAM_DATA_SIZE-1 downto PHYSICS_OBJECT_BIT_SIZE-1)  <= 
@@ -274,8 +277,11 @@ begin
             ram_din(PHYSICS_OBJECT_BIT_SIZE-1 downto 0)                 <= 
                 level1_din;
             
-            ram_raddr(URAM_ADDR_SIZE-1 downto 22-LEVEL_RAM_ADDR_SIZE+1) <= level1_raddr;
-            ram_raddr(URAM_ADDR_SIZE-LEVEL_RAM_ADDR_SIZE downto 0)      <= (others => '0');
+            ram_raddr(URAM_ADDR_SIZE-1 downto URAM_ADDR_SIZE-LEVEL_RAM_ADDR_SIZE) <= 
+                level1_raddr;
+            ram_raddr(URAM_ADDR_SIZE-LEVEL_RAM_ADDR_SIZE-1 downto 0)      <= 
+                (others => '0');
+                
             level1_dout                                     <= ram_dout(PHYSICS_OBJECT_BIT_SIZE-1 downto 0);
         
             -- =========================

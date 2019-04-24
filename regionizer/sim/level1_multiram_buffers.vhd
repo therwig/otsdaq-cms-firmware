@@ -47,7 +47,7 @@ entity level1_multiram_buffers is
         level2_eta_phi_rindex   : in get_eta_phi_small_region_t;
         
         objects_out_valid       : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-        objects_out             : out raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+        objects_out             : out raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
             
         
         overflow_error          : out std_logic;
@@ -72,15 +72,42 @@ architecture Behavioral of level1_multiram_buffers is
             level2_re_in            : in std_logic;
             level2_eta_phi_rindex   : in get_eta_phi_small_region_t;
             objects_out_valid       : out std_logic_vector(MULTIRAM_COUNT-1 downto 0);
-            objects_out             : out raw_phyiscs_object_arr_t(MULTIRAM_COUNT-1 downto 0);
+            objects_out             : out raw_physics_object_arr_t(MULTIRAM_COUNT-1 downto 0);
             
             overflow_error          : out std_logic;
             reset                   : in std_logic
         );
     end component level1_multiram_buffer;
     
+    
+    type counter_arr_t is array(natural range <> ) of unsigned(15 downto 0);
+    signal debug_we_count           : counter_arr_t(LINK_COUNT-1 downto 0) := (others => (others =>'0'));
+    
 begin
 
+
+    -- ========================================
+    debug_count_process : process(clk_link_to_level1)
+    begin
+        if (rising_edge(clk_link_to_level1)) then
+        
+            if (reset = '1') then
+                debug_we_count <= (others => (others =>'0'));  
+            else
+            
+                for i in 0 to LINK_COUNT-1 loop
+                    if (link_big_region_end(i) = '1') then
+                        debug_we_count(i) <= (others => '0');
+                    elsif (link_object_we_in(i) = '1') then
+                        debug_we_count(i) <= debug_we_count(i) + 1;
+                    end if;
+                end loop;
+                
+            end if;
+            
+        end if;
+    end process debug_count_process;
+    
     -- behavior:
     
     --  write in using 120MHz clock 
@@ -136,7 +163,7 @@ begin
                 objects_out_valid       => objects_out_valid(
                     (i+1)*LEVEL1_RAMS_PER_LINK-1 downto i*LEVEL1_RAMS_PER_LINK),    --: out std_logic;
                 objects_out             => objects_out(
-                    (i+1)*LEVEL1_RAMS_PER_LINK-1 downto i*LEVEL1_RAMS_PER_LINK),    --: out raw_phyiscs_object_t;
+                    (i+1)*LEVEL1_RAMS_PER_LINK-1 downto i*LEVEL1_RAMS_PER_LINK),    --: out raw_physics_object_t;
                 
                 overflow_error          => overflow_error_arr(i),       --: out std_logic;
                 reset                   => reset                        --: in std_logic

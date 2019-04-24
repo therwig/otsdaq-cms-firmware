@@ -49,7 +49,7 @@ entity level1_multiram_buffer is
         level2_eta_phi_rindex   : in get_eta_phi_small_region_t;        
         
         objects_out_valid       : out std_logic_vector(MULTIRAM_COUNT-1 downto 0);
-        objects_out             : out raw_phyiscs_object_arr_t(MULTIRAM_COUNT-1 downto 0);
+        objects_out             : out raw_physics_object_arr_t(MULTIRAM_COUNT-1 downto 0);
         
         overflow_error          : out std_logic;
         reset                   : in std_logic
@@ -60,18 +60,18 @@ architecture Behavioral of level1_multiram_buffer is
 
     component level1_uram_buffer    
            port (
-            clk_link_to_level1     : in std_logic;
+            clk_link_to_level1      : in std_logic;
             
             link_big_region_end     : in std_logic;
             
-            link_object_in          : in physics_object_t;
+            link_object_in          : in raw_physics_object_t;
             link_object_we_in       : in std_logic;
             wobject_eta_phi_index   : in get_eta_phi_small_region_t;
             
             level2_re_in            : in std_logic;
             robject_eta_phi_index   : in get_eta_phi_small_region_t;
             robject_valid           : out std_logic;
-            robject_dout            : out raw_phyiscs_object_t;
+            robject_dout            : out raw_physics_object_t;
             
             overflow_error          : out std_logic;
             reset                   : in std_logic
@@ -79,11 +79,11 @@ architecture Behavioral of level1_multiram_buffer is
     end component level1_uram_buffer;
      
 
-    signal link_object_in_latch     : raw_phyiscs_object_t;
+    signal link_object_in_latch     : raw_physics_object_t;
            
     signal level1_ram_din_we        : std_logic_vector(MULTIRAM_COUNT-1 downto 0) := (others => '0');
-    signal level1_ram_din           : raw_phyiscs_object_arr_t(MULTIRAM_COUNT-1 downto 0) := (others => (others => '0'));
-    signal level1_ram_dout          : raw_phyiscs_object_arr_t(MULTIRAM_COUNT-1 downto 0);
+    signal level1_ram_din           : raw_physics_object_arr_t(MULTIRAM_COUNT-1 downto 0) := (others => (others => '0'));
+    signal level1_ram_dout          : raw_physics_object_arr_t(MULTIRAM_COUNT-1 downto 0);
 
     type get_eta_phi_small_region_arr_t is array(integer range <>) of get_eta_phi_small_region_t;
     signal din_eta_phi_small_region : get_eta_phi_small_region_arr_t(MULTIRAM_COUNT-1 downto 0);       
@@ -120,9 +120,37 @@ begin
         
         
         --for debugging
-        signal debug_num_of_locations       : integer range 0 to 4 := 0;
-         
+        signal debug_num_of_locations       : integer range 0 to 4 := 0;         
+                
+        type counter_arr_t is array(natural range <> ) of unsigned(15 downto 0);
+        signal debug_we_count           : counter_arr_t(MULTIRAM_COUNT-1 downto 0) := (others => (others =>'0'));
+        
     begin
+    
+    
+        -- ========================================
+        debug_count_process : process(clk_link_to_level1)
+        begin
+            if (rising_edge(clk_link_to_level1)) then
+            
+                if (reset = '1') then
+                    debug_we_count <= (others => (others =>'0'));  
+                else
+                
+                    for i in 0 to MULTIRAM_COUNT-1 loop
+                        if (link_big_region_end = '1') then
+                            debug_we_count(i) <= (others => '0');
+                        elsif (level1_ram_din_we(i) = '1') then
+                            debug_we_count(i) <= debug_we_count(i) + 1;
+                        end if;
+                    end loop;
+                    
+                end if;
+                
+            end if;
+        end process debug_count_process;
+        
+        
     
         eta <= link_object_in.eta;
         phi <= link_object_in.phi;
@@ -146,12 +174,12 @@ begin
                 link_object_in_latch(31 downto 16)              <= std_logic_vector(link_object_in.otherPt);
                 link_object_in_latch(15 downto 0)               <= std_logic_vector(link_object_in.pt);
                 
-                if (reset = '1') then
+                level1_ram_din_we                               <= (others => '0');
+                debug_num_of_locations                          <= 0;
                 
-                    level1_ram_din_we <= (others => '0');
-                    base_we_index <= 0;
+                if (reset = '1') then                
                     
-                    debug_num_of_locations <= 0;
+                    base_we_index <= 0;                  
                     
                 elsif (link_object_we_in = '1') then
                                     
@@ -249,9 +277,9 @@ begin
     
     -- ==========================================================================================
     gen_uram_buffers : for i in 0 to MULTIRAM_COUNT-1 generate
-        signal overflow_error_arr       : std_logic_vector(MULTIRAM_COUNT-1 downto 0);
+        signal overflow_error_arr       : std_logic_vector(MULTIRAM_COUNT-1 downto 0);        
     begin
-    
+        
         -- ========================================
         overflow_error_process : process(clk_link_to_level1)
         begin
@@ -269,14 +297,14 @@ begin
             
             link_big_region_end     => link_big_region_end,         --: in std_logic;
             
-            link_object_in          => link_object_in,              --: in physics_object_t;
-            link_object_we_in       => link_object_we_in,           --: in std_logic;
+            link_object_in          => link_object_in_latch,        --: in raw_physics_object_t;
+            link_object_we_in       => level1_ram_din_we(i),        --: in std_logic;
             wobject_eta_phi_index   => din_eta_phi_small_region(i), --: in get_eta_phi_small_region_t;
             
             level2_re_in            => level2_re_in,                --: in std_logic;
             robject_eta_phi_index   => level2_eta_phi_rindex,       --: in get_eta_phi_small_region_t;
             robject_valid           => objects_out_valid(i),        --: out std_logic;
-            robject_dout            => objects_out(i),              --: out raw_phyiscs_object_t;
+            robject_dout            => objects_out(i),              --: out raw_physics_object_t;
             
             overflow_error          => overflow_error_arr(i),       --: out std_logic;
             reset                   => reset                        --: in std_logic

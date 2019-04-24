@@ -57,8 +57,8 @@ package tmux_params_pkg is
         
     type link_input_data_arr_t is array(integer range <>) of std_logic_vector(TMUX_INPUT_WORD_SIZE-1 downto 0); 
     
-    subtype raw_phyiscs_object_t is std_logic_vector(PHYSICS_OBJECT_BIT_SIZE-1 downto 0);
-    type raw_phyiscs_object_arr_t is array(integer range <>) of raw_phyiscs_object_t;
+    subtype raw_physics_object_t is std_logic_vector(PHYSICS_OBJECT_BIT_SIZE-1 downto 0);
+    type raw_physics_object_arr_t is array(integer range <>) of raw_physics_object_t;
     
     
     --type algo_tmux_buffer_data_arr_t is array(integer range <>) of std_logic_vector(ALGO_DATA_SIZE-1 downto 0);   

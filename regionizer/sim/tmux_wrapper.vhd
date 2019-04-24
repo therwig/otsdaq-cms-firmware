@@ -65,7 +65,7 @@ architecture arch of tmux_wrapper is
                 level2_eta_phi_rindex    : in get_eta_phi_small_region_t;
                 
                 objects_out_valid        : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                objects_out              : out raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                objects_out              : out raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
                 
                 overflow_error           : out std_logic;
                 reset                    : in std_logic
@@ -86,10 +86,10 @@ architecture arch of tmux_wrapper is
             level2_eta_phi_rindex   : out get_eta_phi_small_region_t;
                    
             level2_din_valid        : in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-            level2_din              : in raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+            level2_din              : in raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
             
             level2_dout_valid       : out std_logic;
-            level2_dout             : out raw_phyiscs_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
+            level2_dout             : out raw_physics_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
                     
             reset                   : in std_logic
         );
@@ -641,7 +641,7 @@ begin
             signal level2_eta_phi_rindex            : get_eta_phi_small_region_t;
             
             signal level2_din_valid                 : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
-            signal level2_din                       : raw_phyiscs_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
+            signal level2_din                       : raw_physics_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
             
         begin
             level1_buffers : level1_multiram_buffers    
@@ -661,7 +661,7 @@ begin
                     level2_eta_phi_rindex    => level2_eta_phi_rindex,          --: in get_eta_phi_small_region_t;
                     
                     objects_out_valid        => level2_din_valid,               --: out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                    objects_out              => level2_din,                     --: out raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                    objects_out              => level2_din,                     --: out raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
                     
                     overflow_error           => open,                           --: out std_logic;
                     reset                    => ap_rst                          --: in std_logic                  
@@ -680,10 +680,10 @@ begin
                     level2_eta_phi_rindex    => level2_eta_phi_rindex,          --: out get_eta_phi_small_region_t;
                     
                     level2_din_valid         => level2_din_valid,               --: in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                    level2_din               => level2_din,                     --: in raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+                    level2_din               => level2_din,                     --: in raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
                     
                     level2_dout_valid        => open,                           --: out std_logic;
-                    level2_dout              => open,                           --: out raw_phyiscs_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
+                    level2_dout              => open,                           --: out raw_physics_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
                     
                     reset                    => ap_rst                          --: in std_logic
                 );

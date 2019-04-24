@@ -41,10 +41,10 @@ entity level2_pipelined_buffer is
         clk_level1_to_2         : in std_logic;
         
         level2_din_valid        : in std_logic_vector(IN_OBJECT_COUNT-1 downto 0);
-        level2_din              : in raw_phyiscs_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
+        level2_din              : in raw_physics_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
         
         level2_dout_valid       : out std_logic;         
-        level2_dout             : out raw_phyiscs_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
+        level2_dout             : out raw_physics_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
         
         reset                   : in std_logic        
     );
@@ -54,7 +54,7 @@ architecture Behavioral of level2_pipelined_buffer is
 
     constant PIPE_LINE_STAGES   : natural := 30; -- Note: if 320MHz then 48 is max size
     
-    type pipeline_t is array(integer range <>) of raw_phyiscs_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
+    type pipeline_t is array(integer range <>) of raw_physics_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
     signal pipeline             : pipeline_t(PIPE_LINE_STAGES-1 downto 0) := (others => (others => (others => '0')));
     signal pipeline_valid       : std_logic_vector(PIPE_LINE_STAGES-1 downto 0) := (others => '0');          
     

@@ -50,10 +50,10 @@ entity level2_pipelined_buffers is
         level2_eta_phi_rindex   : out get_eta_phi_small_region_t;
                
         level2_din_valid        : in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-        level2_din              : in raw_phyiscs_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+        level2_din              : in raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
         
         level2_dout_valid       : out std_logic;
-        level2_dout             : out raw_phyiscs_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
+        level2_dout             : out raw_physics_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
                 
         reset                   : in std_logic
     );
@@ -72,10 +72,10 @@ architecture Behavioral of level2_pipelined_buffers is
             clk_level1_to_2         : in std_logic;
         
             level2_din_valid        : in std_logic_vector(IN_OBJECT_COUNT-1 downto 0);
-            level2_din              : in raw_phyiscs_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
+            level2_din              : in raw_physics_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
             
             level2_dout_valid       : out std_logic;         
-            level2_dout             : out raw_phyiscs_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
+            level2_dout             : out raw_physics_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
             
             reset                   : in std_logic 
         );
@@ -101,7 +101,8 @@ begin
                 
     begin
         
-        level2_re       <= level2_re_sig;
+        level2_re                                   <= level2_re_sig;
+        level2_eta_phi_rindex.eta_phi_small_region  <= small_region_rindex;
         
         -- ========================================
         read_enable_process : process(clk_level1_to_2)
@@ -180,11 +181,11 @@ begin
                     i*IN_OBJECT_COUNT),                   --: in std_logic_vector(IN_OBJECT_COUNT-1 downto 0);
                 level2_din              => level2_din(
                     (i+1)*IN_OBJECT_COUNT-1 downto 
-                    i*IN_OBJECT_COUNT),                   --: in raw_phyiscs_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
+                    i*IN_OBJECT_COUNT),                   --: in raw_physics_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
                         
                 level2_dout             => level2_dout(
                     (i+1)*ALGO_MAX_DETECTOR_OBJECTS-1 downto 
-                    i*ALGO_MAX_DETECTOR_OBJECTS),                   --: out raw_phyiscs_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
+                    i*ALGO_MAX_DETECTOR_OBJECTS),                   --: out raw_physics_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
                 
                 reset                   => reset                    --: in std_logic
             );
