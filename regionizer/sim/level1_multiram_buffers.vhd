@@ -24,7 +24,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.std_logic_misc.all;
 
-use work.tmux_params_pkg.all;
+use work.regionizer_params_pkg.all;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -44,10 +44,10 @@ entity level1_multiram_buffers is
         link_object_in          : in physics_object_arr_t (LINK_COUNT-1 downto 0);
         
         level2_re_in            : in std_logic_vector(FIBER_GROUPS-1 downto 0);
-        level2_eta_phi_rindex   : in get_eta_phi_small_region_t;
+        level2_eta_phi_rindex   : in eta_phi_small_region_t;
         
         objects_out_valid       : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-        objects_out             : out raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+        objects_out             : out physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
             
         
         overflow_error          : out std_logic;
@@ -70,22 +70,23 @@ architecture Behavioral of level1_multiram_buffers is
             link_object_we_in       : in std_logic;
             
             level2_re_in            : in std_logic;
-            level2_eta_phi_rindex   : in get_eta_phi_small_region_t;
+            level2_eta_phi_rindex   : in eta_phi_small_region_t;
             objects_out_valid       : out std_logic_vector(MULTIRAM_COUNT-1 downto 0);
-            objects_out             : out raw_physics_object_arr_t(MULTIRAM_COUNT-1 downto 0);
+            objects_out             : out physics_object_arr_t(MULTIRAM_COUNT-1 downto 0);
             
             overflow_error          : out std_logic;
             reset                   : in std_logic
         );
     end component level1_multiram_buffer;
     
+    signal overflow_error_arr       : std_logic_vector(LINK_COUNT-1 downto 0);
     
     type counter_arr_t is array(natural range <> ) of unsigned(15 downto 0);
     signal debug_we_count           : counter_arr_t(LINK_COUNT-1 downto 0) := (others => (others =>'0'));
     
 begin
 
-
+    
     -- ========================================
     debug_count_process : process(clk_link_to_level1)
     begin
@@ -108,6 +109,18 @@ begin
         end if;
     end process debug_count_process;
     
+            
+    -- ========================================
+    overflow_error_process : process(clk_link_to_level1)
+    begin
+    
+        if (rising_edge(clk_link_to_level1)) then
+            overflow_error <= or_reduce(overflow_error_arr);
+        end if;
+        
+    end process overflow_error_process;
+
+    
     -- behavior:
     
     --  write in using 120MHz clock 
@@ -126,24 +139,37 @@ begin
     -- ==========================================================================================
     gen_level1_buffers : for i in 0 to LINK_COUNT-1 generate
     
-        signal overflow_error_arr       : std_logic_vector(LINK_COUNT-1 downto 0);
         signal object_we                : std_logic;
         signal object                   : physics_object_t;
+        
+        signal robjects_sig             : physics_object_arr_t(LEVEL1_RAMS_PER_LINK-1 downto 0);
         
     begin
     
         object_we <= link_object_we_in(i);
         object <= link_object_in(i);
         
-        -- ========================================
-        overflow_error_process : process(clk_link_to_level1)
-        begin
         
-            if (rising_edge(clk_link_to_level1)) then
-                overflow_error <= or_reduce(overflow_error_arr);
-            end if;
+        
+        -- add link index at this point to debug info of physics object
+        gen_add_debug_info : for j in 0 to LEVEL1_RAMS_PER_LINK-1 generate
+        
+            objects_out(i*LEVEL1_RAMS_PER_LINK + j) <= ( 
+                phi                 => robjects_sig(j).phi,
+                eta                 => robjects_sig(j).eta,
+                quality             => robjects_sig(j).quality,
+                lsEM                => robjects_sig(j).lsEM,
+                z0                  => robjects_sig(j).z0,
+                otherPt             => robjects_sig(j).otherPt,
+                pt                  => robjects_sig(j).pt,
+                
+                small_region        => robjects_sig(j).small_region,
+                source_fiber        => i,
+                source_event_index  => robjects_sig(j).source_event_index
+            ); 
             
-        end process overflow_error_process;
+        end generate gen_add_debug_info;
+        
         
         -- ========================================
         level1_buffer: level1_multiram_buffer
@@ -162,8 +188,7 @@ begin
                 level2_eta_phi_rindex   => level2_eta_phi_rindex,       --: in get_eta_phi_small_region_t;
                 objects_out_valid       => objects_out_valid(
                     (i+1)*LEVEL1_RAMS_PER_LINK-1 downto i*LEVEL1_RAMS_PER_LINK),    --: out std_logic;
-                objects_out             => objects_out(
-                    (i+1)*LEVEL1_RAMS_PER_LINK-1 downto i*LEVEL1_RAMS_PER_LINK),    --: out raw_physics_object_t;
+                objects_out             => robjects_sig,                --: out physics_object_arr_t;
                 
                 overflow_error          => overflow_error_arr(i),       --: out std_logic;
                 reset                   => reset                        --: in std_logic

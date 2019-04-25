@@ -22,7 +22,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
-use work.tmux_params_pkg.all;
+use work.regionizer_params_pkg.all;
 
 
 -- Uncomment the following library declaration if instantiating
@@ -39,12 +39,12 @@ entity level1_uram_buffer is
         
         link_object_in          : in raw_physics_object_t;
         link_object_we_in       : in std_logic;
-        wobject_eta_phi_index   : in get_eta_phi_small_region_t;
+        wobject_eta_phi_index   : in eta_phi_small_region_t;
         
         level2_re_in            : in std_logic;
-        robject_eta_phi_index   : in get_eta_phi_small_region_t;
+        robject_eta_phi_index   : in eta_phi_small_region_t;
         robject_valid           : out std_logic;
-        robject_dout            : out raw_physics_object_t;
+        robject_dout            : out physics_object_t;
                 
         overflow_error          : out std_logic;
         reset                   : in std_logic
@@ -98,12 +98,29 @@ begin
         signal      level1_raddr_arr            : level1_small_region_addr_arr_t(LEVEL_SMALL_REGION_COUNT-1 downto 0)  := (others => (others => '0'));
         
         signal      level1_raddr                : std_logic_vector(LEVEL_RAM_ADDR_SIZE-1 downto 0) := (others => '0');
-        signal      level1_din                  : raw_physics_object_t;
+        signal      level1_din                  : raw_physics_object_t := (others => '0');
+        
+        signal      robject_valid_sig           : std_logic := '0';
         signal      level1_dout                 : raw_physics_object_t;
+        signal      level1_object_out           : physics_object_t;
+        
+        
+        constant    READ_LATENCY                : natural := 2;
+        type debug_small_region_arr_t is array(READ_LATENCY-1 downto 0) of eta_phi_small_region_t;
+        signal      debug_small_region_index    : debug_small_region_arr_t;
                 
          
     begin     
     
+        robject_valid       <= robject_valid_sig;
+        
+        add_debug_info_process : process(level1_dout)
+        begin
+            level1_object_out                       <= convert_raw_to_physics_object(level1_dout);    
+            level1_object_out.small_region          <= debug_small_region_index(READ_LATENCY-1); 
+        end process;
+            
+        robject_dout        <= level1_object_out when robject_valid_sig = '1' else null_physics_object;
         
         
         level1_addr_process : process(clk_link_to_level1)
@@ -115,12 +132,14 @@ begin
             variable target_raddr               : unsigned(LEVEL_RAM_ADDR_SIZE-2 downto 0);
             variable target_raddr_end           : unsigned(LEVEL_RAM_ADDR_SIZE-2 downto 0);
         begin
-            
+                        
             if(rising_edge(clk_link_to_level1)) then
             
                 s                           := wobject_eta_phi_index.eta_phi_small_region;
                 rs                          := robject_eta_phi_index.eta_phi_small_region;
                 level1_we                   <= '0';
+                
+                debug_small_region_index    <= debug_small_region_index(READ_LATENCY-2 downto 0) & robject_eta_phi_index;
                 
                 target_waddr                := level1_waddr_arr(
                                 to_integer(unsigned'("" & 
@@ -133,7 +152,8 @@ begin
                                     
                 level1_re                   <= '0';
                 no_more_data                <= '0';
-                robject_valid               <= '0';
+                robject_valid_sig           <= level1_re; --read object out if read enable was successful
+                                    
                 
                 target_raddr                := level1_raddr_arr(rs);
                 target_raddr_end            := level1_waddr_arr(
@@ -235,13 +255,6 @@ begin
                         
                     end if; -- end if re  
                     
-                    --read object out if read enable was successful
-                    if (level1_re = '1') then
-                        robject_dout <= level1_dout;
-                        robject_valid <= '1';
-                    else
-                        robject_dout <= (others => '0');
-                    end if;
                     
                 end if;
 -- ============= -- end primary reset or not if statement

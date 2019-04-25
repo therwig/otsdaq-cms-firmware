@@ -1,0 +1,36 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Wed Apr 24 16:30:45 2019
+# Process ID: 14759
+# Current directory: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/regionizer.runs/synth_1
+# Command line: vivado -log level1_multiram_buffers.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source level1_multiram_buffers.tcl
+# Log file: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/regionizer.runs/synth_1/level1_multiram_buffers.vds
+# Journal file: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/regionizer.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source level1_multiram_buffers.tcl -notrace
+Command: synth_design -top level1_multiram_buffers -part xcvu9p-flgb2104-2-i
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xcvu9p'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xcvu9p'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 14764 
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 1403.156 ; gain = 86.000 ; free physical = 40463 ; free virtual = 156539
+---------------------------------------------------------------------------------
+ERROR: [Synth 8-4169] error in use clause: package 'tmux_params_pkg' not found in library 'work' [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/sim/level1_multiram_buffer.vhd:27]
+ERROR: [Synth 8-1031] level1_rams_per_link is not declared [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/sim/level1_multiram_buffer.vhd:38]
+ERROR: [Synth 8-1031] physics_object_t is not declared [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/sim/level1_multiram_buffer.vhd:45]
+ERROR: [Synth 8-1031] get_eta_phi_small_region_t is not declared [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/sim/level1_multiram_buffer.vhd:49]
+ERROR: [Synth 8-1031] physics_object_arr_t is not declared [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/sim/level1_multiram_buffer.vhd:52]
+INFO: [Synth 8-2810] unit level1_multiram_buffer ignored due to previous errors [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/sim/level1_multiram_buffer.vhd:36]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:02 ; elapsed = 00:00:04 . Memory (MB): peak = 1447.781 ; gain = 130.625 ; free physical = 40475 ; free virtual = 156551
+---------------------------------------------------------------------------------
+synthesize failed
+INFO: [Common 17-83] Releasing license: Synthesis
+3 Infos, 0 Warnings, 0 Critical Warnings and 6 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Vivado Synthesis failed
+INFO: [Common 17-206] Exiting Vivado at Wed Apr 24 16:30:56 2019...

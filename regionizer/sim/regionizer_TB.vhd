@@ -9,7 +9,7 @@ use ieee.std_logic_misc.all;
 	-- Add your library and packages declaration here ...
 
 library work;
-use work.tmux_params_pkg.all; 
+use work.regionizer_params_pkg.all; 
 use work.algo_pkg.all;
 
 --need entity for tb to compile...
@@ -32,6 +32,31 @@ architecture TB_ARCHITECTURE of regionizer_tb is
               );
     end component FILE_READ;
     
+    
+    
+    component regionizer_wrapper 
+    port(
+      
+            link_clk            : in  std_logic;
+            
+            algo_in_debug       : out algo_input_t;
+            
+            -- Input Links 
+            link_in_master      : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+            link_in_slave       : out LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+            
+            -- Output Links 
+            link_out_master     : out LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+            link_out_slave      : in  LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+        
+    
+            reset               : in  std_logic
+    
+        );
+    end component regionizer_wrapper;
+    
+    
+        
     constant DATA_CLK_PERIOD : time := 8.333 ns; --120 MHz
 	
     signal data_clk : STD_LOGIC := '0'; 
@@ -168,15 +193,10 @@ begin
     end generate;
 			 
 			 
-    tmux_wrapper_entity: entity work.tmux_wrapper
+    regionizer_wrapper_entity: regionizer_wrapper
         port map(
-            ap_clk   => data_clk, --120 MHz
-            ap_rst   => system_reset,
-            ap_start => input_fiber_valid(0),
-            ap_done  => open,
-            ap_idle  => open,
-            ap_ready => open,
-    
+            link_clk    => data_clk, 
+            reset       => system_reset,
     
             algo_in_debug => algo_in,
                         
@@ -206,8 +226,8 @@ begin
             
 --          sim_HLSinput_writer_array: entity work.FILE_WRITE
 --                      generic map(
---                          output_file => "/data/rrivera/CorrelatorTrigger/tmux_regionizer/sim_tmux_wrapper/sim/sim_data/sim_HLSinput_fiber_"&integer'image(tmux_segment)&".dat",
---                          output_file => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim_tmux_wrapper/sim/sim_data/sim_HLSinput_fiber_"&integer'image(tmux_segment)&".dat",
+--                          output_file => "/data/rrivera/CorrelatorTrigger/tmux_regionizer/sim_regionizer_wrapper/sim/sim_data/sim_HLSinput_fiber_"&integer'image(tmux_segment)&".dat",
+--                          output_file => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim_regionizer_wrapper/sim/sim_data/sim_HLSinput_fiber_"&integer'image(tmux_segment)&".dat",
 --                          BIT_WIDTH => TMUX_INPUT_WORD_SIZE
 --                      )
 --                      port map(

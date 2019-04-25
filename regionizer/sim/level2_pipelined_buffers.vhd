@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 use ieee.std_logic_misc.all;
 
-use work.tmux_params_pkg.all;
+use work.regionizer_params_pkg.all;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -47,13 +47,13 @@ entity level2_pipelined_buffers is
         link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
          
         level2_re               : out std_logic_vector(FIBER_GROUPS-1 downto 0);
-        level2_eta_phi_rindex   : out get_eta_phi_small_region_t;
+        level2_eta_phi_rindex   : out eta_phi_small_region_t;
                
         level2_din_valid        : in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-        level2_din              : in raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+        level2_din              : in physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
         
         level2_dout_valid       : out std_logic;
-        level2_dout             : out raw_physics_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
+        level2_dout             : out physics_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
                 
         reset                   : in std_logic
     );
@@ -72,10 +72,10 @@ architecture Behavioral of level2_pipelined_buffers is
             clk_level1_to_2         : in std_logic;
         
             level2_din_valid        : in std_logic_vector(IN_OBJECT_COUNT-1 downto 0);
-            level2_din              : in raw_physics_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
+            level2_din              : in physics_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
             
             level2_dout_valid       : out std_logic;         
-            level2_dout             : out raw_physics_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
+            level2_dout             : out physics_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
             
             reset                   : in std_logic 
         );
@@ -96,13 +96,23 @@ begin
         signal big_region_ready             : std_logic := '0';
         signal small_region_rindex          : integer range 0 to 
             ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE-1 := 0;  
-            
+           
         signal level2_re_sig               : std_logic_vector(FIBER_GROUPS-1 downto 0);                 
+        
+        signal debug_sr_rindex_back         : integer range 0 to 
+                    ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE-1 := 0;  
+                    
+        constant RINDEX_DELAY               : integer := 3;
+        type debug_rindex_back_arr_t           is array(integer range <>) of integer range 0 to 
+                                        ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE-1;
+        signal debug_sr_rindex_pipeline     : debug_rindex_back_arr_t(RINDEX_DELAY-1 downto 0);
                 
     begin
         
         level2_re                                   <= level2_re_sig;
-        level2_eta_phi_rindex.eta_phi_small_region  <= small_region_rindex;
+        level2_eta_phi_rindex                       <= convert_small_region_to_object(small_region_rindex);
+        
+        debug_sr_rindex_back                        <= debug_sr_rindex_pipeline(RINDEX_DELAY-1);
         
         -- ========================================
         read_enable_process : process(clk_level1_to_2)
@@ -111,6 +121,9 @@ begin
             if (rising_edge(clk_level1_to_2)) then
             
                 level2_re_sig <= (others => '0');
+                debug_sr_rindex_pipeline(RINDEX_DELAY-1 downto 0) <= debug_sr_rindex_pipeline(RINDEX_DELAY-2 downto 0) & 
+                    small_region_rindex;
+                
                  
                 if (reset = '1') then
                 

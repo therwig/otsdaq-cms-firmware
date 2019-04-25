@@ -112,6 +112,8 @@ int main(int argc, char **argv)
   { //start output of links
     //    OUTPUT_FILE_RADIX
 
+    // add valid bit by group
+    const unsigned int GROUP_LINK_COUNT = 42/3;
     
 
     for(unsigned int l=0;l<100 && //specify max number of links
@@ -126,9 +128,15 @@ int main(int argc, char **argv)
 	    return -1;
 	  }
 
-	for(unsigned int i=0;i<106 && //specify max number of link words
+	for(unsigned int i=0;i<108 && //specify max number of link words
 	      i<links[l].size();++i)
 	  {
+	    //add valid bit by group
+	    if(i >= l/GROUP_LINK_COUNT * 18)
+	      fprintf(fp,"1");
+	    else
+	      fprintf(fp,"0");
+	    
 	    fprintf(fp,"%16.16llX\n",links[l][i]);
 
 	    //	    cout << hex << links[l][i] << endl;

@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 use ieee.std_logic_misc.all;
 
-use work.tmux_params_pkg.all;
+use work.regionizer_params_pkg.all;
 
 
 
@@ -46,10 +46,10 @@ entity level1_multiram_buffer is
         link_object_we_in       : in std_logic;
         
         level2_re_in            : in std_logic;
-        level2_eta_phi_rindex   : in get_eta_phi_small_region_t;        
+        level2_eta_phi_rindex   : in eta_phi_small_region_t;        
         
         objects_out_valid       : out std_logic_vector(MULTIRAM_COUNT-1 downto 0);
-        objects_out             : out raw_physics_object_arr_t(MULTIRAM_COUNT-1 downto 0);
+        objects_out             : out physics_object_arr_t(MULTIRAM_COUNT-1 downto 0);
         
         overflow_error          : out std_logic;
         reset                   : in std_logic
@@ -66,12 +66,12 @@ architecture Behavioral of level1_multiram_buffer is
             
             link_object_in          : in raw_physics_object_t;
             link_object_we_in       : in std_logic;
-            wobject_eta_phi_index   : in get_eta_phi_small_region_t;
+            wobject_eta_phi_index   : in eta_phi_small_region_t;
             
             level2_re_in            : in std_logic;
-            robject_eta_phi_index   : in get_eta_phi_small_region_t;
+            robject_eta_phi_index   : in eta_phi_small_region_t;
             robject_valid           : out std_logic;
-            robject_dout            : out raw_physics_object_t;
+            robject_dout            : out physics_object_t;
             
             overflow_error          : out std_logic;
             reset                   : in std_logic
@@ -82,7 +82,6 @@ architecture Behavioral of level1_multiram_buffer is
     signal link_object_in_latch     : raw_physics_object_t;
            
     signal level1_ram_din_we        : std_logic_vector(MULTIRAM_COUNT-1 downto 0) := (others => '0');
-    signal level1_ram_din           : raw_physics_object_arr_t(MULTIRAM_COUNT-1 downto 0) := (others => (others => '0'));
     signal level1_ram_dout          : raw_physics_object_arr_t(MULTIRAM_COUNT-1 downto 0);
 
     type get_eta_phi_small_region_arr_t is array(integer range <>) of get_eta_phi_small_region_t;
@@ -90,8 +89,23 @@ architecture Behavioral of level1_multiram_buffer is
     
     signal level1_ram_overflow      : std_logic_vector(MULTIRAM_COUNT-1 downto 0);
     
+    signal overflow_error_arr       : std_logic_vector(MULTIRAM_COUNT-1 downto 0);  
+    
+    signal debug_source_event_index : natural := INVALID_EVENT_INDEX;
+    
 begin
 
+    -- ========================================
+    overflow_error_process : process(clk_link_to_level1)
+    begin
+    
+        if (rising_edge(clk_link_to_level1)) then
+            overflow_error <= or_reduce(overflow_error_arr);
+        end if;
+        
+    end process overflow_error_process;
+    
+    
     --  This is a multiram buffer for a raw data link
     --    
     -- =====
@@ -132,6 +146,14 @@ begin
         debug_count_process : process(clk_link_to_level1)
         begin
             if (rising_edge(clk_link_to_level1)) then
+            
+                if (link_big_region_end = '1') then
+                    if (debug_source_event_index = INVALID_EVENT_INDEX) then
+                        debug_source_event_index <= 0;
+                    else
+                        debug_source_event_index <= debug_source_event_index + 1;
+                    end if;
+                end if;
             
                 if (reset = '1') then
                     debug_we_count <= (others => (others =>'0'));  
@@ -276,19 +298,24 @@ begin
     
     
     -- ==========================================================================================
-    gen_uram_buffers : for i in 0 to MULTIRAM_COUNT-1 generate
-        signal overflow_error_arr       : std_logic_vector(MULTIRAM_COUNT-1 downto 0);        
-    begin
+    gen_uram_buffers : for i in 0 to MULTIRAM_COUNT-1 generate   
+        signal robject_sig      : physics_object_t;
+    begin        
         
-        -- ========================================
-        overflow_error_process : process(clk_link_to_level1)
-        begin
-        
-            if (rising_edge(clk_link_to_level1)) then
-                overflow_error <= or_reduce(overflow_error_arr);
-            end if;
+        -- add debug_source_event_index to debug info to read objects        
+        objects_out(i) <= ( 
+            phi                 => robject_sig.phi,
+            eta                 => robject_sig.eta,
+            quality             => robject_sig.quality,
+            lsEM                => robject_sig.lsEM,
+            z0                  => robject_sig.z0,
+            otherPt             => robject_sig.otherPt,
+            pt                  => robject_sig.pt,
             
-        end process overflow_error_process;
+            small_region        => robject_sig.small_region,
+            source_fiber        => i,
+            source_event_index  => debug_source_event_index
+        ); 
         
         -- ========================================
         uram_buffer : level1_uram_buffer    
@@ -299,12 +326,12 @@ begin
             
             link_object_in          => link_object_in_latch,        --: in raw_physics_object_t;
             link_object_we_in       => level1_ram_din_we(i),        --: in std_logic;
-            wobject_eta_phi_index   => din_eta_phi_small_region(i), --: in get_eta_phi_small_region_t;
+            wobject_eta_phi_index   => din_eta_phi_small_region(i).small_region, --: in get_eta_phi_small_region_t;
             
             level2_re_in            => level2_re_in,                --: in std_logic;
             robject_eta_phi_index   => level2_eta_phi_rindex,       --: in get_eta_phi_small_region_t;
             robject_valid           => objects_out_valid(i),        --: out std_logic;
-            robject_dout            => objects_out(i),              --: out raw_physics_object_t;
+            robject_dout            => robject_sig,                 --: out physics_object_t;
             
             overflow_error          => overflow_error_arr(i),       --: out std_logic;
             reset                   => reset                        --: in std_logic

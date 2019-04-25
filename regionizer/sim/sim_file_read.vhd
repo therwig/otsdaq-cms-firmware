@@ -40,18 +40,22 @@ architecture read_from_file of FILE_READ is
   
     file stimulus: TEXT open read_mode is stim_file; 
 	
-	signal Y_sig : std_logic_vector(BIT_WIDTH-1 downto 0) := (others => '0');
+	constant VALID_SIZE : integer := 4;
+	
+	signal Y_sig : std_logic_vector(BIT_WIDTH - 1 + VALID_SIZE downto 0) := (others => '0');
 	
 
 begin
 	
-	Y <= Y_sig;
+	Y <= Y_sig(BIT_WIDTH-1 downto 0);
 									   
 	-- read data and control information from a file
 	
 	receive_data: process
 									  
-		variable s: string(BIT_WIDTH downto 1);--y'range);
+		variable s: string(BIT_WIDTH + VALID_SIZE downto 1);--y'range);
+		
+		variable Y_var : std_logic_vector(BIT_WIDTH - 1 + VALID_SIZE downto 0);
 	   
 	begin                                       
 	
@@ -67,8 +71,9 @@ begin
 		
 			-- read digital data from input file  	 
 			str_read(stimulus,s);		
-			Y_sig <= hex_to_std_logic_vector(s);	
-			VALID <= '1';
+			Y_var    := hex_to_std_logic_vector(s);	
+			Y_sig    <= Y_var;
+			VALID    <= Y_var(BIT_WIDTH); --'1';  -- valid from data or not
 			wait until CLK = '1';
 		
 		end loop;

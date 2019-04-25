@@ -5,25 +5,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 --a la AlgorithConstants from old CMS_CAL/work
-package tmux_params_pkg is
-
-    
---    --package algo_pkg is
-    
---    type LinkMasterType is record
---    tValid : std_logic;
---    tData  : std_logic_vector(63 downto 0);
---    tLast  : std_logic;
---    end record LinkMasterType;
-    
---    type LinkMasterArrType is array (natural range<>) of LinkMasterType;
-    
---    type LinkSlaveType is record
---    tReady : std_logic;
---    end record LinkSlaveType;
-    
---    type LinkSlaveArrType is array (natural range<>) of LinkSlaveType;
---    --end package algo_pkg is
+package regionizer_params_pkg is
 
     constant MAX_FIBER_COUNT           : natural := 48;
     
@@ -38,7 +20,6 @@ package tmux_params_pkg is
     constant OUTPUT_FIBERS              : natural := 8;
     constant OUTPUT_WORD_SIZE           : natural := 64; --in bits
     
-    constant TMUX_INPUT_WORD_SIZE       : natural := 64; --in bits
     constant PHYSICS_OBJECT_BIT_SIZE    : natural := 64; --in bits 
     
     
@@ -48,43 +29,33 @@ package tmux_params_pkg is
     constant INPUT_DECTECTOR_COUNT      : natural := 3;
     constant ALGO_MAX_DETECTOR_OBJECTS  : natural := 30;
     constant ALGO_INPUT_OBJECTS_COUNT   : natural := 100;
-    
---    constant ALGO_INPUT_CHANNEL_COUNT   : natural := 94;
---    constant ALGO_INPUT_CHANNEL_SIZE    : natural := 32; --in bits
---    constant ALGO_DATA_SIZE             : natural := ALGO_INPUT_CHANNEL_SIZE * ALGO_INPUT_CHANNEL_COUNT;  
-    
---    constant TMUX_BUFFER_DATA_SIZE : natural := ALGO_DATA_SIZE / TMUX_INPUT_WORD_SIZE;
-        
-    type link_input_data_arr_t is array(integer range <>) of std_logic_vector(TMUX_INPUT_WORD_SIZE-1 downto 0); 
+            
+    type link_input_data_arr_t is array(integer range <>) of std_logic_vector(INPUT_WORD_SIZE-1 downto 0); 
     
     subtype raw_physics_object_t is std_logic_vector(PHYSICS_OBJECT_BIT_SIZE-1 downto 0);
     type raw_physics_object_arr_t is array(integer range <>) of raw_physics_object_t;
-    
-    
-    --type algo_tmux_buffer_data_arr_t is array(integer range <>) of std_logic_vector(ALGO_DATA_SIZE-1 downto 0);   
-    
---    --single input link buffer and debugging info
---    type input_buffer_t is record
---        data : std_logic_vector(ALGO_DATA_SIZE-1 downto 0);
---        valid: std_logic; --for debugging (kind of used improperly)
---        last_data: std_logic_vector(TMUX_INPUT_WORD_SIZE-1 downto 0); --for debugging
---        source_fiber: natural; --for debugging
---        fiber_group: natural; --for debugging
---        fiber_in_group: natural; --for debugging
---    end record; 
-    
---    --full tmux buffer and debugging info
---    type algo_tmux_buffer_t is record
---        data : std_logic_vector(ALGO_DATA_SIZE-1 downto 0);--algo_tmux_buffer_data_arr_t(TMUX_BUFFER_DATA_SIZE-1 downto 0);
---        valid: std_logic;
---        source_fiber: natural; --for debugging
---        fiber_group: natural; --for debugging
---        fiber_in_group: natural; --for debugging
---    end record; 
+        
 
     constant VERTEX_BIT_WIDTH   : natural := 10;
     constant ALGO_INPUT_SMALL_REGION_ETA_SIZE   : natural := 3;
     constant ALGO_INPUT_SMALL_REGION_PHI_SIZE   : natural := 2;
+    
+    constant INVALID_ETA_INDEX      : natural := ALGO_INPUT_SMALL_REGION_ETA_SIZE;
+    constant INVALID_PHI_INDEX      : natural := ALGO_INPUT_SMALL_REGION_PHI_SIZE;
+    constant INVALID_ETA_PHI_INDEX  : natural := ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE;
+    constant INVALID_SOURCE_FIBER   : natural := 2147483647;
+    constant INVALID_EVENT_INDEX    : natural := 2147483647;
+    
+    -- provide one more than needed in range, for "invalid"
+    subtype eta_index_t             is integer range 0 to ALGO_INPUT_SMALL_REGION_ETA_SIZE;
+    subtype phi_index_t             is integer range 0 to ALGO_INPUT_SMALL_REGION_PHI_SIZE;
+    subtype small_region_index_t    is integer range 0 to ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE;
+    
+    type eta_phi_small_region_t is record
+       eta_index            : eta_index_t;
+       phi_index            : phi_index_t;
+       eta_phi_small_region : small_region_index_t;
+    end record eta_phi_small_region_t;
     
     type physics_object_t is record
         --64 bit object break down:
@@ -97,13 +68,12 @@ package tmux_params_pkg is
         otherPt             : signed(15 downto 0); --pt-err or em-pt (for calo)
         pt                  : signed(15 downto 0);
         
-        small_region_eta    : integer range 0 to ALGO_INPUT_SMALL_REGION_ETA_SIZE;   
-        small_region_phi    : integer range 0 to ALGO_INPUT_SMALL_REGION_PHI_SIZE;
         
         --for debugging
+        small_region        : eta_phi_small_region_t;
         source_fiber        : natural;
         source_event_index  : natural;       
-    end record; 
+    end record physics_object_t; 
     
     type physics_object_arr_t is array(integer range <>) of physics_object_t;
     
@@ -119,10 +89,9 @@ package tmux_params_pkg is
         vertex              : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
         
         --for debugging
-        source_event_index  : natural;
-        small_region_eta    : integer range 0 to ALGO_INPUT_SMALL_REGION_ETA_SIZE;
-        small_region_phi    : integer range 0 to ALGO_INPUT_SMALL_REGION_PHI_SIZE;   
-    end record;
+        small_region        : eta_phi_small_region_t;
+        source_event_index  : natural;         
+    end record algo_input_physics_objects_t; 
     
     type event_small_region_eta_arr_t               is array(integer range <>) of algo_input_physics_objects_t;    
     subtype event_small_region_eta_buffer_t         is event_small_region_eta_arr_t(ALGO_INPUT_SMALL_REGION_ETA_SIZE-1 downto 0);
@@ -149,22 +118,27 @@ package tmux_params_pkg is
     
     type output_fiber_t is array(natural range <> ) of std_logic_vector(OUTPUT_WORD_SIZE-1 downto 0);
     
+    constant null_small_region      :  eta_phi_small_region_t := (
+        eta_index           => INVALID_ETA_INDEX,
+        phi_index           => INVALID_PHI_INDEX,
+        eta_phi_small_region=> INVALID_ETA_PHI_INDEX
+    );
     
-    constant null_physics_object :  physics_object_t := (
-            phi                 => (others => '0'),
-            eta                 => (others => '0'),
-            quality             => '0',
-            lsEM                => '0',
-            z0                  => (others => '0'),
-            otherPt             => (others => '0'),
-            pt                  => (others => '0'),
-            
-            small_region_phi    => 0,
-            small_region_eta    => 0,
-            
-            source_fiber        => 2147483647,
-            source_event_index  => 2147483647
-        );
+    constant null_physics_object    :  physics_object_t := (
+        phi                 => (others => '0'),
+        eta                 => (others => '0'),
+        quality             => '0',
+        lsEM                => '0',
+        z0                  => (others => '0'),
+        otherPt             => (others => '0'),
+        pt                  => (others => '0'),
+        
+        small_region        => null_small_region,
+        
+        source_fiber        => INVALID_SOURCE_FIBER,
+        source_event_index  => INVALID_EVENT_INDEX
+    );
+    
     constant null_event_buffer : event_small_region_phi_eta_buffer_t := ( 
         --phi
         others => (
@@ -177,9 +151,9 @@ package tmux_params_pkg is
                  
                  vertex             => (others => '0'),
                          
-                 source_event_index => 2147483647,
-                 small_region_phi   => 0,
-                 small_region_eta   => 0
+                 source_event_index => INVALID_EVENT_INDEX,
+                 
+                 small_region       => null_small_region
             )
         ));
 
@@ -214,9 +188,7 @@ package tmux_params_pkg is
                     return integer;
                     
     type get_eta_phi_small_region_t is record
-        eta_small_region    : natural;
-        phi_small_region    : natural;
-        eta_phi_small_region: natural;
+        small_region        : eta_phi_small_region_t;
         is_another          : std_logic; --indicate there is another small region to get
     end record;
     
@@ -224,11 +196,20 @@ package tmux_params_pkg is
         eta                 : signed(9 downto 0);
         phi                 : signed(9 downto 0);
         i                   : natural) -- i from 0 to 3
-       return  get_eta_phi_small_region_t;
+                    return  get_eta_phi_small_region_t;
             
-end tmux_params_pkg;
+    function convert_raw_to_physics_object(
+        raw                 : raw_physics_object_t)
+                    return physics_object_t;
+                    
+    function convert_small_region_to_object(
+        small_region_index      : integer range 0 to ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE)
+                    return eta_phi_small_region_t;
+            
+        
+end regionizer_params_pkg;
 
-package body tmux_params_pkg is
+package body regionizer_params_pkg is
      
   
     -- ==========================================================================================
@@ -356,14 +337,14 @@ package body tmux_params_pkg is
         
         if(i = 0) then
         
-            return_object.eta_small_region := 
+            return_object.small_region.eta_index := 
                 get_eta_small_region_index(eta,0);
-            return_object.phi_small_region := 
+            return_object.small_region.phi_index := 
                 get_phi_small_region_index(phi,0);  
-            return_object.eta_phi_small_region := 
+            return_object.small_region.eta_phi_small_region := 
                 ALGO_INPUT_SMALL_REGION_ETA_SIZE * 
-                return_object.phi_small_region +
-                return_object.eta_small_region;
+                return_object.small_region.phi_index +
+                return_object.small_region.eta_index;
             return_object.is_another := 
                 is_eta_small_region_overlap(eta) or
                 is_phi_small_region_overlap(phi);
@@ -372,21 +353,21 @@ package body tmux_params_pkg is
         
             --take from eta first if both, otherwise take phi
             if(is_eta_small_region_overlap(eta) = '1') then
-                return_object.eta_small_region := 
+                return_object.small_region.eta_index := 
                     get_eta_small_region_index(eta,1);
-                return_object.phi_small_region := 
+                return_object.small_region.phi_index := 
                     get_phi_small_region_index(phi,0);
             else
-                return_object.eta_small_region := 
+                return_object.small_region.eta_index := 
                     get_eta_small_region_index(eta,0);
-                return_object.phi_small_region := 
+                return_object.small_region.phi_index := 
                     get_phi_small_region_index(phi,1); 
             end if;
             
-            return_object.eta_phi_small_region := 
+            return_object.small_region.eta_phi_small_region := 
                 ALGO_INPUT_SMALL_REGION_ETA_SIZE * 
-                return_object.phi_small_region +
-                return_object.eta_small_region;
+                return_object.small_region.phi_index +
+                return_object.small_region.eta_index;
             return_object.is_another := 
                 is_eta_small_region_overlap(eta) and
                 is_phi_small_region_overlap(phi);
@@ -394,36 +375,81 @@ package body tmux_params_pkg is
         elsif(i = 2) then
         
             --take from phi now
-            return_object.eta_small_region := 
+            return_object.small_region.eta_index := 
                 get_eta_small_region_index(eta,0);
-            return_object.phi_small_region := 
+            return_object.small_region.phi_index := 
                 get_phi_small_region_index(phi,1); 
             
-            return_object.eta_phi_small_region := 
+            return_object.small_region.eta_phi_small_region := 
                 ALGO_INPUT_SMALL_REGION_ETA_SIZE * 
-                return_object.phi_small_region +
-                return_object.eta_small_region;
+                return_object.small_region.phi_index +
+                return_object.small_region.eta_index;
             return_object.is_another := '1'; -- must get 4th
             
         elsif(i = 3) then
         
             --take second from eta and phi last
-            return_object.eta_small_region := 
+            return_object.small_region.eta_index := 
                 get_eta_small_region_index(eta,1);
-            return_object.phi_small_region := 
+            return_object.small_region.phi_index := 
                 get_phi_small_region_index(phi,1); 
             
-            return_object.eta_phi_small_region := 
+            return_object.small_region.eta_phi_small_region := 
                 ALGO_INPUT_SMALL_REGION_ETA_SIZE * 
-                return_object.phi_small_region +
-                return_object.eta_small_region;
+                return_object.small_region.phi_index +
+                return_object.small_region.eta_index;
             return_object.is_another := '0'; -- no more
                 
         end if;
         
         return return_object;
     end;   --function get_phi_small_region_index               
-          
     
-end tmux_params_pkg;
+    -- ==========================================================================================
+    --  convert_raw_to_physics_object
+    --      return '1' if in overlap region
+    function convert_raw_to_physics_object(
+            raw                 : raw_physics_object_t)
+        return physics_object_t is
+      
+        variable return_object : physics_object_t;      
+    begin
+    
+        return_object   := ( 
+            phi                 => signed(raw(32 + 19 downto 32 + 10)),
+            eta                 => signed(raw(32 + 9 downto 32 + 0)),
+            quality             =>        raw(32 + 31),
+            lsEM                =>        raw(32 + 20),
+            z0                  => signed(raw(32 + 29 downto 32 + 20)),
+            otherPt             => signed(raw(0 + 31 downto 0 + 16)),
+            pt                  => signed(raw(0 + 15 downto 0 + 0)),
+            
+            small_region        => null_small_region,
+            source_fiber        => INVALID_SOURCE_FIBER,
+            source_event_index  => INVALID_EVENT_INDEX
+        ); 
+        
+        return return_object;
+    end;   --function convert_raw_to_physics_object    
+    
+    -- ==========================================================================================
+    --  convert_small_region_to_object
+    --      return '1' if in overlap region
+    function convert_small_region_to_object(
+            small_region_index      : integer range 0 to ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE)
+        return eta_phi_small_region_t is
+      
+        variable return_object : eta_phi_small_region_t;      
+    begin
+    
+        return_object   := ( 
+            eta_index                 => small_region_index mod ALGO_INPUT_SMALL_REGION_ETA_SIZE,
+            phi_index                 => small_region_index / ALGO_INPUT_SMALL_REGION_ETA_SIZE,
+            eta_phi_small_region      => small_region_index
+        ); 
+        
+        return return_object;
+    end;   --function convert_small_region_to_object       
+    
+end regionizer_params_pkg;
  

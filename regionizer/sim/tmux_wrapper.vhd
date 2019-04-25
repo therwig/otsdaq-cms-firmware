@@ -2,39 +2,32 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.tmux_params_pkg.all;
+use work.regionizer_params_pkg.all;
   
 use work.algo_pkg.all; --because of vivado issues, copied pieces to tmux_params_pkg
 
-entity tmux_wrapper is
---  generic (  	
---
---          );
-  port(
+entity regionizer_wrapper is
+    port(
   
-      ap_clk   : in  std_logic;
-      ap_rst   : in  std_logic;
-      ap_start : in  std_logic;
-      ap_done  : out std_logic;
-      ap_idle  : out std_logic;
-      ap_ready : out std_logic;
-      
-      algo_in_debug      : out algo_input_t;
-  
-      -- Input Links 
-      link_in_master : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
-      link_in_slave  : out LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
-  
-      -- Output Links 
-      link_out_master : out LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
-      link_out_slave  : in  LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0)
-      
+        link_clk            : in  std_logic;
+        
+        algo_in_debug       : out algo_input_t;
+        
+        -- Input Links 
+        link_in_master      : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+        link_in_slave       : out LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+        
+        -- Output Links 
+        link_out_master     : out LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+        link_out_slave      : in  LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+    
 
+        reset               : in  std_logic
 
-      );
+    );
 end;
    
-architecture arch of tmux_wrapper is
+architecture arch of regionizer_wrapper is
   
     component tmux_clocks 
            port (
@@ -62,7 +55,7 @@ architecture arch of tmux_wrapper is
                 link_object_in           : in physics_object_arr_t (LINK_COUNT-1 downto 0);
                
                 level2_re_in             : in std_logic_vector(FIBER_GROUPS-1 downto 0);
-                level2_eta_phi_rindex    : in get_eta_phi_small_region_t;
+                level2_eta_phi_rindex    : in eta_phi_small_region_t;
                 
                 objects_out_valid        : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
                 objects_out              : out raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
@@ -83,7 +76,7 @@ architecture arch of tmux_wrapper is
             link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
              
             level2_re               : out std_logic_vector(FIBER_GROUPS-1 downto 0);
-            level2_eta_phi_rindex   : out get_eta_phi_small_region_t;
+            level2_eta_phi_rindex   : out eta_phi_small_region_t;
                    
             level2_din_valid        : in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
             level2_din              : in raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
@@ -374,7 +367,7 @@ begin
                 signal   link_event_index                   : natural := 0;
                
                 signal   link_vertex                        : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0) := (others => '0');
-                signal   link_data                          : std_logic_vector(TMUX_INPUT_WORD_SIZE-1 downto 0) := (others => '0');
+                signal   link_data                          : std_logic_vector(INPUT_WORD_SIZE-1 downto 0) := (others => '0');
                 signal   link_data_valid                    : std_logic := '0';
                 signal   link_data_valid_delay              : std_logic := '0';
                 
@@ -425,9 +418,13 @@ begin
                                 
                                 --manage big region state
                                 --  18 BX then repeat
+                                
+                                if (link_big_region_state = 18*3-2) then
+                                    link_big_region_ends(l)             <= '1';
+                                end if;
+                                
                                 if (link_big_region_state = 18*3-1) then 
                                     link_big_region_state               <= (others => '0');
-                                    link_big_region_ends(l)             <= '1';
                                 else
                                     link_big_region_state               <= link_big_region_state + 1;
                                 end if;
@@ -453,10 +450,9 @@ begin
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
                                         
+                                        small_region        => null_small_region,
                                         source_fiber        => l,
-                                        source_event_index  => link_event_index,
-                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
-                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
+                                        source_event_index  => link_event_index
                                     ); 
                                 elsif (link_cycle_state = 1) then
                                 
@@ -469,10 +465,9 @@ begin
                                         otherPt             => link_physics_object_buffer(0).otherPt,
                                         pt                  => link_physics_object_buffer(0).pt,
                                         
+                                        small_region        => null_small_region,
                                         source_fiber        => l,
-                                        source_event_index  => link_event_index,
-                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
-                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
+                                        source_event_index  => link_event_index
                                     );
                                     link_physics_object_buffer(1)   <= (
                                         phi                 => (others => '0'),
@@ -483,10 +478,9 @@ begin
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
                                         
+                                        small_region        => null_small_region,
                                         source_fiber        => l,
-                                        source_event_index  => link_event_index,
-                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
-                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
+                                        source_event_index  => link_event_index
                                     );
                                 elsif (link_cycle_state = 2) then
                                                                 
@@ -498,11 +492,10 @@ begin
                                         z0                  => signed(link_data(0 + 29 downto 0 + 20)),
                                         otherPt             => link_physics_object_buffer(1).otherPt,
                                         pt                  => link_physics_object_buffer(1).pt,
-                                        
+                                                                                
+                                        small_region        => null_small_region,
                                         source_fiber        => l,
-                                        source_event_index  => link_event_index,
-                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
-                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
+                                        source_event_index  => link_event_index
                                     ); 
                                     link_physics_object_buffer(0)   <= (
                                         phi                 => (others => '0'),
@@ -512,11 +505,10 @@ begin
                                         z0                  => (others => '0'),
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
-                                        
+
+                                        small_region        => null_small_region,
                                         source_fiber        => l,
-                                        source_event_index  => link_event_index,
-                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
-                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
+                                        source_event_index  => link_event_index
                                     );  
                                     
                                  elsif (link_cycle_state = 3) then
@@ -532,10 +524,9 @@ begin
                                         otherPt             => link_physics_object_buffer(0).otherPt,
                                         pt                  => link_physics_object_buffer(0).pt,
                                         
+                                        small_region        => null_small_region,
                                         source_fiber        => l,
-                                        source_event_index  => link_event_index,
-                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
-                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
+                                        source_event_index  => link_event_index
                                     );  
                                     
                                  elsif (link_cycle_state = 4) then
@@ -549,10 +540,9 @@ begin
                                         otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
                                         pt                  => signed(link_data(0 + 15 downto 0 + 0)),
                                         
+                                        small_region        => null_small_region,
                                         source_fiber        => l,
-                                        source_event_index  => link_event_index,
-                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
-                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
+                                        source_event_index  => link_event_index
                                     ); 
                                     
                                  elsif (link_cycle_state = 5) then
@@ -568,10 +558,9 @@ begin
                                         otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
                                         pt                  => signed(link_data(0 + 15 downto 0 + 0)),
                                         
+                                        small_region        => null_small_region,
                                         source_fiber        => l,
-                                        source_event_index  => link_event_index,
-                                        small_region_phi    => ALGO_INPUT_SMALL_REGION_PHI_SIZE,
-                                        small_region_eta    => ALGO_INPUT_SMALL_REGION_ETA_SIZE
+                                        source_event_index  => link_event_index
                                     ); 
                                  
                                 end if; --end link_cycle
@@ -693,7 +682,7 @@ begin
         -- ========================= 
 --        gen_object_buffer_levels_1_and_2 : if FALSE generate
 --        begin
---            level1_buffers : tmux_wrapper_level1_buffers    
+--            level1_buffers : regionizer_wrapper_level1_buffers    
 --                generic map (
 --                    LINK_COUNT => FIBER_GROUPS * FIBERS_IN_GROUP 
 --                )
@@ -708,7 +697,7 @@ begin
 --                    link_object_we_in               => link_objects_to_level1_we,
 --                    level2_token_in                 => (others => '0')
 --                );
---            level2_buffers : tmux_wrapper_level2_buffers 
+--            level2_buffers : regionizer_wrapper_level2_buffers 
 --                port map (
 --                    reset                           => ap_rst,
 --                    clk120                          => ap_clk,
