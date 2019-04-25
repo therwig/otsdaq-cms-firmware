@@ -94,7 +94,7 @@ begin
         type level1_ram_addr_arr_t is array(1 downto 0) of level1_small_region_addr_arr_t(LEVEL_SMALL_REGION_COUNT-1 downto 0);
         
         signal      level1_waddr_arr            : level1_ram_addr_arr_t := (others => (others => (others => '0')));
-        signal      level1_waddr_base_arr       : level1_ram_addr_arr_t;        
+        signal      level1_waddr_base_arr       : level1_small_region_addr_arr_t(LEVEL_SMALL_REGION_COUNT-1 downto 0)  := (others => (others => '0'));        
         signal      level1_raddr_arr            : level1_small_region_addr_arr_t(LEVEL_SMALL_REGION_COUNT-1 downto 0)  := (others => (others => '0'));
         
         signal      level1_raddr                : std_logic_vector(LEVEL_RAM_ADDR_SIZE-1 downto 0) := (others => '0');
@@ -145,10 +145,7 @@ begin
                                 to_integer(unsigned'("" & 
                                     level1_waddr(LEVEL_RAM_ADDR_SIZE-1))))
                                     (s);
-                target_waddr_base           := level1_waddr_base_arr(
-                                to_integer(unsigned'("" & 
-                                    level1_waddr(LEVEL_RAM_ADDR_SIZE-1))))
-                                    (s);
+                target_waddr_base           := level1_waddr_base_arr(s);
                                     
                 level1_re                   <= '0';
                 no_more_data                <= '0';
@@ -174,9 +171,9 @@ begin
                         level1_addr_base := (others => '0');
                         for j in 0 to LEVEL_SMALL_REGION_COUNT-1 loop
                             level1_waddr_arr(i)(j)              <= level1_addr_base;
-                            level1_waddr_base_arr(i)(j)         <= level1_addr_base;
                             
-                            if i = 0 then
+                            if i = 0 then --only need one set of these
+                                level1_waddr_base_arr(j)        <= level1_addr_base;
                                 level1_raddr_arr(j)             <= level1_addr_base;
                             end if;
                                                

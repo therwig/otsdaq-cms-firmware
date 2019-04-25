@@ -3413,50 +3413,50 @@ const int NumRelocateId= 3364;
 void relocate(char *dp)
 {
 	iki_relocate(dp, "xsim.dir/regionizer_tb_behav/xsim.reloc",  (void **)funcTab, 3364);
-	iki_vhdl_file_variable_register(dp + 164216632);
-	iki_vhdl_file_variable_register(dp + 164216688);
-	iki_vhdl_file_variable_register(dp + 164288472);
-	iki_vhdl_file_variable_register(dp + 164289776);
-	iki_vhdl_file_variable_register(dp + 164291080);
-	iki_vhdl_file_variable_register(dp + 164292384);
-	iki_vhdl_file_variable_register(dp + 164293688);
-	iki_vhdl_file_variable_register(dp + 164294992);
-	iki_vhdl_file_variable_register(dp + 164296296);
-	iki_vhdl_file_variable_register(dp + 164297600);
-	iki_vhdl_file_variable_register(dp + 164298904);
-	iki_vhdl_file_variable_register(dp + 164300208);
-	iki_vhdl_file_variable_register(dp + 164301512);
-	iki_vhdl_file_variable_register(dp + 164302816);
-	iki_vhdl_file_variable_register(dp + 164304120);
-	iki_vhdl_file_variable_register(dp + 164305424);
-	iki_vhdl_file_variable_register(dp + 164306728);
-	iki_vhdl_file_variable_register(dp + 164308032);
-	iki_vhdl_file_variable_register(dp + 164309336);
-	iki_vhdl_file_variable_register(dp + 164310640);
-	iki_vhdl_file_variable_register(dp + 164311944);
-	iki_vhdl_file_variable_register(dp + 164313248);
-	iki_vhdl_file_variable_register(dp + 164314552);
-	iki_vhdl_file_variable_register(dp + 164315856);
-	iki_vhdl_file_variable_register(dp + 164317160);
-	iki_vhdl_file_variable_register(dp + 164318464);
-	iki_vhdl_file_variable_register(dp + 164319768);
-	iki_vhdl_file_variable_register(dp + 164321072);
-	iki_vhdl_file_variable_register(dp + 164322376);
-	iki_vhdl_file_variable_register(dp + 164323680);
-	iki_vhdl_file_variable_register(dp + 164324984);
-	iki_vhdl_file_variable_register(dp + 164326288);
-	iki_vhdl_file_variable_register(dp + 164327592);
-	iki_vhdl_file_variable_register(dp + 164328896);
-	iki_vhdl_file_variable_register(dp + 164330200);
-	iki_vhdl_file_variable_register(dp + 164331504);
-	iki_vhdl_file_variable_register(dp + 164332808);
-	iki_vhdl_file_variable_register(dp + 164334112);
-	iki_vhdl_file_variable_register(dp + 164335416);
-	iki_vhdl_file_variable_register(dp + 164336720);
-	iki_vhdl_file_variable_register(dp + 164338024);
-	iki_vhdl_file_variable_register(dp + 164339328);
-	iki_vhdl_file_variable_register(dp + 164340632);
-	iki_vhdl_file_variable_register(dp + 164341936);
+	iki_vhdl_file_variable_register(dp + 164184376);
+	iki_vhdl_file_variable_register(dp + 164184432);
+	iki_vhdl_file_variable_register(dp + 164256216);
+	iki_vhdl_file_variable_register(dp + 164257520);
+	iki_vhdl_file_variable_register(dp + 164258824);
+	iki_vhdl_file_variable_register(dp + 164260128);
+	iki_vhdl_file_variable_register(dp + 164261432);
+	iki_vhdl_file_variable_register(dp + 164262736);
+	iki_vhdl_file_variable_register(dp + 164264040);
+	iki_vhdl_file_variable_register(dp + 164265344);
+	iki_vhdl_file_variable_register(dp + 164266648);
+	iki_vhdl_file_variable_register(dp + 164267952);
+	iki_vhdl_file_variable_register(dp + 164269256);
+	iki_vhdl_file_variable_register(dp + 164270560);
+	iki_vhdl_file_variable_register(dp + 164271864);
+	iki_vhdl_file_variable_register(dp + 164273168);
+	iki_vhdl_file_variable_register(dp + 164274472);
+	iki_vhdl_file_variable_register(dp + 164275776);
+	iki_vhdl_file_variable_register(dp + 164277080);
+	iki_vhdl_file_variable_register(dp + 164278384);
+	iki_vhdl_file_variable_register(dp + 164279688);
+	iki_vhdl_file_variable_register(dp + 164280992);
+	iki_vhdl_file_variable_register(dp + 164282296);
+	iki_vhdl_file_variable_register(dp + 164283600);
+	iki_vhdl_file_variable_register(dp + 164284904);
+	iki_vhdl_file_variable_register(dp + 164286208);
+	iki_vhdl_file_variable_register(dp + 164287512);
+	iki_vhdl_file_variable_register(dp + 164288816);
+	iki_vhdl_file_variable_register(dp + 164290120);
+	iki_vhdl_file_variable_register(dp + 164291424);
+	iki_vhdl_file_variable_register(dp + 164292728);
+	iki_vhdl_file_variable_register(dp + 164294032);
+	iki_vhdl_file_variable_register(dp + 164295336);
+	iki_vhdl_file_variable_register(dp + 164296640);
+	iki_vhdl_file_variable_register(dp + 164297944);
+	iki_vhdl_file_variable_register(dp + 164299248);
+	iki_vhdl_file_variable_register(dp + 164300552);
+	iki_vhdl_file_variable_register(dp + 164301856);
+	iki_vhdl_file_variable_register(dp + 164303160);
+	iki_vhdl_file_variable_register(dp + 164304464);
+	iki_vhdl_file_variable_register(dp + 164305768);
+	iki_vhdl_file_variable_register(dp + 164307072);
+	iki_vhdl_file_variable_register(dp + 164308376);
+	iki_vhdl_file_variable_register(dp + 164309680);
 
 
 	/*Populate the transaction function pointer field in the whole net structure */
@@ -3472,9 +3472,9 @@ void simulate(char *dp)
 	iki_schedule_processes_at_time_zero(dp, "xsim.dir/regionizer_tb_behav/xsim.reloc");
 	// Initialize Verilog nets in mixed simulation, for the cases when the value at time 0 should be propagated from the mixed language Vhdl net
 
-	iki_vlog_schedule_transaction_signal_fast_vhdl_value_time_0(dp + 164256752, dp + 249276608, 0, 0, 0, 0, 1, 1);
+	iki_vlog_schedule_transaction_signal_fast_vhdl_value_time_0(dp + 164224496, dp + 249224192, 0, 0, 0, 0, 1, 1);
 
-	iki_vlog_schedule_transaction_signal_fast_vhdl_value_time_0(dp + 164256696, dp + 249276720, 0, 0, 0, 0, 1, 1);
+	iki_vlog_schedule_transaction_signal_fast_vhdl_value_time_0(dp + 164224440, dp + 249224304, 0, 0, 0, 0, 1, 1);
 	iki_execute_processes();
 
 	// Schedule resolution functions for the multiply driven Verilog nets that have strength

@@ -94,8 +94,9 @@ begin
     
         signal link_big_region_end_hold     : std_logic_vector (FIBERS_IN_GROUP-1 downto 0) := (others => '0');
         signal big_region_ready             : std_logic := '0';
-        signal small_region_rindex          : small_region_index_t := 0;  
-           
+        
+        signal small_region_rindex          : small_region_index_t := 0; 
+        
         signal level2_re_sig                : std_logic := '0';                 
         
         --signals for debugging
@@ -132,7 +133,7 @@ begin
                 else --not reset
                 
                     for i in 0 to FIBERS_IN_GROUP-1 loop
-                        if (link_big_region_end(i) = '1') then
+                        if (link_big_region_end(g*FIBERS_IN_GROUP + i) = '1') then
                             link_big_region_end_hold(i) <= '1';
                         end if;
                     end loop;
@@ -143,19 +144,20 @@ begin
                     
                 
                     --when big region is ready, reset for next big-region
-                    if (big_region_ready = '1') then
-                        link_big_region_end_hold    <= (others =>'0');
-                        small_region_rindex         <= small_region_rindex + 1;    
-                    end if;
                     
-                    --read all small regions
+                    
+                    --read all small-regions, when big-regions is ready, reset for next big-region
                     if (level2_re_sig = '1' and 
                         small_region_rindex < 
                             ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE-1) then 
                         
                         small_region_rindex         <= small_region_rindex + 1;
                         level2_re_sig               <= '1';
-                        
+                    elsif (big_region_ready = '1') then -- get started with big-region read!
+                        link_big_region_end_hold    <= (others =>'0');
+                        small_region_rindex         <= small_region_rindex + 1;
+                    else
+                        small_region_rindex         <= 0; --reset rindex for next read    
                     end if;
                     
                     

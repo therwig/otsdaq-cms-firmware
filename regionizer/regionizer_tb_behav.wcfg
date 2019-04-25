@@ -7,25 +7,25 @@
          <top_modules>
             <top_module name="algo_pkg" />
             <top_module name="glbl" />
+            <top_module name="regionizer_params_pkg" />
             <top_module name="regionizer_tb" />
-            <top_module name="tmux_params_pkg" />
             <top_module name="txt_util" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="4000000000fs"></ZoomEndTime>
-      <Cursor1Time time="1495594000fs"></Cursor1Time>
+      <ZoomStartTime time="1178074000fs"></ZoomStartTime>
+      <ZoomEndTime time="1333474001fs"></ZoomEndTime>
+      <Cursor1Time time="1229674000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="241"></NameColumnWidth>
-      <ValueColumnWidth column_width="155"></ValueColumnWidth>
+      <ValueColumnWidth column_width="151"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="39" />
+   <WVObjectSize size="43" />
    <wave_markers>
-      <marker label="" time="1495594000" />
       <marker label="" time="745714000" />
+      <marker label="" time="1229674000" />
    </wave_markers>
    <wvobject type="logic" fp_name="/regionizer_tb/data_clk">
       <obj_property name="ElementShortName">data_clk</obj_property>
@@ -76,106 +76,6 @@
       <obj_property name="ElementShortName">link_physics_object_buffer[1:0]</obj_property>
       <obj_property name="ObjectShortName">link_physics_object_buffer[1:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1]">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].phi">
-            <obj_property name="ElementShortName">.phi[9:0]</obj_property>
-            <obj_property name="ObjectShortName">.phi[9:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].eta">
-            <obj_property name="ElementShortName">.eta[9:0]</obj_property>
-            <obj_property name="ObjectShortName">.eta[9:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].quality">
-            <obj_property name="ElementShortName">.quality</obj_property>
-            <obj_property name="ObjectShortName">.quality</obj_property>
-         </wvobject>
-         <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].lsEM">
-            <obj_property name="ElementShortName">.lsEM</obj_property>
-            <obj_property name="ObjectShortName">.lsEM</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].z0">
-            <obj_property name="ElementShortName">.z0[9:0]</obj_property>
-            <obj_property name="ObjectShortName">.z0[9:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].otherPt">
-            <obj_property name="ElementShortName">.otherPt[15:0]</obj_property>
-            <obj_property name="ObjectShortName">.otherPt[15:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].pt">
-            <obj_property name="ElementShortName">.pt[15:0]</obj_property>
-            <obj_property name="ObjectShortName">.pt[15:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].small_region">
-            <obj_property name="ElementShortName">.small_region</obj_property>
-            <obj_property name="ObjectShortName">.small_region</obj_property>
-         </wvobject>
-         <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].source_fiber">
-            <obj_property name="ElementShortName">.source_fiber</obj_property>
-            <obj_property name="ObjectShortName">.source_fiber</obj_property>
-         </wvobject>
-         <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1].source_event_index">
-            <obj_property name="ElementShortName">.source_event_index</obj_property>
-            <obj_property name="ObjectShortName">.source_event_index</obj_property>
-         </wvobject>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0]">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].phi">
-            <obj_property name="ElementShortName">.phi[9:0]</obj_property>
-            <obj_property name="ObjectShortName">.phi[9:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].eta">
-            <obj_property name="ElementShortName">.eta[9:0]</obj_property>
-            <obj_property name="ObjectShortName">.eta[9:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].quality">
-            <obj_property name="ElementShortName">.quality</obj_property>
-            <obj_property name="ObjectShortName">.quality</obj_property>
-         </wvobject>
-         <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].lsEM">
-            <obj_property name="ElementShortName">.lsEM</obj_property>
-            <obj_property name="ObjectShortName">.lsEM</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].z0">
-            <obj_property name="ElementShortName">.z0[9:0]</obj_property>
-            <obj_property name="ObjectShortName">.z0[9:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].otherPt">
-            <obj_property name="ElementShortName">.otherPt[15:0]</obj_property>
-            <obj_property name="ObjectShortName">.otherPt[15:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].pt">
-            <obj_property name="ElementShortName">.pt[15:0]</obj_property>
-            <obj_property name="ObjectShortName">.pt[15:0]</obj_property>
-            <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].small_region">
-            <obj_property name="ElementShortName">.small_region</obj_property>
-            <obj_property name="ObjectShortName">.small_region</obj_property>
-         </wvobject>
-         <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].source_fiber">
-            <obj_property name="ElementShortName">.source_fiber</obj_property>
-            <obj_property name="ObjectShortName">.source_fiber</obj_property>
-         </wvobject>
-         <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0].source_event_index">
-            <obj_property name="ElementShortName">.source_event_index</obj_property>
-            <obj_property name="ObjectShortName">.source_event_index</obj_property>
-         </wvobject>
-      </wvobject>
    </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_data_valid">
       <obj_property name="ElementShortName">link_data_valid</obj_property>
@@ -185,51 +85,6 @@
       <obj_property name="ElementShortName">link_object_in</obj_property>
       <obj_property name="ObjectShortName">link_object_in</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.phi">
-         <obj_property name="ElementShortName">.phi[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.phi[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.eta">
-         <obj_property name="ElementShortName">.eta[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.eta[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.quality">
-         <obj_property name="ElementShortName">.quality</obj_property>
-         <obj_property name="ObjectShortName">.quality</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.lsEM">
-         <obj_property name="ElementShortName">.lsEM</obj_property>
-         <obj_property name="ObjectShortName">.lsEM</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.z0">
-         <obj_property name="ElementShortName">.z0[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.z0[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.otherPt">
-         <obj_property name="ElementShortName">.otherPt[15:0]</obj_property>
-         <obj_property name="ObjectShortName">.otherPt[15:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.pt">
-         <obj_property name="ElementShortName">.pt[15:0]</obj_property>
-         <obj_property name="ObjectShortName">.pt[15:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.small_region">
-         <obj_property name="ElementShortName">.small_region</obj_property>
-         <obj_property name="ObjectShortName">.small_region</obj_property>
-      </wvobject>
-      <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.source_fiber">
-         <obj_property name="ElementShortName">.source_fiber</obj_property>
-         <obj_property name="ObjectShortName">.source_fiber</obj_property>
-      </wvobject>
-      <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_in.source_event_index">
-         <obj_property name="ElementShortName">.source_event_index</obj_property>
-         <obj_property name="ObjectShortName">.source_event_index</obj_property>
-      </wvobject>
    </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/link_object_we_in">
       <obj_property name="ElementShortName">link_object_we_in</obj_property>
@@ -242,11 +97,6 @@
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/overflow_error">
       <obj_property name="ElementShortName">overflow_error</obj_property>
       <obj_property name="ObjectShortName">overflow_error</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/level1_ram_din">
-      <obj_property name="ElementShortName">level1_ram_din[5:0][63:0]</obj_property>
-      <obj_property name="ObjectShortName">level1_ram_din[5:0][63:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/level1_ram_din_we">
       <obj_property name="ElementShortName">level1_ram_din_we[5:0]</obj_property>
@@ -276,95 +126,20 @@
       <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[1]">
          <obj_property name="ElementShortName">[1][5:0][10:0]</obj_property>
          <obj_property name="ObjectShortName">[1][5:0][10:0]</obj_property>
-         <obj_property name="CustomSignalColor">#00FF00</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
          <obj_property name="isExpanded"></obj_property>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[1][5]">
-            <obj_property name="ElementShortName">[5][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[5][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[1][4]">
-            <obj_property name="ElementShortName">[4][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[4][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[1][3]">
-            <obj_property name="ElementShortName">[3][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[3][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[1][2]">
-            <obj_property name="ElementShortName">[2][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[2][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[1][1]">
-            <obj_property name="ElementShortName">[1][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[1][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[1][0]">
-            <obj_property name="ElementShortName">[0][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[0][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
       </wvobject>
       <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[0]">
          <obj_property name="ElementShortName">[0][5:0][10:0]</obj_property>
          <obj_property name="ObjectShortName">[0][5:0][10:0]</obj_property>
-         <obj_property name="CustomSignalColor">#00FF00</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
          <obj_property name="isExpanded"></obj_property>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[0][5]">
-            <obj_property name="ElementShortName">[5][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[5][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[0][4]">
-            <obj_property name="ElementShortName">[4][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[4][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[0][3]">
-            <obj_property name="ElementShortName">[3][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[3][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[0][2]">
-            <obj_property name="ElementShortName">[2][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[2][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[0][1]">
-            <obj_property name="ElementShortName">[1][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[1][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_arr[0][0]">
-            <obj_property name="ElementShortName">[0][10:0]</obj_property>
-            <obj_property name="ObjectShortName">[0][10:0]</obj_property>
-            <obj_property name="CustomSignalColor">#00FF00</obj_property>
-            <obj_property name="UseCustomSignalColor">true</obj_property>
-         </wvobject>
       </wvobject>
    </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/\gen_uram_buffers(0)\/uram_buffer/gen_transfer_to_level1/level1_waddr_base_arr">
-      <obj_property name="ElementShortName">level1_waddr_base_arr[1:0][5:0][10:0]</obj_property>
-      <obj_property name="ObjectShortName">level1_waddr_base_arr[1:0][5:0][10:0]</obj_property>
+      <obj_property name="ElementShortName">level1_waddr_base_arr[5:0][10:0]</obj_property>
+      <obj_property name="ObjectShortName">level1_waddr_base_arr[5:0][10:0]</obj_property>
       <obj_property name="CustomSignalColor">#00FF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(41)\/level1_buffer/link_big_region_end">
       <obj_property name="ElementShortName">link_big_region_end</obj_property>
@@ -389,6 +164,14 @@
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_big_region_state">
       <obj_property name="ElementShortName">link_big_region_state[7:0]</obj_property>
       <obj_property name="ObjectShortName">link_big_region_state[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level2_buffers/\gen_read_enable_behavior(2)\/level2_re_sig">
+      <obj_property name="ElementShortName">level2_re_sig</obj_property>
+      <obj_property name="ObjectShortName">level2_re_sig</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level2_buffers/\gen_read_enable_behavior(1)\/level2_re_sig">
+      <obj_property name="ElementShortName">level2_re_sig</obj_property>
+      <obj_property name="ObjectShortName">level2_re_sig</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/level2_re_in">
       <obj_property name="ElementShortName">level2_re_in</obj_property>
@@ -478,6 +261,24 @@
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level1_buffers/\gen_level1_buffers(0)\/level1_buffer/objects_out">
       <obj_property name="ElementShortName">objects_out[5:0]</obj_property>
       <obj_property name="ObjectShortName">objects_out[5:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level2_buffers/\gen_read_enable_behavior(0)\/debug_sr_rindex_back">
+      <obj_property name="ElementShortName">debug_sr_rindex_back</obj_property>
+      <obj_property name="ObjectShortName">debug_sr_rindex_back</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level2_buffers/level2_din">
+      <obj_property name="ElementShortName">level2_din[251:0]</obj_property>
+      <obj_property name="ObjectShortName">level2_din[251:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_object_buffer_levels_1_and_2/level2_buffers/level2_din_valid">
+      <obj_property name="ElementShortName">level2_din_valid[251:0]</obj_property>
+      <obj_property name="ObjectShortName">level2_din_valid[251:0]</obj_property>
       <obj_property name="CustomSignalColor">#00FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
