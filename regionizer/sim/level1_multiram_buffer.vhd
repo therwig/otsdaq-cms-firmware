@@ -313,7 +313,7 @@ begin
             pt                  => robject_sig.pt,
             
             small_region        => robject_sig.small_region,
-            source_fiber        => i,
+            source_fiber        => robject_sig.source_fiber,
             source_event_index  => debug_source_event_index
         ); 
         

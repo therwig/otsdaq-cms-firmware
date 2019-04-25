@@ -89,6 +89,9 @@ begin
     --      at the end of the pipeline.
     --    
     
+    level2_dout         <= pipeline(PIPE_LINE_STAGES-1)(OUT_OBJECT_COUNT-1 downto 0);
+    level2_dout_valid   <= pipeline_valid(PIPE_LINE_STAGES-1);
+    
     -- ========================================
     pipeline_process: process(clk_level1_to_2)
     begin

@@ -27,7 +27,7 @@ package regionizer_params_pkg is
     constant LEVEL2_SR_SEGMENTS         : natural := 3; -- Level-2 RAMs per Algo-input-opbject (i.e. if 3, then 10 of 30 s.r. in each RAM)
     
     constant INPUT_DECTECTOR_COUNT      : natural := 3;
-    constant ALGO_MAX_DETECTOR_OBJECTS  : natural := 30;
+    constant ALGO_MAX_DETECTOR_OBJECTS  : natural := 10;
     constant ALGO_INPUT_OBJECTS_COUNT   : natural := 100;
             
     type link_input_data_arr_t is array(integer range <>) of std_logic_vector(INPUT_WORD_SIZE-1 downto 0); 
@@ -201,7 +201,8 @@ package regionizer_params_pkg is
                     return  get_eta_phi_small_region_t;
             
     function convert_raw_to_physics_object(
-        raw                 : raw_physics_object_t)
+        raw                 : raw_physics_object_t;
+        small_region        : eta_phi_small_region_t := null_small_region)
                     return physics_object_t;
                     
     function convert_small_region_to_object(
@@ -411,7 +412,8 @@ package body regionizer_params_pkg is
     --  convert_raw_to_physics_object
     --      return '1' if in overlap region
     function convert_raw_to_physics_object(
-            raw                 : raw_physics_object_t)
+            raw                 : raw_physics_object_t;
+            small_region        : eta_phi_small_region_t := null_small_region)
         return physics_object_t is
       
         variable return_object : physics_object_t;      
@@ -426,7 +428,7 @@ package body regionizer_params_pkg is
             otherPt             => signed(raw(0 + 31 downto 0 + 16)),
             pt                  => signed(raw(0 + 15 downto 0 + 0)),
             
-            small_region        => null_small_region,
+            small_region        => small_region,
             source_fiber        => INVALID_SOURCE_FIBER,
             source_event_index  => INVALID_EVENT_INDEX
         ); 

@@ -114,12 +114,10 @@ begin
     
         robject_valid       <= robject_valid_sig;
         
-        add_debug_info_process : process(level1_dout)
-        begin
-            level1_object_out                       <= convert_raw_to_physics_object(level1_dout);    
-            level1_object_out.small_region          <= debug_small_region_index(READ_LATENCY-1); 
-        end process;
-            
+        -- add small-region debug info to object
+        level1_object_out                       <= convert_raw_to_physics_object(level1_dout,
+                debug_small_region_index(READ_LATENCY-1));
+                    
         robject_dout        <= level1_object_out when robject_valid_sig = '1' else null_physics_object;
         
         

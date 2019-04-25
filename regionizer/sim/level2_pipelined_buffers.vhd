@@ -81,6 +81,8 @@ architecture Behavioral of level2_pipelined_buffers is
         );
     end component level2_pipelined_buffer;
     
+    signal level2_dout_valid_arr        : std_logic_vector(INPUT_DECTECTOR_COUNT-1 downto 0);
+    signal group_read_valid             : std_logic_vector(FIBER_GROUPS-1 downto 0) := (others => '0');       
     
 begin
 
@@ -99,11 +101,11 @@ begin
         
         signal level2_re_sig                : std_logic := '0';                 
         
-        --signals for debugging
         signal debug_sr_rindex_back         : eta_phi_small_region_t;  
                     
-        constant RINDEX_DELAY               : integer := 3;
+        constant RINDEX_DELAY               : integer := 2;
         signal debug_sr_rindex_pipeline     : eta_phi_small_region_arr_t(RINDEX_DELAY-1 downto 0);
+        signal group_re_pipeline            : std_logic_vector(RINDEX_DELAY-1 downto 0);
                 
     begin
         
@@ -111,6 +113,7 @@ begin
         level2_eta_phi_rindex(g)                    <= convert_small_region_to_object(small_region_rindex);
         
         debug_sr_rindex_back                        <= debug_sr_rindex_pipeline(RINDEX_DELAY-1);
+        group_read_valid(g)                         <= group_re_pipeline(RINDEX_DELAY-1);
         
         -- ========================================
         read_enable_process : process(clk_level1_to_2)
@@ -119,6 +122,8 @@ begin
             if (rising_edge(clk_level1_to_2)) then
             
                 level2_re_sig <= '0';
+                
+                group_re_pipeline <= group_re_pipeline(RINDEX_DELAY-2 downto 0) & level2_re_sig;
                 debug_sr_rindex_pipeline(RINDEX_DELAY-1 downto 0) <= debug_sr_rindex_pipeline(RINDEX_DELAY-2 downto 0) & 
                     convert_small_region_to_object(small_region_rindex);
                 
@@ -155,9 +160,9 @@ begin
                         level2_re_sig               <= '1';
                     elsif (big_region_ready = '1') then -- get started with big-region read!
                         link_big_region_end_hold    <= (others =>'0');
-                        small_region_rindex         <= small_region_rindex + 1;
+                        small_region_rindex         <= 0;
                     else
-                        small_region_rindex         <= 0; --reset rindex for next read    
+                        small_region_rindex         <= 0; 
                     end if;
                     
                     
@@ -171,33 +176,60 @@ begin
     end generate gen_read_enable_behavior; 
     
     
+    level2_dout_valid <= or_reduce(level2_dout_valid_arr);
+    
     -- ==========================================================================================
-    gen_level2_buffers : for i in 0 to INPUT_DECTECTOR_COUNT-1 generate    
-        signal group_read_valid             : std_logic_vector(FIBER_GROUPS-1 downto 0) := (others => '0');
+    gen_level2_buffers : for i in 0 to INPUT_DECTECTOR_COUNT-1 generate
+    
+        constant OBJECTS_PER_DETECTOR           : natural := LEVEL1_RAMS_PER_LINK * FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
+            
+        signal group_dector_din_valid           : std_logic_vector(OBJECTS_PER_DETECTOR-1 downto 0);
+        signal group_dector_din                 : physics_object_arr_t(OBJECTS_PER_DETECTOR-1 downto 0);
+        
+        constant GROUP0_BASE_DIN_INDEX          : natural := 0*FIBERS_IN_GROUP + i*OBJECTS_PER_DETECTOR;
+        constant GROUP1_BASE_DIN_INDEX          : natural := 1*FIBERS_IN_GROUP + i*OBJECTS_PER_DETECTOR;
+        constant GROUP2_BASE_DIN_INDEX          : natural := 2*FIBERS_IN_GROUP + i*OBJECTS_PER_DETECTOR;   
+             
     begin
     
-        --FIXME -- need to get group valid, and use that to mux the din from the proper group/tmux
-        --FIXME -- indices for din are wrong!
+        -- use group valid to mux the din from the proper group/tmux
+        --  and use GROUPX_BASE_DIN_INDEX to target the din by detector type
+         
+        group_dector_din <= 
+            level2_din(GROUP0_BASE_DIN_INDEX + OBJECTS_PER_DETECTOR-1 downto 
+                GROUP0_BASE_DIN_INDEX) when group_read_valid(0) = '1' else
+            level2_din(GROUP1_BASE_DIN_INDEX + OBJECTS_PER_DETECTOR-1 downto 
+                GROUP1_BASE_DIN_INDEX) when group_read_valid(1) = '1' else
+            level2_din(GROUP2_BASE_DIN_INDEX + OBJECTS_PER_DETECTOR-1 downto 
+                GROUP2_BASE_DIN_INDEX) when group_read_valid(2) = '1' else
+            (others => null_physics_object);
+        group_dector_din_valid <= 
+            level2_din_valid(GROUP0_BASE_DIN_INDEX + OBJECTS_PER_DETECTOR-1 downto 
+                GROUP0_BASE_DIN_INDEX) when group_read_valid(0) = '1' else
+            level2_din_valid(GROUP1_BASE_DIN_INDEX + OBJECTS_PER_DETECTOR-1 downto 
+                GROUP1_BASE_DIN_INDEX) when group_read_valid(1) = '1' else
+            level2_din_valid(GROUP2_BASE_DIN_INDEX + OBJECTS_PER_DETECTOR-1 downto 
+                GROUP2_BASE_DIN_INDEX) when group_read_valid(2) = '1' else
+            (others => '0');
+        
     
+        
         -- ========================================
         level2_buffer: level2_pipelined_buffer
---            generic (
---                IN_OBJECT_COUNT         : integer;
---                OUT_OBJECT_COUNT        : integer
---            );
+            generic map (
+                IN_OBJECT_COUNT         => OBJECTS_PER_DETECTOR,    --: integer
+                OUT_OBJECT_COUNT        => ALGO_MAX_DETECTOR_OBJECTS--: integer
+            )
             port map ( 
-                clk_level1_to_2         => clk_level1_to_2,        --: in std_logic;
+                clk_level1_to_2         => clk_level1_to_2,         --: in std_logic;
                 
-                level2_din_valid        => level2_din_valid(
-                    (i+1)*IN_OBJECT_COUNT-1 downto 
-                    i*IN_OBJECT_COUNT),                   --: in std_logic_vector(IN_OBJECT_COUNT-1 downto 0);
-                level2_din              => level2_din(
-                    (i+1)*IN_OBJECT_COUNT-1 downto 
-                    i*IN_OBJECT_COUNT),                   --: in raw_physics_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
-                        
+                level2_din_valid        => group_dector_din_valid,  --: in std_logic_vector(IN_OBJECT_COUNT-1 downto 0);
+                level2_din              => group_dector_din,        --: in physics_object_arr_t(IN_OBJECT_COUNT-1 downto 0);
+                
+                level2_dout_valid       => level2_dout_valid_arr(i),       
                 level2_dout             => level2_dout(
                     (i+1)*ALGO_MAX_DETECTOR_OBJECTS-1 downto 
-                    i*ALGO_MAX_DETECTOR_OBJECTS),                   --: out raw_physics_object_arr_t(OUT_OBJECT_COUNT-1 downto 0);
+                    i*ALGO_MAX_DETECTOR_OBJECTS),                   --: out physics_object_arr_t(ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
                 
                 reset                   => reset                    --: in std_logic
             );
