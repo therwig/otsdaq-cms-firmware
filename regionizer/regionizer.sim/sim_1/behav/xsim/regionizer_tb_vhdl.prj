@@ -1,5 +1,5 @@
 # compile vhdl design source files
-vhdl xil_defaultlib  \
+vhdl work  \
 "../../../../sim/algo_pkg.vhd" \
 "../../../../sim/regionizer_params_pkg.vhd" \
 "../../../../sim/level1_multiram_buffer.vhd" \

@@ -57,6 +57,8 @@ package regionizer_params_pkg is
        eta_phi_small_region : small_region_index_t;
     end record eta_phi_small_region_t;
     
+    type eta_phi_small_region_arr_t is array(integer range <>) of eta_phi_small_region_t;
+    
     type physics_object_t is record
         --64 bit object break down:
         phi                 : signed(9 downto 0);

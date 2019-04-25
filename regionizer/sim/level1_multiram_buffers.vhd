@@ -44,7 +44,7 @@ entity level1_multiram_buffers is
         link_object_in          : in physics_object_arr_t (LINK_COUNT-1 downto 0);
         
         level2_re_in            : in std_logic_vector(FIBER_GROUPS-1 downto 0);
-        level2_eta_phi_rindex   : in eta_phi_small_region_t;
+        level2_eta_phi_rindex   : in eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
         
         objects_out_valid       : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
         objects_out             : out physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
@@ -184,8 +184,8 @@ begin
                 link_object_in          => object,                      --: in physics_object_t;
                 link_object_we_in       => object_we,                   --: in std_logic;
                 
-                level2_re_in            => level2_re_in(i / FIBERS_IN_GROUP),       --: in std_logic;
-                level2_eta_phi_rindex   => level2_eta_phi_rindex,       --: in get_eta_phi_small_region_t;
+                level2_re_in            => level2_re_in(i / FIBERS_IN_GROUP),               --: in std_logic;
+                level2_eta_phi_rindex   => level2_eta_phi_rindex(i / FIBERS_IN_GROUP),       --: in eta_phi_small_region_t;
                 objects_out_valid       => objects_out_valid(
                     (i+1)*LEVEL1_RAMS_PER_LINK-1 downto i*LEVEL1_RAMS_PER_LINK),    --: out std_logic;
                 objects_out             => robjects_sig,                --: out physics_object_arr_t;

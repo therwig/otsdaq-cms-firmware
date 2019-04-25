@@ -36,4 +36,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log level1_multiram_buffers.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source level1_multiram_buffers.tcl
+EAStep vivado -log regionizer_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source regionizer_wrapper.tcl

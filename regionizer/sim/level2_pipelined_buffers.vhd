@@ -47,7 +47,7 @@ entity level2_pipelined_buffers is
         link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
          
         level2_re               : out std_logic_vector(FIBER_GROUPS-1 downto 0);
-        level2_eta_phi_rindex   : out eta_phi_small_region_t;
+        level2_eta_phi_rindex   : out eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
                
         level2_din_valid        : in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
         level2_din              : in physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
@@ -86,31 +86,28 @@ begin
 
     -- behavior
     --
-    --  generate a token manager buffer for each detector type
+    --  For each group start reading once big-region is fully in Level-1 RAM
     --      
     
     -- ==========================================================================================
-    gen_read_enable_behavior : if TRUE generate
+    gen_read_enable_behavior : for g in 0 to FIBER_GROUPS-1 generate
     
-        signal link_big_region_end_hold     : std_logic_vector (LINK_COUNT-1 downto 0) := (others => '0');
+        signal link_big_region_end_hold     : std_logic_vector (FIBERS_IN_GROUP-1 downto 0) := (others => '0');
         signal big_region_ready             : std_logic := '0';
-        signal small_region_rindex          : integer range 0 to 
-            ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE-1 := 0;  
+        signal small_region_rindex          : small_region_index_t := 0;  
            
-        signal level2_re_sig               : std_logic_vector(FIBER_GROUPS-1 downto 0);                 
+        signal level2_re_sig                : std_logic := '0';                 
         
-        signal debug_sr_rindex_back         : integer range 0 to 
-                    ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE-1 := 0;  
+        --signals for debugging
+        signal debug_sr_rindex_back         : eta_phi_small_region_t;  
                     
         constant RINDEX_DELAY               : integer := 3;
-        type debug_rindex_back_arr_t           is array(integer range <>) of integer range 0 to 
-                                        ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE-1;
-        signal debug_sr_rindex_pipeline     : debug_rindex_back_arr_t(RINDEX_DELAY-1 downto 0);
+        signal debug_sr_rindex_pipeline     : eta_phi_small_region_arr_t(RINDEX_DELAY-1 downto 0);
                 
     begin
         
-        level2_re                                   <= level2_re_sig;
-        level2_eta_phi_rindex                       <= convert_small_region_to_object(small_region_rindex);
+        level2_re(g)                                <= level2_re_sig;
+        level2_eta_phi_rindex(g)                    <= convert_small_region_to_object(small_region_rindex);
         
         debug_sr_rindex_back                        <= debug_sr_rindex_pipeline(RINDEX_DELAY-1);
         
@@ -120,9 +117,9 @@ begin
         
             if (rising_edge(clk_level1_to_2)) then
             
-                level2_re_sig <= (others => '0');
+                level2_re_sig <= '0';
                 debug_sr_rindex_pipeline(RINDEX_DELAY-1 downto 0) <= debug_sr_rindex_pipeline(RINDEX_DELAY-2 downto 0) & 
-                    small_region_rindex;
+                    convert_small_region_to_object(small_region_rindex);
                 
                  
                 if (reset = '1') then
@@ -134,7 +131,7 @@ begin
                     
                 else --not reset
                 
-                    for i in 0 to LINK_COUNT-1 loop
+                    for i in 0 to FIBERS_IN_GROUP-1 loop
                         if (link_big_region_end(i) = '1') then
                             link_big_region_end_hold(i) <= '1';
                         end if;
@@ -142,7 +139,7 @@ begin
                     
                     big_region_ready <= and_reduce(link_big_region_end_hold);
                     
-                    level2_re_sig <= (others => big_region_ready);
+                    level2_re_sig <= big_region_ready;
                     
                 
                     --when big region is ready, reset for next big-region
@@ -152,12 +149,12 @@ begin
                     end if;
                     
                     --read all small regions
-                    if (level2_re_sig(0) = '1' and 
+                    if (level2_re_sig = '1' and 
                         small_region_rindex < 
                             ALGO_INPUT_SMALL_REGION_ETA_SIZE*ALGO_INPUT_SMALL_REGION_PHI_SIZE-1) then 
                         
                         small_region_rindex         <= small_region_rindex + 1;
-                        level2_re_sig               <= (others => '1');
+                        level2_re_sig               <= '1';
                         
                     end if;
                     

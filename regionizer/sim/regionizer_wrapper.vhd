@@ -55,7 +55,7 @@ architecture arch of regionizer_wrapper is
                 link_object_in           : in physics_object_arr_t (LINK_COUNT-1 downto 0);
                
                 level2_re_in             : in std_logic_vector(FIBER_GROUPS-1 downto 0);
-                level2_eta_phi_rindex    : in eta_phi_small_region_t;
+                level2_eta_phi_rindex    : in eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
                 
                 objects_out_valid        : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
                 objects_out              : out physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
@@ -76,7 +76,7 @@ architecture arch of regionizer_wrapper is
             link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
              
             level2_re               : out std_logic_vector(FIBER_GROUPS-1 downto 0);
-            level2_eta_phi_rindex   : out eta_phi_small_region_t;
+            level2_eta_phi_rindex   : out eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
                    
             level2_din_valid        : in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
             level2_din              : in physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
@@ -627,7 +627,7 @@ begin
         gen_object_buffer_levels_1_and_2 : if TRUE generate
         
             signal level2_re                        : std_logic_vector(FIBER_GROUPS-1 downto 0);
-            signal level2_eta_phi_rindex            : eta_phi_small_region_t;
+            signal level2_eta_phi_rindex            : eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
             
             signal level2_din_valid                 : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
             signal level2_din                       : physics_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
@@ -647,7 +647,7 @@ begin
                     link_object_in           => link_objects_to_level1,         --: in physics_object_arr_t (LINK_COUNT-1 downto 0);
                    
                     level2_re_in             => level2_re,                      --: in std_logic_vector(FIBER_GROUPS-1 downto 0);
-                    level2_eta_phi_rindex    => level2_eta_phi_rindex,          --: in get_eta_phi_small_region_t;
+                    level2_eta_phi_rindex    => level2_eta_phi_rindex,          --: in eta_phi_small_region_arr_t;
                     
                     objects_out_valid        => level2_din_valid,               --: out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
                     objects_out              => level2_din,                     --: out raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
