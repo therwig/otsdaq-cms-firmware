@@ -1,0 +1,242 @@
+----------------------------------------------------------------------------------
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date: 04/01/2019 11:23:13 AM
+-- Design Name: 
+-- Module Name: level1_fifo_only_buffer - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: 
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
+
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use ieee.numeric_std.all;
+
+use work.regionizer_params_pkg.all;
+
+
+-- Uncomment the following library declaration if instantiating
+-- any Xilinx leaf cells in this code.
+--library UNISIM;
+--use UNISIM.VComponents.all;
+
+entity level1_fifo_only_buffer is
+    port ( 
+        clk_link_to_level1      : in  std_logic;
+        clk_level1_to_2         : in  std_logic; 
+        
+        link_big_region_end     : in  std_logic;
+        
+        link_object_we_in       : in  std_logic;
+        link_object_in          : in  physics_object_t;
+        
+        level2_big_region_end   : in  std_logic;
+        level2_pipe_in          : in  level1_to_2_pipe_arr_t(LEVEL1_TO_2_PIPE_COUNT-1 downto 0);
+        level2_pipe_out         : out level1_to_2_pipe_arr_t(LEVEL1_TO_2_PIPE_COUNT-1 downto 0);
+                
+        overflow_error          : out std_logic;
+        reset                   : in  std_logic
+    );
+end level1_fifo_only_buffer;
+
+architecture Behavioral of level1_fifo_only_buffer is
+
+    constant    LAYER_BRAM_ADDR_SIZE        : natural := 10; --bits
+     
+    component level1_fifo
+        port (
+            rst : in STD_LOGIC;
+            wr_clk : in STD_LOGIC;
+            rd_clk : in STD_LOGIC;
+            din : in STD_LOGIC_VECTOR ( PHYSICS_OBJECT_BIT_SIZE-1 downto 0 );
+            wr_en : in STD_LOGIC;
+            rd_en : in STD_LOGIC;
+            dout : out STD_LOGIC_VECTOR ( PHYSICS_OBJECT_BIT_SIZE-1 downto 0 );
+            full : out STD_LOGIC;
+            empty : out STD_LOGIC;
+            wr_rst_busy : out STD_LOGIC;
+            rd_rst_busy : out STD_LOGIC
+            );
+    end component level1_fifo;
+    
+    
+    
+begin
+
+    --  This is a Level-1 FIFO-only buffer to hold objects from links before 
+    --      sending to Level-2.
+    --
+    --
+    -- =====
+    -- Write behavior:
+    --  Each link clock an object could arrive from link into
+    --      one dual port fifo for initial buffer
+    --      64b x 512    
+    --  
+    --  For each big-region keep a count of objects (need two counters),
+    --      so that objects can be flushed when Level-2 indicates
+    --      switch to next big-region.    
+    --    
+    -- 
+    -- =====
+    -- Read behavior:  
+    --  Each Level-2 transfer clock, place object by small region into available
+    --      opening in Level-2 shift register pipeline.
+    --      e.g. PARALLEL_OBJECT_RAMS = 5, SMALL_REGIONS_PER_RAM = 3, ALGO_INPUT_SMALL_REGION_COUNT = 18
+    --          then there are 18/3=6 Level-2 pipes. Each object out of the FIFO
+    --          will map to one of the pipes; sit and wait until pipe opening, place, and
+    --          read next from FIFO. 
+    -- 
+    
+    
+   
+    
+           
+    -- ==========================================================================================
+    gen_level1_handling : if TRUE generate 
+      
+        signal level1_din               : raw_physics_object_t;  
+        signal level1_dout              : raw_physics_object_t;
+        
+        signal level1_w_en              : std_logic := '0';
+        
+        signal level1_r_en              : std_logic := '0';
+        signal level1_empty             : std_logic;
+        signal level1_full              : std_logic;
+        signal level1_rd_object         : physics_object_t;
+        
+        signal level1_has_event_data    : std_logic_vector(1 downto 0) := (others => '0'); --indicate data has been received for big-event
+        
+        
+        signal level1_rd_big_region_end : std_logic;
+        
+        
+    begin     
+    
+        level1_din(63)                        <= link_object_in.quality;
+        level1_din(62)                        <= link_big_region_end; -- '0'; --FIXME(?) hijacked a bit
+        level1_din(52)                        <= link_object_in.lsEM;
+        level1_din(61 downto 52)              <= std_logic_vector(link_object_in.z0);
+        level1_din(51 downto 42)              <= std_logic_vector(link_object_in.phi);
+        level1_din(41 downto 32)              <= std_logic_vector(link_object_in.eta);
+        level1_din(31 downto 16)              <= std_logic_vector(link_object_in.otherPt);
+        level1_din(15 downto 0)               <= std_logic_vector(link_object_in.pt);
+       
+        --insert end of big-event marker if occurs without we
+        level1_w_en                           <= link_object_we_in or link_big_region_end;
+       
+        
+        -- ==========================================================================================
+        -- Level-1 buffer FIFO
+        level1_fifo_inst: level1_fifo
+            port map (
+                rst                             => reset,               --: in STD_LOGIC
+                wr_clk                          => clk_link_to_level1,  --: in STD_LOGIC
+                rd_clk                          => clk_level1_to_2,     --: in STD_LOGIC
+                
+                din                             => level1_din,          --: in STD_LOGIC_VECTOR ( 63 downto 0 )
+                
+                wr_en                           => level1_w_en,         --: in STD_LOGIC
+                rd_en                           => level1_r_en,         --: in STD_LOGIC 
+                               
+                dout                            => level1_dout,         --: out STD_LOGIC
+                           
+                full                            => level1_full,         --: out STD_LOGIC
+                empty                           => level1_empty,        --: out STD_LOGIC
+                wr_rst_busy                     => open,                --: out STD_LOGIC
+                rd_rst_busy                     => open                 --: out STD_LOGIC
+            );    
+        
+        level1_rd_object.quality                <= level1_dout(63);
+        
+        level1_rd_big_region_end                <= level1_dout(62); --FIXME hijacked a bit!
+        
+        level1_rd_object.lsEM                   <= level1_dout(52);    
+        level1_rd_object.z0                     <= signed(level1_dout(61 downto 52));
+        level1_rd_object.phi                    <= signed(level1_dout(51 downto 42));
+        level1_rd_object.eta                    <= signed(level1_dout(41 downto 32));
+        level1_rd_object.otherPt                <= signed(level1_dout(31 downto 16));
+        level1_rd_object.pt                     <= signed(level1_dout(15 downto 0));
+
+
+        -- ==========================================================================================
+        gen_level1_read_handling : if TRUE generate
+         
+            signal robject_small_region     : get_eta_phi_small_region_t;
+            signal sr_overlap_index         : integer range 0 to 3 := 0;
+            
+            signal empty_latch              : std_logic;
+            signal ready_to_handle          : std_logic; --delay by 1 clock handling of small region index
+            
+                     
+            
+        begin
+        
+            ready_to_handle <= (not level1_r_en) and (not empty_latch) and (not level1_empty);
+            
+            read_process : process(clk_level1_to_2)
+                variable target_pipe_index      : integer range 0 to LEVEL1_TO_2_PIPE_COUNT-1 := 0;
+                variable target_pipe_subindex   : integer range 0 to LEVEL2_SMALL_REGIONS_PER_RAM-1 := 0;
+            begin
+            
+                if (rising_edge(clk_level1_to_2)) then
+                
+                    empty_latch                     <= level1_empty;
+                    
+                    robject_small_region            <= get_eta_phi_small_region(
+                                                        level1_rd_object.eta,
+                                                        level1_rd_object.phi,
+                                                        sr_overlap_index
+                                                        );
+                                                        
+                    target_pipe_index               := robject_small_region.small_region.phi_index;
+                    target_pipe_subindex            := robject_small_region.small_region.eta_index;     
+                    
+                    --always pass pipe-in to pipe-out unless override below
+                    level2_pipe_out                 <= level2_pipe_in;                                                        
+                                                        
+                    if (reset = '1') then
+                        sr_overlap_index <= 0;
+                    else -- else not reset
+                    
+                        if (ready_to_handle = '1' and 
+                            level2_pipe_in(target_pipe_index).valid = '1') then
+                            
+                            --have data and opening in pipe
+                            
+                            level2_pipe_out(target_pipe_index).valid            <= '1';
+                            level2_pipe_out(target_pipe_index).object           <= level1_rd_object;
+                            level2_pipe_out(target_pipe_index).sr_ram_subindex  <= target_pipe_subindex;
+                            
+                            if (robject_small_region.is_another = '0') then
+                                --ready to pop object
+                                level1_r_en         <= '1';
+                                sr_overlap_index    <= 0; --reset for next robject
+                            else
+                                sr_overlap_index    <= sr_overlap_index + 1;
+                            end if;
+                        end if;
+                    
+                    end if; -- primary reset end if
+                    
+                end if; --end rising edge if
+            
+            end process read_process;
+        end generate gen_level1_read_handling;
+        
+
+    end generate gen_level1_handling;
+    
+          
+end Behavioral;

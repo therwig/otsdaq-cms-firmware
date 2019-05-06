@@ -1,0 +1,22 @@
+0.6
+2018.2
+Jun 14 2018
+20:07:38
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.sim/sim_1/behav/xsim/glbl.v,1556309091,verilog,,,,glbl,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/algo_pkg.vhd,1556309091,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/regionizer_wrapper.vhd,,,algo_pkg,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level1_fifo_only_buffer.vhd,1557175179,vhdl,,,,level1_fifo_only_buffer,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level1_fifo_only_buffers.vhd,1557175156,vhdl,,,,level1_fifo_only_buffers,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level1_multiram_buffer.vhd,1556309091,vhdl,,,,level1_multiram_buffer,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level1_multiram_buffers.vhd,1556309091,vhdl,,,,level1_multiram_buffers,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level1_uram_buffer.vhd,1556309091,vhdl,,,,level1_uram_buffer,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level2_pipelined_buffer.vhd,1556309091,vhdl,,,,level2_pipelined_buffer,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level2_pipelined_buffers.vhd,1556309091,vhdl,,,,level2_pipelined_buffers,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level2_ram_buffer.vhd,1557176068,vhdl,,,,level2_ram_buffer,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level2_ram_buffers.vhd,1557158419,vhdl,,,,level2_ram_buffers,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level2_uram_buffer.vhd,1557152929,vhdl,,,,level2_uram_buffer,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/regionizer_TB.vhd,1556645742,vhdl,,,,regionizer_tb,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/regionizer_params_pkg.vhd,1557174086,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/level2_ram_buffer.vhd,,,regionizer_params_pkg,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/regionizer_wrapper.vhd,1557175743,vhdl,,,,regionizer_wrapper,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/sim_file_read.vhd,1556309091,vhdl,,,,file_read,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/sim_file_write.vhd,1556309091,vhdl,,,,file_write,,,,,,,,
+/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/txt_util.vhd,1556309091,vhdl,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/sim_file_write.vhd,,,txt_util,,,,,,,,
