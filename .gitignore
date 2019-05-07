@@ -4,3 +4,4 @@ vivado_*
 .jobs
 *.cache
 webtalk*
+*.tmp

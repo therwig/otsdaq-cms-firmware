@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="regionizer_clocks_synth_1" LaunchPart="xcvu9p-flgb2104-2-i" LaunchTime="1556644287">
-  <File Type="PA-TCL" Name="regionizer_clocks.tcl"/>
   <File Type="REPORTS-TCL" Name="regionizer_clocks_reports.tcl"/>
-  <File Type="RDS-RDS" Name="regionizer_clocks.vds"/>
+  <File Type="PA-TCL" Name="regionizer_clocks.tcl"/>
   <File Type="RDS-DCP" Name="regionizer_clocks.dcp"/>
+  <File Type="RDS-RDS" Name="regionizer_clocks.vds"/>
   <File Type="RDS-UTIL-PB" Name="regionizer_clocks_utilization_synth.pb"/>
   <File Type="RDS-UTIL" Name="regionizer_clocks_utilization_synth.rpt"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/regionizer_clocks">

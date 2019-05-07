@@ -110,7 +110,6 @@ architecture arch of regionizer_wrapper is
             link_object_in          : in  physics_object_arr_t (LINK_COUNT-1 downto 0);
             
             level2_big_region_end   : in  std_logic;
-            level2_pipe_in          : in  level1_to_2_global_pipe_t;
             level2_pipe_out         : out level1_to_2_global_pipe_t;
                     
             overflow_error          : out std_logic;
@@ -746,7 +745,6 @@ begin
             
             constant LEVEL1_TO_2_PIPES_COUNT        : natural := ALGO_INPUT_SMALL_REGION_COUNT/LEVEL2_SMALL_REGIONS_PER_RAM;
             
-            signal level1_to_2_pipes_in             : level1_to_2_global_pipe_t;
             signal level1_to_2_pipes_out            : level1_to_2_global_pipe_t;
             signal small_region_closed              : std_logic_vector(ALGO_INPUT_SMALL_REGION_COUNT-1 downto 0);
         begin
@@ -766,7 +764,6 @@ begin
                     link_object_in          => link_objects_to_level1,          --: in physics_object_arr_t (LINK_COUNT-1 downto 0);
                    
                     level2_big_region_end   => '0',                             --: in  std_logic;
-                    level2_pipe_in          => level1_to_2_pipes_in,            --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                     level2_pipe_out         => level1_to_2_pipes_out,           --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                     
                     overflow_error          => open,                            --: out std_logic;

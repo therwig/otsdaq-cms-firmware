@@ -43,7 +43,6 @@ entity level1_fifo_only_buffers is
         link_object_in          : in  physics_object_arr_t (LINK_COUNT-1 downto 0);
         
         level2_big_region_end   : in  std_logic;
-        level2_pipe_in          : in  level1_to_2_global_pipe_t;
         level2_pipe_out         : out level1_to_2_global_pipe_t;
                 
         overflow_error          : out std_logic;
@@ -81,16 +80,16 @@ begin
     
     --  Generate fiber groups for each detector
     gen_tracker_fiber_groups : for g in 0 to FIBER_GROUPS-1 generate
-        signal level1_to_2_pipes        : pipes_shr_t(TRACKER_FIBERS downto 0);
+        signal level1_to_2_pipes        : pipes_shr_t(TRACKER_FIBERS downto 0) := (others => (others => empty_pipe));
     begin
 
-        level1_to_2_pipes(0)                        <= level2_pipe_in(g).tracker_pipe;
+        level1_to_2_pipes(0)                        <= (others => empty_pipe);
         level2_pipe_out(g).tracker_pipe             <= level1_to_2_pipes(TRACKER_FIBERS);
     
-        gen_level1_buffers : for i in 0 to TRACKER_FIBERS-1 generate
+        gen_tracker_level1_buffers : for i in 0 to TRACKER_FIBERS-1 generate
         begin
                 
-            level1_buffer: level1_fifo_only_buffer
+            tracker_level1_buffer: level1_fifo_only_buffer
                 port map (
                     
                     clk_link_to_level1              => clk_link_to_level1,          --: in  std_logic;
@@ -109,7 +108,7 @@ begin
                     reset                           => reset                        --: in  std_logic
                 );    
                 
-        end generate gen_level1_buffers;
+        end generate gen_tracker_level1_buffers;
     end generate gen_tracker_fiber_groups;
 
 end Behavioral;

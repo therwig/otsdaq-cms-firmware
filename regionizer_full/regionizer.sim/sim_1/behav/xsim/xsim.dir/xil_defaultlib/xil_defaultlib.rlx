@@ -2,8 +2,6 @@
 2018.2
 Jun 14 2018
 20:07:38
-/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v,1555952949,verilog,,,,tmux_clocks,,,../../../../regionizer.srcs/sources_1/ip/tmux_clocks,,,,,
-/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks_clk_wiz.v,1555952949,verilog,,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer/regionizer.srcs/sources_1/ip/tmux_clocks/tmux_clocks.v,,tmux_clocks_clk_wiz,,,../../../../regionizer.srcs/sources_1/ip/tmux_clocks,,,,,
 /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/infra_fifo/sim/infra_fifo.v,1556313065,verilog,,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/regionizer_clocks/regionizer_clocks_clk_wiz.v,,infra_fifo,,,../../../../regionizer.srcs/sources_1/ip/regionizer_clocks,,,,,
 /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/sim/level1_fifo.v,1556902303,verilog,,,,level1_fifo,,,../../../../regionizer.srcs/sources_1/ip/regionizer_clocks,,,,,
 /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/regionizer_clocks/regionizer_clocks.v,1556644285,verilog,,/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/sim/level1_fifo.v,,regionizer_clocks,,,../../../../regionizer.srcs/sources_1/ip/regionizer_clocks,,,,,

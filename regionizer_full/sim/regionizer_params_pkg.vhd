@@ -117,6 +117,7 @@ package regionizer_params_pkg is
     end record level1_to_2_detector_pipe_t;
     type level1_to_2_global_pipe_t is array(FIBER_GROUPS-1 downto 0) of level1_to_2_detector_pipe_t;
 
+
     
     --algorithm inputs interpreted as physics objects
     type algo_input_physics_objects_t is record
@@ -158,13 +159,13 @@ package regionizer_params_pkg is
     
     type output_fiber_t is array(natural range <> ) of std_logic_vector(OUTPUT_WORD_SIZE-1 downto 0);
     
-    constant null_small_region      :  eta_phi_small_region_t := (
+    constant null_small_region          :  eta_phi_small_region_t := (
         eta_index           => INVALID_ETA_INDEX,
         phi_index           => INVALID_PHI_INDEX,
         eta_phi_small_region=> INVALID_ETA_PHI_INDEX
     );
     
-    constant null_physics_object    :  physics_object_t := (
+    constant null_physics_object        :  physics_object_t := (
         phi                 => (others => '0'),
         eta                 => (others => '0'),
         quality             => '0',
@@ -179,7 +180,14 @@ package regionizer_params_pkg is
         source_event_index  => INVALID_EVENT_INDEX
     );
     
-    constant null_event_buffer : event_small_region_phi_eta_buffer_t := ( 
+    constant empty_pipe                 :  level1_to_2_pipe_t := (
+        object              => null_physics_object,
+        valid               => '0',
+        sr_ram_subindex     => 0
+    );
+    
+    
+    constant null_event_buffer          : event_small_region_phi_eta_buffer_t := ( 
         --phi
         others => (
             --eta 
@@ -307,34 +315,30 @@ package body regionizer_params_pkg is
         i                   : natural)
         return integer is
     
+        variable threshold : integer;
     begin
+    
         
-        --consider potential overlaps first
-        if(eta > -170 - ETA_OVERLAP_SIZE/2 and 
-            eta < -170 + ETA_OVERLAP_SIZE/2) then
+        threshold   := -300; --init to lowest threshold
+        for i in 0 to ALGO_INPUT_SMALL_REGION_ETA_COUNT-2 loop
         
-            if(i = 0) then
-                return 0;
-            else
-                return 1;
+            --consider potential overlaps first
+            if(eta > threshold - ETA_OVERLAP_SIZE/2 and
+                    eta < threshold + ETA_OVERLAP_SIZE/2) then
+                    
+                if(i = 0) then
+                    return i;
+                else
+                    return i+1;
+                end if;
+                
+            elsif (eta < threshold) then       
             end if;
             
-        elsif(eta > 170 - ETA_OVERLAP_SIZE/2 and 
-            eta < 170 + ETA_OVERLAP_SIZE/2) then
-         
-            if(i = 0) then
-                return 1;
-            else
-                return 2;
-            end if;
-            
-        elsif(eta < -170) then -- done with overlaps
-            return 0;
-        elsif(eta < 170) then
-            return 1;
-        else
-            return 2;
-        end if;
+            threshold       := threshold + 600/ALGO_INPUT_SMALL_REGION_ETA_COUNT;
+        end loop;
+        
+        return ALGO_INPUT_SMALL_REGION_ETA_COUNT-1;
         
     end;   --function get_eta_small_region_index     
     
@@ -346,23 +350,30 @@ package body regionizer_params_pkg is
         i                   : natural)
         return integer is
     
+        variable threshold : integer;
     begin
     
-        --consider potential overlaps first
-        if(phi > 0 - PHI_OVERLAP_SIZE/2 and
-                 phi < 0 + PHI_OVERLAP_SIZE/2) then
+        
+        threshold   := -300; --init to lowest threshold
+        for i in 0 to ALGO_INPUT_SMALL_REGION_PHI_COUNT-2 loop
+        
+            --consider potential overlaps first
+            if(phi > threshold - PHI_OVERLAP_SIZE/2 and
+                    phi < threshold + PHI_OVERLAP_SIZE/2) then
+                    
+                if(i = 0) then
+                    return i;
+                else
+                    return i+1;
+                end if;
                 
-            if(i = 0) then
-                return 0;
-            else
-                return 1;
+            elsif (phi < threshold) then       
             end if;
             
-        elsif(phi < 0) then -- done with overlaps
-            return 0;
-        else
-            return 1;
-        end if;
+            threshold       := threshold + 600/ALGO_INPUT_SMALL_REGION_PHI_COUNT;
+        end loop;
+        
+        return ALGO_INPUT_SMALL_REGION_PHI_COUNT-1; 
         
     end;   --function get_phi_small_region_index               
           

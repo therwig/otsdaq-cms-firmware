@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xcvu9p-flgb2104-2-i" LaunchTime="1557158459">
-  <File Type="VDS-TIMING-PB" Name="infra_wrapper_timing_summary_synth.pb"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="infra_wrapper_timing_summary_synth.rpt"/>
-  <File Type="RDS-DCP" Name="infra_wrapper.dcp"/>
+<GenRun Id="synth_1" LaunchPart="xcvu9p-flgb2104-2-i" LaunchTime="1557177110">
   <File Type="PA-TCL" Name="infra_wrapper.tcl"/>
   <File Type="REPORTS-TCL" Name="infra_wrapper_reports.tcl"/>
   <File Type="RDS-RDS" Name="infra_wrapper.vds"/>
-  <File Type="RDS-PROPCONSTRS" Name="infra_wrapper_drc_synth.rpt"/>
-  <File Type="RDS-UTIL" Name="infra_wrapper_utilization_synth.rpt"/>
-  <File Type="RDS-UTIL-PB" Name="infra_wrapper_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="infra_wrapper.dcp"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/sim/algo_pkg.vhd">
@@ -88,7 +83,7 @@
     <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018"/>
     <Step Id="synth_design"/>
   </Strategy>
-  <BlockFileSet Type="BlockSrcs" Name="level1_fifo"/>
   <BlockFileSet Type="BlockSrcs" Name="infra_fifo"/>
+  <BlockFileSet Type="BlockSrcs" Name="level1_fifo"/>
   <BlockFileSet Type="BlockSrcs" Name="regionizer_clocks"/>
 </GenRun>

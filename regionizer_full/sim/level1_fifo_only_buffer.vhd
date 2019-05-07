@@ -32,6 +32,9 @@ use work.regionizer_params_pkg.all;
 --use UNISIM.VComponents.all;
 
 entity level1_fifo_only_buffer is
+   generic (
+        SOURCE_FIBER_INDEX      : natural := INVALID_SOURCE_FIBER
+   );
     port ( 
         clk_link_to_level1      : in  std_logic;
         clk_level1_to_2         : in  std_logic; 
@@ -168,6 +171,8 @@ begin
         level1_rd_object.eta                    <= signed(level1_dout(41 downto 32));
         level1_rd_object.otherPt                <= signed(level1_dout(31 downto 16));
         level1_rd_object.pt                     <= signed(level1_dout(15 downto 0));
+        
+        level1_rd_object.source_fiber           <= SOURCE_FIBER_INDEX;
 
 
         -- ==========================================================================================
@@ -178,12 +183,18 @@ begin
             
             signal empty_latch              : std_logic;
             signal ready_to_handle          : std_logic; --delay by 1 clock handling of small region index
+            signal level1_r_en_latch        : std_logic; --prevent next read for 1 clock after handling
             
-                     
+            signal done_with_big_region     : std_logic := '0';      
+            
+            signal need_to_drain            : std_logic := '0';  
+            
+            signal debug_source_event_index : integer := 0; 
             
         begin
         
-            ready_to_handle <= (not level1_r_en) and (not empty_latch) and (not level1_empty);
+            ready_to_handle <= (not level1_r_en) and (not empty_latch) and (not level1_empty) and (not level1_r_en_latch);
+            
             
             read_process : process(clk_level1_to_2)
                 variable target_pipe_index      : integer range 0 to LEVEL1_TO_2_PIPE_COUNT-1 := 0;
@@ -193,6 +204,8 @@ begin
                 if (rising_edge(clk_level1_to_2)) then
                 
                     empty_latch                     <= level1_empty;
+                    level1_r_en                     <= '0';
+                    level1_r_en_latch               <= level1_r_en;
                     
                     robject_small_region            <= get_eta_phi_small_region(
                                                         level1_rd_object.eta,
@@ -207,25 +220,73 @@ begin
                     level2_pipe_out                 <= level2_pipe_in;                                                        
                                                         
                     if (reset = '1') then
-                        sr_overlap_index <= 0;
+                    
+                        sr_overlap_index            <= 0;
+                        done_with_big_region        <= '0';
+                        
+                        debug_source_event_index    <= 0;
+                        
                     else -- else not reset
                     
-                        if (ready_to_handle = '1' and 
-                            level2_pipe_in(target_pipe_index).valid = '1') then
+                        if (ready_to_handle = '1' and done_with_big_region = '0') then
+                        
+                            if (level1_rd_object.pt = 0 and  --end of big-region without valid data
+                                level1_rd_big_region_end = '1') then
+                                
+                                --done until next big-region reading
+                                done_with_big_region <= '1';
+                                
+                            elsif(level2_pipe_in(target_pipe_index).valid = '0') then
                             
-                            --have data and opening in pipe
+                                --have valid data and opening in pipe
+                                
+                                level2_pipe_out(target_pipe_index).valid            <= '1';
+                                level2_pipe_out(target_pipe_index).object           <= level1_rd_object;
+                                level2_pipe_out(target_pipe_index).object.source_event_index <= debug_source_event_index;
+                                level2_pipe_out(target_pipe_index).sr_ram_subindex  <= target_pipe_subindex;
+                                
+                                if (robject_small_region.is_another = '0') then
+                                    --ready to pop object
+                                    level1_r_en         <= '1';
+                                    sr_overlap_index    <= 0; --reset for next robject
+                                    
+                                    --check if also end of big-region
+                                    if (level1_rd_big_region_end = '1') then
+                                        --done until next big-region reading
+                                        done_with_big_region <= '1';
+                                    end if;
+                                    
+                                else
+                                    sr_overlap_index    <= sr_overlap_index + 1;
+                                end if;
+                                
+                            end if; -- end of valid data for pipe if
                             
-                            level2_pipe_out(target_pipe_index).valid            <= '1';
-                            level2_pipe_out(target_pipe_index).object           <= level1_rd_object;
-                            level2_pipe_out(target_pipe_index).sr_ram_subindex  <= target_pipe_subindex;
-                            
-                            if (robject_small_region.is_another = '0') then
-                                --ready to pop object
-                                level1_r_en         <= '1';
-                                sr_overlap_index    <= 0; --reset for next robject
-                            else
-                                sr_overlap_index    <= sr_overlap_index + 1;
+                        end if; -- end of ready to handle if
+                        
+                        --check if Level-2 is done reading big-region from Level-1
+                        if (level2_big_region_end = '1') then
+                        
+                            if (done_with_big_region = '1') then
+                        
+                                done_with_big_region        <= '0'; --release done for next big-region
+                                debug_source_event_index    <= debug_source_event_index + 1;
+                            else --need to drain!
+                                need_to_drain               <= '1';
                             end if;
+                            
+                        end if;
+                        
+                        if (need_to_drain = '1') then 
+                        
+                            --drain until end-of-big-region marker found
+                            level1_r_en         <= '1';
+                            
+                            if  (level1_rd_big_region_end = '1') then
+                                done_with_big_region        <= '0'; --release done for next big-region
+                                need_to_drain               <= '0'; --drain complete
+                            end if;
+                            
                         end if;
                     
                     end if; -- primary reset end if

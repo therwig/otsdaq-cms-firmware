@@ -152,7 +152,7 @@ begin
         input_fiber_reader_reset <= '1';
         wait for DATA_CLK_PERIOD*4;
         system_reset <= '0';
-        wait for DATA_CLK_PERIOD*4*20;
+        wait for DATA_CLK_PERIOD*4*40;
         has_reset <= '1';
         input_fiber_reader_reset <= '0';
         wait; --forever

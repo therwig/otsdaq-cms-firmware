@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="infra_fifo_synth_1" LaunchPart="xcvu9p-flgb2104-2-i" LaunchTime="1556313065">
-  <File Type="RDS-UTIL" Name="infra_fifo_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="infra_fifo_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="infra_fifo_utilization_synth.rpt"/>
   <File Type="RDS-RDS" Name="infra_fifo.vds"/>
   <File Type="RDS-DCP" Name="infra_fifo.dcp"/>
   <File Type="PA-TCL" Name="infra_fifo.tcl"/>
