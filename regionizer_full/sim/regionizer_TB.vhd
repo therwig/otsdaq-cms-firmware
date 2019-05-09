@@ -49,7 +49,7 @@ architecture TB_ARCHITECTURE of regionizer_tb is
             link_out_master     : out LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
             link_out_slave      : in  LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
         
-    
+            algo_reset          : in  std_logic;
             reset               : in  std_logic
     
         );
@@ -60,7 +60,8 @@ architecture TB_ARCHITECTURE of regionizer_tb is
     constant DATA_CLK_PERIOD : time := 8.333 ns; --120 MHz
 	
     signal data_clk : STD_LOGIC := '0'; 
-    signal system_reset : STD_LOGIC := '0';        
+    signal system_reset : STD_LOGIC := '0'; --reset things on link clock
+    signal algo_reset : STD_LOGIC := '0';   --reset things on algo clock     
     signal input_fiber_reader_reset : STD_LOGIC := '0';
         
     signal input_fiber_data : input_fiber_t (INPUT_FIBERS-1 downto 0);
@@ -148,13 +149,21 @@ begin
 	stimulator_process: process
 	begin
         wait for DATA_CLK_PERIOD*4;
-        system_reset <= '1';
-        input_fiber_reader_reset <= '1';
+        
+        system_reset                <= '1';
+        algo_reset                  <= '1';
+        input_fiber_reader_reset    <= '1';
+        
         wait for DATA_CLK_PERIOD*4;
-        system_reset <= '0';
+        
+        system_reset                <= '0';
+        
         wait for DATA_CLK_PERIOD*4*40;
-        has_reset <= '1';
-        input_fiber_reader_reset <= '0';
+        
+        has_reset                   <= '1';
+        algo_reset                  <= '0';
+        input_fiber_reader_reset    <= '0';
+        
         wait; --forever
     end process;
 	   
@@ -197,6 +206,7 @@ begin
         port map(
             link_clk    => data_clk, 
             reset       => system_reset,
+            algo_reset  => algo_reset,
     
             algo_in_debug => algo_in,
                         

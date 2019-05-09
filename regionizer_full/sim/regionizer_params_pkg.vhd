@@ -32,8 +32,8 @@ package regionizer_params_pkg is
     constant ALGO_INPUT_OBJECTS_COUNT           : natural := 60;
     
     constant TRACKER_FIBERS                     : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
-    constant EMCALO_FIBERS                     : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
-    constant CALO_FIBERS                     : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
+    constant EMCALO_FIBERS                      : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
+    constant CALO_FIBERS                        : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
             
     type link_input_data_arr_t is array(integer range <>) of std_logic_vector(INPUT_WORD_SIZE-1 downto 0); 
     
@@ -41,9 +41,9 @@ package regionizer_params_pkg is
     type raw_physics_object_arr_t is array(integer range <>) of raw_physics_object_t;
     
     constant VERTEX_BIT_WIDTH                   : natural := 10;
-    constant ALGO_INPUT_SMALL_REGION_ETA_COUNT  : natural := 2;--3;
-    constant ALGO_INPUT_SMALL_REGION_PHI_COUNT  : natural := 9;--2;
-    constant ALGO_INPUT_SMALL_REGION_COUNT      : natural := ALGO_INPUT_SMALL_REGION_ETA_COUNT * ALGO_INPUT_SMALL_REGION_PHI_COUNT;
+    constant SMALL_REGION_ETA_COUNT             : natural := 2;--3;
+    constant SMALL_REGION_PHI_COUNT             : natural := 9;--2;
+    constant SMALL_REGION_COUNT                 : natural := SMALL_REGION_ETA_COUNT * SMALL_REGION_PHI_COUNT;
     
     
     
@@ -53,23 +53,23 @@ package regionizer_params_pkg is
     --end scenario 0 add
     
     --scenario 1 add
-    constant LEVEL2_SMALL_REGIONS_PER_RAM       : natural := 3; -- Level-2 small-regions that share a RAMs (i.e. if 3, then each RAM is split by 3 for the small regions)
+    constant LEVEL2_SMALL_REGIONS_PER_RAM       : natural := SMALL_REGION_ETA_COUNT; -- Level-2 small-regions that share a RAMs (i.e. if 3, then each RAM is split by 3 for the small regions)
     constant LEVEL2_PARALLEL_OBJECT_RAMS        : natural := 5; -- Level-2 objects kept in parallel RAMs for quicker transition to HLS input width
-    constant LEVEL1_TO_2_PIPE_COUNT             : natural := ALGO_INPUT_SMALL_REGION_COUNT / ALGO_INPUT_SMALL_REGION_ETA_COUNT;
+    constant LEVEL1_TO_2_PIPE_COUNT             : natural := SMALL_REGION_COUNT / LEVEL2_SMALL_REGIONS_PER_RAM;
     --end scenario 1 add
     
     
     
-    constant INVALID_ETA_INDEX                  : natural := ALGO_INPUT_SMALL_REGION_ETA_COUNT;
-    constant INVALID_PHI_INDEX                  : natural := ALGO_INPUT_SMALL_REGION_PHI_COUNT;
-    constant INVALID_ETA_PHI_INDEX              : natural := ALGO_INPUT_SMALL_REGION_COUNT;
+    constant INVALID_ETA_INDEX                  : natural := SMALL_REGION_ETA_COUNT;
+    constant INVALID_PHI_INDEX                  : natural := SMALL_REGION_PHI_COUNT;
+    constant INVALID_ETA_PHI_INDEX              : natural := SMALL_REGION_COUNT;
     constant INVALID_SOURCE_FIBER               : natural := 2147483647;
     constant INVALID_EVENT_INDEX                : natural := 2147483647;
     
     -- provide one more than needed in range, for "invalid"
-    subtype eta_index_t             is integer range 0 to ALGO_INPUT_SMALL_REGION_ETA_COUNT;
-    subtype phi_index_t             is integer range 0 to ALGO_INPUT_SMALL_REGION_PHI_COUNT;
-    subtype small_region_index_t    is integer range 0 to ALGO_INPUT_SMALL_REGION_COUNT;
+    subtype eta_index_t             is integer range 0 to SMALL_REGION_ETA_COUNT;
+    subtype phi_index_t             is integer range 0 to SMALL_REGION_PHI_COUNT;
+    subtype small_region_index_t    is integer range 0 to SMALL_REGION_COUNT;
     
     type eta_phi_small_region_t is record
        eta_index            : eta_index_t;
@@ -135,9 +135,9 @@ package regionizer_params_pkg is
     end record algo_input_physics_objects_t; 
     
     type event_small_region_eta_arr_t               is array(integer range <>) of algo_input_physics_objects_t;    
-    subtype event_small_region_eta_buffer_t         is event_small_region_eta_arr_t(ALGO_INPUT_SMALL_REGION_ETA_COUNT-1 downto 0);
+    subtype event_small_region_eta_buffer_t         is event_small_region_eta_arr_t(SMALL_REGION_ETA_COUNT-1 downto 0);
     type event_small_region_phi_eta_arr_t           is array(integer range <>) of event_small_region_eta_buffer_t;
-    subtype event_small_region_phi_eta_buffer_t     is event_small_region_phi_eta_arr_t(ALGO_INPUT_SMALL_REGION_PHI_COUNT-1 downto 0);
+    subtype event_small_region_phi_eta_buffer_t     is event_small_region_phi_eta_arr_t(SMALL_REGION_PHI_COUNT-1 downto 0);
     
     type event_small_region_phi_eta_buffer_arr_t    is array(integer range <>) of event_small_region_phi_eta_buffer_t;
     
@@ -256,7 +256,7 @@ package regionizer_params_pkg is
                     return raw_physics_object_t;
                     
     function convert_small_region_to_object(
-        small_region_index      : integer range 0 to ALGO_INPUT_SMALL_REGION_COUNT)
+        small_region_index      : integer range 0 to SMALL_REGION_COUNT)
                     return eta_phi_small_region_t;
             
         
@@ -320,7 +320,7 @@ package body regionizer_params_pkg is
     
         
         threshold   := -300; --init to lowest threshold
-        for i in 0 to ALGO_INPUT_SMALL_REGION_ETA_COUNT-2 loop
+        for i in 0 to SMALL_REGION_ETA_COUNT-2 loop
         
             --consider potential overlaps first
             if(eta > threshold - ETA_OVERLAP_SIZE/2 and
@@ -335,10 +335,10 @@ package body regionizer_params_pkg is
             elsif (eta < threshold) then       
             end if;
             
-            threshold       := threshold + 600/ALGO_INPUT_SMALL_REGION_ETA_COUNT;
+            threshold       := threshold + 600/SMALL_REGION_ETA_COUNT;
         end loop;
         
-        return ALGO_INPUT_SMALL_REGION_ETA_COUNT-1;
+        return SMALL_REGION_ETA_COUNT-1;
         
     end;   --function get_eta_small_region_index     
     
@@ -355,7 +355,7 @@ package body regionizer_params_pkg is
     
         
         threshold   := -300; --init to lowest threshold
-        for i in 0 to ALGO_INPUT_SMALL_REGION_PHI_COUNT-2 loop
+        for i in 0 to SMALL_REGION_PHI_COUNT-2 loop
         
             --consider potential overlaps first
             if(phi > threshold - PHI_OVERLAP_SIZE/2 and
@@ -370,10 +370,10 @@ package body regionizer_params_pkg is
             elsif (phi < threshold) then       
             end if;
             
-            threshold       := threshold + 600/ALGO_INPUT_SMALL_REGION_PHI_COUNT;
+            threshold       := threshold + 600/SMALL_REGION_PHI_COUNT;
         end loop;
         
-        return ALGO_INPUT_SMALL_REGION_PHI_COUNT-1; 
+        return SMALL_REGION_PHI_COUNT-1; 
         
     end;   --function get_phi_small_region_index               
           
@@ -398,7 +398,7 @@ package body regionizer_params_pkg is
             return_object.small_region.phi_index := 
                 get_phi_small_region_index(phi,0);  
             return_object.small_region.eta_phi_small_region := 
-                ALGO_INPUT_SMALL_REGION_ETA_COUNT * 
+                SMALL_REGION_ETA_COUNT * 
                 return_object.small_region.phi_index +
                 return_object.small_region.eta_index;
             return_object.is_another := 
@@ -421,7 +421,7 @@ package body regionizer_params_pkg is
             end if;
             
             return_object.small_region.eta_phi_small_region := 
-                ALGO_INPUT_SMALL_REGION_ETA_COUNT * 
+                SMALL_REGION_ETA_COUNT * 
                 return_object.small_region.phi_index +
                 return_object.small_region.eta_index;
             return_object.is_another := 
@@ -437,7 +437,7 @@ package body regionizer_params_pkg is
                 get_phi_small_region_index(phi,1); 
             
             return_object.small_region.eta_phi_small_region := 
-                ALGO_INPUT_SMALL_REGION_ETA_COUNT * 
+                SMALL_REGION_ETA_COUNT * 
                 return_object.small_region.phi_index +
                 return_object.small_region.eta_index;
             return_object.is_another := '1'; -- must get 4th
@@ -451,7 +451,7 @@ package body regionizer_params_pkg is
                 get_phi_small_region_index(phi,1); 
             
             return_object.small_region.eta_phi_small_region := 
-                ALGO_INPUT_SMALL_REGION_ETA_COUNT * 
+                SMALL_REGION_ETA_COUNT * 
                 return_object.small_region.phi_index +
                 return_object.small_region.eta_index;
             return_object.is_another := '0'; -- no more
@@ -515,15 +515,15 @@ package body regionizer_params_pkg is
     --  convert_small_region_to_object
     --      return '1' if in overlap region
     function convert_small_region_to_object(
-            small_region_index      : integer range 0 to ALGO_INPUT_SMALL_REGION_COUNT)
+            small_region_index      : integer range 0 to SMALL_REGION_COUNT)
         return eta_phi_small_region_t is
       
         variable return_object : eta_phi_small_region_t;      
     begin
     
         return_object   := ( 
-            eta_index                 => small_region_index mod ALGO_INPUT_SMALL_REGION_ETA_COUNT,
-            phi_index                 => small_region_index / ALGO_INPUT_SMALL_REGION_ETA_COUNT,
+            eta_index                 => small_region_index mod SMALL_REGION_ETA_COUNT,
+            phi_index                 => small_region_index / SMALL_REGION_ETA_COUNT,
             eta_phi_small_region      => small_region_index
         ); 
         

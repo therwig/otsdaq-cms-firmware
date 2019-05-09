@@ -21,7 +21,7 @@ entity regionizer_wrapper is
         link_out_master     : out LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
         link_out_slave      : in  LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
     
-
+        algo_reset          : in  std_logic;
         reset               : in  std_logic
 
     );
@@ -47,27 +47,27 @@ architecture arch of regionizer_wrapper is
     
     -- component delcarations for scenario 0
     component level1_multiram_buffers    
-           generic (
-               LINK_COUNT               : integer     
-           );
-           port (
-               
-                clk_link_to_level1       : in std_logic; 
-               
-                link_big_region_end      : in std_logic_vector (LINK_COUNT-1 downto 0);
-               
-                link_object_we_in        : in std_logic_vector (LINK_COUNT-1 downto 0);
-                link_object_in           : in physics_object_arr_t (LINK_COUNT-1 downto 0);
-               
-                level2_re_in             : in std_logic_vector(FIBER_GROUPS-1 downto 0);
-                level2_eta_phi_rindex    : in eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
-                
-                objects_out_valid        : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                objects_out              : out physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                
-                overflow_error           : out std_logic;
-                reset                    : in std_logic
-           );
+        generic (
+           LINK_COUNT               : integer     
+        );
+        port (
+           
+            clk_link_to_level1      : in std_logic; 
+           
+            link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
+           
+            link_object_we_in       : in std_logic_vector (LINK_COUNT-1 downto 0);
+            link_object_in          : in physics_object_arr_t (LINK_COUNT-1 downto 0);
+           
+            level2_re_in            : in std_logic_vector(FIBER_GROUPS-1 downto 0);
+            level2_eta_phi_rindex   : in eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
+            
+            objects_out_valid       : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+            objects_out             : out physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+            
+            overflow_error          : out std_logic;
+            reset                   : in std_logic
+        );
     end component level1_multiram_buffers;
  
     component level2_pipelined_buffers 
@@ -104,15 +104,18 @@ architecture arch of regionizer_wrapper is
             clk_link_to_level1      : in  std_logic;
             clk_level1_to_2         : in  std_logic; 
             
-            link_big_region_end     : in  std_logic_vector (LINK_COUNT-1 downto 0);
+            link_big_region_end     : in  std_logic_vector(LINK_COUNT-1 downto 0);
             
-            link_object_we_in       : in  std_logic_vector (LINK_COUNT-1 downto 0);
-            link_object_in          : in  physics_object_arr_t (LINK_COUNT-1 downto 0);
-            
-            level2_big_region_end   : in  std_logic;
+            link_object_we_in       : in  std_logic_vector(LINK_COUNT-1 downto 0);
+            link_object_in          : in  physics_object_arr_t(LINK_COUNT-1 downto 0);
+            level1_big_region_end   : out std_logic_vector(FIBER_GROUPS-1 downto 0);
+                            
+            level2_big_region_end   : in  std_logic_vector(FIBER_GROUPS-1 downto 0);
+            small_region_closed     : in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
             level2_pipe_out         : out level1_to_2_global_pipe_t;
                     
             overflow_error          : out std_logic;
+            level2_reset            : in  std_logic;
             reset                   : in  std_logic
         );
     end component level1_fifo_only_buffers;
@@ -120,16 +123,17 @@ architecture arch of regionizer_wrapper is
     component level2_ram_buffers 
         port ( 
             
-            clk_level1_to_2         : in std_logic;
+            clk_level1_to_2         : in  std_logic;
+            clk_level2_to_algo      : in  std_logic;
                     
-            big_region_end          : in std_logic;
+            level1_big_region_end   : in  std_logic_vector(FIBER_GROUPS-1 downto 0);
             
-            object_pipe_in          : in level1_to_2_global_pipe_t;
+            object_pipe_in          : in  level1_to_2_global_pipe_t;
             
-            next_big_region         : out std_logic;
-            small_region_closed     : out std_logic_vector(ALGO_INPUT_SMALL_REGION_COUNT-1 downto 0);  
+            small_region_closed     : out std_logic_vector(SMALL_REGION_COUNT-1 downto 0);  
+            next_big_region         : out std_logic_vector(FIBER_GROUPS-1 downto 0);
             
-            robjects_re             : in std_logic;
+            robjects_re             : in  std_logic;
             robjects_out_valid      : out std_logic;
             robjects_out            : out physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
             
@@ -737,16 +741,11 @@ begin
         -- 1 := level-1 FIFO per link, shift-register transfer to level-2 object RAM shared in small-region groups
         gen_levels_1_and_2_scenario_1 : if BUFFER_SCENARIO = 1 generate
         
---            signal level2_re                        : std_logic_vector(FIBER_GROUPS-1 downto 0);
---            signal level2_eta_phi_rindex            : eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
+            constant LEVEL1_TO_2_PIPES_COUNT        : natural := SMALL_REGION_COUNT/LEVEL2_SMALL_REGIONS_PER_RAM;
             
---            signal level2_din_valid                 : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
---            signal level2_din                       : physics_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
-            
-            constant LEVEL1_TO_2_PIPES_COUNT        : natural := ALGO_INPUT_SMALL_REGION_COUNT/LEVEL2_SMALL_REGIONS_PER_RAM;
-            
+            signal level1_big_region_end            : std_logic_vector(FIBER_GROUPS-1 downto 0);
             signal level1_to_2_pipes_out            : level1_to_2_global_pipe_t;
-            signal small_region_closed              : std_logic_vector(ALGO_INPUT_SMALL_REGION_COUNT-1 downto 0);
+            signal small_region_closed              : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
         begin
         
             level1_buffers : level1_fifo_only_buffers    
@@ -756,37 +755,42 @@ begin
                 port map (
                     
                     clk_link_to_level1      => link_clk,                        --: in std_logic; 
-                    clk_level1_to_2         => clk_320,                         --: in std_logic;
+                    clk_level1_to_2         => link_clk,--clk_320,                         --: in std_logic;
                
                     link_big_region_end     => link_big_region_ends,            --: in std_logic_vector (LINK_COUNT-1 downto 0);
                    
                     link_object_we_in       => link_objects_to_level1_we,       --: in std_logic_vector (LINK_COUNT-1 downto 0);
                     link_object_in          => link_objects_to_level1,          --: in physics_object_arr_t (LINK_COUNT-1 downto 0);
-                   
+                    level1_big_region_end   => level1_big_region_end,           --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
+                    
                     level2_big_region_end   => '0',                             --: in  std_logic;
+                    small_region_closed     => small_region_closed,             --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
                     level2_pipe_out         => level1_to_2_pipes_out,           --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                     
                     overflow_error          => open,                            --: out std_logic;
+                    
+                    level2_reset            => algo_reset,                      --: in std_logic;
                     reset                   => reset                            --: in std_logic                  
                 );
                 
             level2_buffers : level2_ram_buffers 
                 port map ( 
-                    clk_level1_to_2         => clk_320,                         --: in std_logic; 
+                    clk_level1_to_2         => link_clk,--clk_320,              --: in std_logic; 
+                    clk_level2_to_algo      => link_clk,--clk_320,              --: in std_logic; 
                
-                    big_region_end          => '0',                             --: in std_logic_vector (LINK_COUNT-1 downto 0);
+                    level1_big_region_end   => level1_big_region_end,           --: in std_logic_vector (FIBER_GROUPS-1 downto 0);
                         
                     object_pipe_in          => level1_to_2_pipes_out,           --: in level1_to_2_global_pipe_t;
                     
                     next_big_region         => open,                            --: out std_logic;
                     
-                    small_region_closed     => small_region_closed,             --: out std_logic_vector(ALGO_INPUT_SMALL_REGION_COUNT-1 downto 0);  
+                    small_region_closed     => small_region_closed,             --: out std_logic_vector(SMALL_REGION_COUNT-1 downto 0);  
                             
                     robjects_re             => '0',                             --: in std_logic;
                     robjects_out_valid      => open,                            --: out std_logic;
                     robjects_out            => open,                            --: out physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
                     
-                    reset                   => reset                           --: in std_logic
+                    reset                   => algo_reset                       --: in std_logic
                 );
             
         end generate gen_levels_1_and_2_scenario_1;       

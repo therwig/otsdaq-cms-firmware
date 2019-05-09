@@ -34,7 +34,6 @@ set_property ip_output_repo /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/
 set_property ip_cache_permissions {read write} [current_project]
 read_ip -quiet /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo.xci
 set_property used_in_implementation false [get_files -all /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo.xdc]
-set_property used_in_implementation false [get_files -all /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo_clocks.xdc]
 set_property used_in_implementation false [get_files -all /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo_ooc.xdc]
 
 # Mark all dcp files as not used in implementation to prevent them from being

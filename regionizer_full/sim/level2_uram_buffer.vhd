@@ -36,9 +36,9 @@ entity level2_uram_buffer is
         OBJECTS_PER_SMALL_REGION: integer := 5
     );
     port (         
-        clk_level1_to_2    : in std_logic;
+        clk_level1_to_2         : in std_logic;
         
-        big_region_end          : in std_logic;
+        level1_big_region_end   : in std_logic;
         
         object_we_in            : in std_logic;
         small_region_windex     : in integer range 0 to SMALL_REGIONS_PER_RAM-1;
@@ -184,7 +184,7 @@ begin
                 else --not reset 
                 
                 
-                    if ( big_region_end = '1') then 
+                    if ( level1_big_region_end = '1') then 
                         --when big-region ends, toggle high order bit
                         -- and reset waddr for new big-region
                         

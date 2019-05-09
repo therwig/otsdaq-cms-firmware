@@ -8,10 +8,6 @@
 # XDC: The top module name and the constraint reference have the same name: 'level1_fifo'. Do not add the DONT_TOUCH constraint.
 set_property DONT_TOUCH TRUE [get_cells U0 -quiet] -quiet
 
-# XDC: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo_clocks.xdc
-# XDC: The top module name and the constraint reference have the same name: 'level1_fifo'. Do not add the DONT_TOUCH constraint.
-#dup# set_property DONT_TOUCH TRUE [get_cells U0 -quiet] -quiet
-
 # XDC: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo_ooc.xdc
 # XDC: The top module name and the constraint reference have the same name: 'level1_fifo'. Do not add the DONT_TOUCH constraint.
 #dup# set_property DONT_TOUCH TRUE [get_cells U0 -quiet] -quiet
@@ -20,10 +16,6 @@ set_property DONT_TOUCH TRUE [get_cells U0 -quiet] -quiet
 # IP: The module: 'level1_fifo' is the root of the design. Do not add the DONT_TOUCH constraint.
 
 # XDC: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo.xdc
-# XDC: The top module name and the constraint reference have the same name: 'level1_fifo'. Do not add the DONT_TOUCH constraint.
-#dup# set_property DONT_TOUCH TRUE [get_cells U0 -quiet] -quiet
-
-# XDC: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo_clocks.xdc
 # XDC: The top module name and the constraint reference have the same name: 'level1_fifo'. Do not add the DONT_TOUCH constraint.
 #dup# set_property DONT_TOUCH TRUE [get_cells U0 -quiet] -quiet
 

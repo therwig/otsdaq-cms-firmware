@@ -40,16 +40,17 @@ entity level2_ram_buffer is
         OBJECTS_TO_ALGO         : integer := 25
     );
     port ( 
-        clk_level1_to_2         : in std_logic;
+        clk_level1_to_2         : in  std_logic;
+        clk_level2_to_algo      : in  std_logic;
         
-        big_region_end          : in std_logic;
+        level1_big_region_end   : in  std_logic;
         
-        object_pipe_in          : level1_to_2_pipe_t;
+        object_pipe_in          : in  level1_to_2_pipe_t;
         
         next_big_region         : out std_logic;
-        small_region_closed     : out std_logic_vector(ALGO_INPUT_SMALL_REGION_COUNT-1 downto 0);  
+        small_region_closed     : out std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0);  
         
-        robjects_re             : in std_logic;
+        robjects_re             : in  std_logic;
         robjects_out_valid      : out std_logic;
         robjects_out            : out physics_object_arr_t(PARALLEL_OBJECT_RAMS-1 downto 0);
         
@@ -66,16 +67,16 @@ architecture Behavioral of level2_ram_buffer is
             OBJECTS_PER_SMALL_REGION: integer := OBJECTS_TO_ALGO/PARALLEL_OBJECT_RAMS
         ); 
         port (
-            clk_level1_to_2         : in std_logic;
+            clk_level1_to_2         : in  std_logic;
             
-            big_region_end          : in std_logic;
+            level1_big_region_end   : in  std_logic;
             
-            object_we_in            : in std_logic;
-            small_region_windex     : in integer range 0 to SMALL_REGIONS_PER_RAM-1;
-            object_in               : in physics_object_t;
+            object_we_in            : in  std_logic;
+            small_region_windex     : in  integer range 0 to SMALL_REGIONS_PER_RAM-1;
+            object_in               : in  physics_object_t;
             
-            robject_re_in           : in std_logic;
-            small_region_rindex     : in integer range 0 to SMALL_REGIONS_PER_RAM-1;
+            robject_re_in           : in  std_logic;
+            small_region_rindex     : in  integer range 0 to SMALL_REGIONS_PER_RAM-1;
             robject_valid           : out std_logic;
             robject_dout            : out physics_object_t;
             
@@ -147,6 +148,8 @@ begin
         type small_region_ram_pointer_arr_t is array(natural range <> ) of integer range 0 to PARALLEL_OBJECT_RAMS-1;  
         signal small_region_ram_pointer     : small_region_ram_pointer_arr_t(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => 0);
         
+        signal small_region_closed_sig      : std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => '0');
+        
         --for debugging
         
         type counter_arr_t is array(natural range <> ) of unsigned(15 downto 0);
@@ -155,13 +158,14 @@ begin
         
     begin
     
+        small_region_closed     <= small_region_closed_sig;
     
         -- ========================================
         debug_count_process : process(clk_level1_to_2)
         begin
             if (rising_edge(clk_level1_to_2)) then
             
-                if (big_region_end = '1') then
+                if (level1_big_region_end = '1') then
                     big_region_addr <= not big_region_addr;
                 
                     if (debug_read_event_index = INVALID_EVENT_INDEX) then
@@ -175,7 +179,7 @@ begin
                     debug_we_count <= (others =>'0');  
                 else
                 
-                    if (big_region_end = '1') then
+                    if (level1_big_region_end = '1') then
                         debug_we_count <= (others => '0');
                     elsif (object_pipe_in.valid = '1') then
                         debug_we_count <= debug_we_count + 1;
@@ -211,36 +215,36 @@ begin
                 
                     small_region_object_count   <= (others => 0);  
                     small_region_ram_pointer    <= (others => 0);
-                    small_region_closed         <= (others => '0');                    
+                    small_region_closed_sig         <= (others => '0');                    
                     
-                elsif (object_pipe_in.valid = '1') then
-                                   
-                   --if small-region not closed 
-                    if(object_count < OBJECTS_TO_ALGO) then
-                        
-                        ram_din_we(ram_pointer)                         <= '1';
-                        small_region_object_count(object_pipe_in.sr_ram_subindex)  <= object_count + 1;
-                                                    
-                        if (ram_pointer = PARALLEL_OBJECT_RAMS-1) then
-                            --wrap around
-                            small_region_ram_pointer(object_pipe_in.sr_ram_subindex) <= 0;
-                        else
-                            small_region_ram_pointer(object_pipe_in.sr_ram_subindex) <= ram_pointer + 1;
-                        end if;
-                        
-                    else -- small-region is closed
-                            
-                    end if; --end if region not closed
+                elsif (small_region_closed_sig(object_pipe_in.sr_ram_subindex) = '0' and 
+                    object_pipe_in.valid = '1') then --if small-region is still open and have data
+                                                      
+                    ram_din_we(ram_pointer)                                     <= '1';
+                    small_region_object_count(object_pipe_in.sr_ram_subindex)   <= object_count + 1;
+                                                
+                    --increment RAM pointer                                                
+                    if (ram_pointer = PARALLEL_OBJECT_RAMS-1) then
+                        --wrap around
+                        small_region_ram_pointer(object_pipe_in.sr_ram_subindex) <= 0;
+                    else
+                        small_region_ram_pointer(object_pipe_in.sr_ram_subindex) <= ram_pointer + 1;
+                    end if;
+                    
+                    -- check for small-region is closed
+                    if(object_count = OBJECTS_TO_ALGO-1) then  
+                        small_region_closed_sig(object_pipe_in.sr_ram_subindex)         <= '1';
+                    end if;                        
                     
                 end if; --end primary reset                
             
             
                 -- handle end of big-region on write side
                 --  Note: big_region_end indicates next clock would be first we for new big-region
-                if (big_region_end = '1') then
+                if (level1_big_region_end = '1') then
                     small_region_object_count   <= (others => 0);  
                     small_region_ram_pointer    <= (others => 0);
-                    small_region_closed         <= (others => '0'); --reopen small regions
+                    small_region_closed_sig     <= (others => '0'); --reopen small regions
                 end if;
                   
             end if; --end rising edge if        
@@ -277,9 +281,9 @@ begin
                 OBJECTS_PER_SMALL_REGION=> OBJECTS_TO_ALGO / LEVEL2_PARALLEL_OBJECT_RAMS
             )
             port map (
-                clk_level1_to_2         => clk_level1_to_2,          --: in std_logic;
+                clk_level1_to_2         => clk_level1_to_2,             --: in std_logic;
                 
-                big_region_end          => big_region_end,              --: in std_logic;
+                level1_big_region_end   => level1_big_region_end,       --: in std_logic;
                 
                 object_we_in            => ram_din_we(i),               --: in std_logic;
                 object_in               => object_in_latch,             --: in physics_object_t;
