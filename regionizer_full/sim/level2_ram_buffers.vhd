@@ -155,7 +155,7 @@ begin
             
             type robjects_re_arr_t is array(integer range <>) of std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0);            
             signal robjects_re              : robjects_re_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0) := (others => (others => '0'));
-            signal local_re                 : std_logic := '0';
+            signal local_re_arr             : std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => '0');
             
             signal level2_out_set_arr       : level2_out_tracker_set_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0); 
                                     
@@ -256,7 +256,7 @@ begin
                         level1_big_region_here      <= level1_big_region_end(g);
                         
                         local_robjects_re           <= (others => '0');
-                        local_re                    <= '0';
+                        local_re_arr(i)             <= '0';
                                 
                         tracker_group_out_valid(i)  <= '0'; 
                                     
@@ -282,7 +282,7 @@ begin
                                         --kick off read sequence of events
                                         idle                                                <= '0';   
                                         local_robjects_re(to_integer(small_region_index))   <= '1'; 
-                                        local_re                                            <= '1';
+                                        local_re_arr(i)                                     <= '1';
                                         small_region_rcount                                 <= small_region_rcount + 1; 
                                     else --start idle wait
                                         idle_count      <= idle_count + 1;
@@ -296,7 +296,7 @@ begin
                                         idle_count                                          <= (others => '0'); --reset for next read sequence
                                         idle                                                <= '0';   
                                         local_robjects_re(to_integer(small_region_index))   <= '1'; 
-                                        local_re                                            <= '1';
+                                        local_re_arr(i)                                     <= '1';
                                         small_region_rcount                                 <= small_region_rcount + 1;
                                     end if;
                                 end if;
@@ -310,7 +310,7 @@ begin
                             
                                 if(small_region_rcount < CLOCKS_TO_READ) then  
                                     local_robjects_re(to_integer(small_region_index))   <= '1';
-                                    local_re                                            <= '1'; 
+                                    local_re_arr(i)                                     <= '1'; 
                                 end if;
                                 
                                 if(small_region_rcount = MAX_CLOCKS_TO_READ - 1) then
@@ -366,6 +366,11 @@ begin
                 signal debug_small_region_out   : eta_phi_small_region_t;
                 
             begin
+                    
+                -- Behavior:
+                --  This read process is from the Level-2 shared parallel rams to the algo.
+                --  It is meant to be independent of the read-enable handling into the shared rams;
+                --      it is linked only by the local re signal and the URAM_READ_LATENCY constant.
                             
                 level2_out_set_ready        <= uram_read_valid_pipe(URAM_READ_LATENCY-1);
                 robject_set.valid           <= level2_out_set_arr(to_integer(small_region_rindex)).valid;
@@ -378,7 +383,7 @@ begin
                     if ( rising_edge(clk_level1_to_2) ) then
                     
                         uram_read_valid_pipe        <= uram_read_valid_pipe(URAM_READ_LATENCY-2 downto 0) &
-                                local_re;          
+                                local_re_arr(i);          
                                                
                         if (reset = '1') then
                         
@@ -393,10 +398,10 @@ begin
                                 local_robject_pipe <= local_robject_pipe(CLOCKS_TO_READ-2 downto 0) & robject_set;
                                
                                
-                                if (level2_read_count < CLOCKS_TO_READ) then  
-                                    level2_read_count           <= level2_read_count + 1;                                    
-                                else
-                                    level2_read_count           <= (others => '0'); --reset for next small-region
+                                if (level2_read_count = CLOCKS_TO_READ-1) then     
+                                    
+                                    --reset for next small-region 
+                                    level2_read_count           <= (others => '0'); 
                                     
                                     --increment shared small-region index for next small-region
                                     if (small_region_rindex = SHARED_SMALL_REGION_RAMS-1) then
@@ -408,6 +413,9 @@ begin
                                     --pass detector outputs to final outputs!
                                     tracker_group_out_valid(i)  <= local_robject_pipe(CLOCKS_TO_READ-2).valid(0);
                                     debug_small_region_out      <= local_robject_pipe(CLOCKS_TO_READ-2).objects(0).small_region;
+                                    
+                                else                                
+                                    level2_read_count           <= level2_read_count + 1; 
                                 end if; 
                             end if;
                             
