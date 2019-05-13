@@ -160,6 +160,8 @@ begin
             signal level2_out_set_arr       : level2_out_tracker_set_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0); 
                                     
             signal tracker_group_out_valid  : std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => '0');
+            --type detector_stagger_out_valid_t is array(integer range <>) of std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0);
+            --signal tracker_stagger_out_valid: detector_stagger_out_valid_t(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => (others => '0'));
                 
             type debug_count_arr_t is array(integer range <>) of integer;
             signal debug_pipe_valid_count   : debug_count_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0) := (others => 0);
@@ -168,6 +170,10 @@ begin
         
             
             next_big_region(g)          <= level1_big_region_end(g); -- Note: should be on clk_level1_to_2
+            
+            --tracker_group_out_valid     <= (
+            --    0 => or_reduce(tracker_stagger_out_valid(0)),
+            --    1 => or_reduce(tracker_stagger_out_valid(1)));
         
             -- ==========================================================================================
             level2_tracker_buffer_multiram_gen : for i in 0 to SHARED_SMALL_REGION_RAMS-1 generate
@@ -258,7 +264,6 @@ begin
                         local_robjects_re           <= (others => '0');
                         local_re_arr(i)             <= '0';
                                 
-                        tracker_group_out_valid(i)  <= '0'; 
                                     
                         
                         if (reset = '1') then
@@ -290,14 +295,18 @@ begin
                                 end if;
                                 
                                 if (idle_count > 0) then
-                                    idle_count          <= idle_count + 1;
-                                    if (idle_count = CLOCKS_TO_IDLE-1) then
+                                    
+                                    if (idle_count < CLOCKS_TO_IDLE) then
+                                        idle_count          <= idle_count + 1;
+                                    else
+                                    
                                         --kick off read sequence of events
                                         idle_count                                          <= (others => '0'); --reset for next read sequence
                                         idle                                                <= '0';   
                                         local_robjects_re(to_integer(small_region_index))   <= '1'; 
                                         local_re_arr(i)                                     <= '1';
                                         small_region_rcount                                 <= small_region_rcount + 1;
+                                        
                                     end if;
                                 end if;
                                                      
@@ -383,7 +392,9 @@ begin
                     if ( rising_edge(clk_level1_to_2) ) then
                     
                         uram_read_valid_pipe        <= uram_read_valid_pipe(URAM_READ_LATENCY-2 downto 0) &
-                                local_re_arr(i);          
+                                local_re_arr(i);       
+                                   
+                        tracker_group_out_valid(i)  <= '0'; 
                                                
                         if (reset = '1') then
                         
@@ -411,7 +422,7 @@ begin
                                     end if;
                                     
                                     --pass detector outputs to final outputs!
-                                    tracker_group_out_valid(i)  <= local_robject_pipe(CLOCKS_TO_READ-2).valid(0);
+                                    tracker_group_out_valid(i)  <= '1'; --local_robject_pipe(CLOCKS_TO_READ-2).valid(0);
                                     debug_small_region_out      <= local_robject_pipe(CLOCKS_TO_READ-2).objects(0).small_region;
                                     
                                 else                                

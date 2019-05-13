@@ -113,7 +113,6 @@ begin
         type debug_small_region_arr_t is array(READ_LATENCY-1 downto 0) of integer;
         signal      debug_dout_phi_label_arr    : debug_small_region_arr_t;
         signal      debug_dout_eta_label_arr    : debug_small_region_arr_t;
-        signal      debug_eta_bit               : unsigned(0 downto 0);
         signal      debug_dout_rindex_label     : eta_phi_small_region_t;
         
         signal      debug_no_more_data          : std_logic := '0'; 
@@ -157,13 +156,11 @@ begin
                 rs                          := small_region_rindex;
                 we                          <= '0';
                 level1_big_region_end_latch <= level1_big_region_end;
-                                
-                debug_eta_bit(0)            <= raddr(LEVEL_RAM_ADDR_SIZE-1);
-                               
+                                                               
                 debug_dout_phi_label_arr    <= debug_dout_phi_label_arr(READ_LATENCY-2 downto 0) & 
-                    small_region_rindex;
+                    SHARED_BUFFER_INDEX;
                 debug_dout_eta_label_arr    <= debug_dout_eta_label_arr(READ_LATENCY-2 downto 0) & 
-                    to_integer(debug_eta_bit);
+                    small_region_rindex;
                     
                 
                 target_waddr                := waddr_arr(
@@ -184,6 +181,7 @@ begin
                                       
                 debug_target_raddr          <= target_raddr;
                 debug_target_raddr_end      <= target_raddr_end;
+                debug_no_more_data          <= '0';
                 
 -- ============= -- primary reset or not if statement         
                 if (reset = '1') then                
@@ -191,7 +189,6 @@ begin
                     waddr                           <= (others => '0');
                     raddr                           <= (others => '0');
                     
-                    debug_no_more_data              <= '0';
                     
                     --initialize write address arrays
                     for i in 0 to 1 loop
@@ -220,9 +217,7 @@ begin
                             not waddr(LEVEL_RAM_ADDR_SIZE-1);
                         raddr(LEVEL_RAM_ADDR_SIZE-1)    <=  --reads from non-write half   
                             waddr(LEVEL_RAM_ADDR_SIZE-1); 
-                        
-                        debug_no_more_data              <= '0';
-                        
+                                                
                         --reset write address arrays for new target big-region (use not)
                         tmp_addr_base := (others => '0');
                         for j in 0 to SMALL_REGIONS_PER_RAM-1 loop
@@ -243,22 +238,25 @@ begin
                     --      for next data.
                      
                     if (object_we_in = '1') then
-                    
-                        -- write to RAM position associated with small region
-                        waddr(LEVEL_RAM_ADDR_SIZE-2 downto 0)    <= 
-                                std_logic_vector(target_waddr);
-                                
-                        we     <= '1';                        
-                        din    <= convert_physics_object_to_raw(object_in);                       
+                                      
                         
-                        -- increment write address
-                        if(target_waddr + 1 < 
+                        -- if still room, write object 
+                        if(target_waddr < 
                             target_waddr_base + OBJECTS_PER_SMALL_REGION) then
                             
+                            --increment write address
                             waddr_arr(
                                 to_integer(unsigned'("" & 
                                     waddr(LEVEL_RAM_ADDR_SIZE-1))))
-                                    (s) <= target_waddr + 1;
+                                    (s)                             <= target_waddr + 1;
+                                    
+                                    
+                            -- write to RAM position associated with small region
+                            waddr(LEVEL_RAM_ADDR_SIZE-2 downto 0)    <= 
+                                    std_logic_vector(target_waddr);
+                                    
+                            we     <= '1';                        
+                            din    <= convert_physics_object_to_raw(object_in);     
                                     
                         end if;                
                         
@@ -268,13 +266,15 @@ begin
                     if (robject_re_in = '1') then
                     
                         -- increment read address if there is more data
-                        if(target_raddr  < target_raddr_end) then
+                        if(target_raddr < target_raddr_end) then 
+                        
                             re                   <= '1';
                             raddr(LEVEL_RAM_ADDR_SIZE-2 downto 0) <= 
                                 std_logic_vector(target_raddr);
                             raddr_arr(rs)        <= target_raddr + 1;
+                            
                         else -- no more data
-                            debug_no_more_data <= '1';
+                            debug_no_more_data <= '1';                            
                         end if; 
                         
                     end if; -- end if re  

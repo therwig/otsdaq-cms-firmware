@@ -200,7 +200,7 @@ begin
 --                wr_en                           => level1_w_en,         --: in STD_LOGIC
 --                rd_en                           => level1_r_en,         --: in STD_LOGIC 
                                
---                dout                            => level1_dout,         --: out STD_LOGIC
+--                dout                            => level1_dout,         --: out STD_LOGIC_VECTOR ( 63 downto 0 )
                            
 --                full                            => level1_full,         --: out STD_LOGIC
 --                almost_full                     => open,                --: out STD_LOGIC
@@ -217,7 +217,7 @@ begin
                 wr_en                           => level1_w_en,         --: in STD_LOGIC
                 rd_en                           => level1_r_en,         --: in STD_LOGIC 
                                
-                dout                            => level1_dout,         --: out STD_LOGIC
+                dout                            => level1_dout,         --: out STD_LOGIC_VECTOR ( 63 downto 0 )
                            
                 full                            => level1_full,         --: out STD_LOGIC
                 almost_full                     => open,
@@ -352,6 +352,7 @@ begin
                                 level2_pipe_out(target_pipe_index).valid            <= '1';
                                 level2_pipe_out(target_pipe_index).object           <= level1_rd_object;
                                 level2_pipe_out(target_pipe_index).object.source_event_index <= debug_source_event_index;
+                                level2_pipe_out(target_pipe_index).object.small_region       <= robject_small_region.small_region;
                                 level2_pipe_out(target_pipe_index).sr_ram_subindex  <= target_pipe_subindex;
                                 
                                 if (robject_small_region.is_another = '0') then
