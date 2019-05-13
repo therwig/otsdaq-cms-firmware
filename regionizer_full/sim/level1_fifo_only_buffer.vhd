@@ -257,19 +257,89 @@ begin
             signal done_with_big_region     : std_logic := '0';    
             signal need_to_drain            : std_logic := '0';  
             
+            signal link_big_region_end_latch: std_logic;
+            
+            constant BX_COUNT_TO_DONE       : integer := 0;
+            constant BX_SUBCOUNT_TO_DONE    : integer := 15;
+            signal level1_fixed_end         : std_logic := '0';
+            
+            signal level2_next_latch        : std_logic;
+            signal level2_next_strobe       : std_logic;
+            
+            -- for debugging
             signal debug_source_event_index : integer := 0; 
             signal debug_target_pipe_closed : std_logic;
             signal debug_target_pipe_entry  : std_logic;
             signal debug_target_pipe_drop   : std_logic;
             signal debug_roverflow_error_count : unsigned(15 downto 0) := (others => '0');
             
+            
+            constant LVL2_CLOCKS_PER_2BX    : integer := 15; --for 300MHz, 15 clocks in 2x 40MHz 
+                       
+            signal debug_bx_subcount        : unsigned(5 downto 0) := (others => '0'); 
+            signal debug_bx_count           : unsigned(5 downto 0) := (others => '0');
+            
         begin
-        
+                
+            --=============
+            --  check to see if big-regions finishing on time
+            handle_fixed_end_process : process(clk_level1_to_2)
+            begin
+                if(rising_edge(clk_level1_to_2)) then
+                 
+                    --handle fixed end
+                    if(level2_big_region_end = '1') then
+                    
+                        level1_fixed_end    <= '0';   
+                        
+                    elsif(debug_bx_count = BX_COUNT_TO_DONE and 
+                        debug_bx_subcount = BX_SUBCOUNT_TO_DONE) then
+                        
+                        level1_fixed_end    <= '1';
+                        
+                    end if;
+                     
+                     
+                    -- handle bx counting from link end
+                    if (reset = '1') then
+                    
+                        debug_bx_subcount   <= (others => '1');
+                        debug_bx_count      <= (others => '1');
+                        level1_fixed_end    <= '0';
+                        
+                    elsif (link_big_region_end_latch = '1') then
+                    
+                        debug_bx_subcount   <= (others => '0');
+                        debug_bx_count      <= (others => '0');
+                    end if; 
+                    
+                    if(debug_bx_count < 19) then
+                        if(debug_bx_subcount < LVL2_CLOCKS_PER_2BX) then
+                            debug_bx_subcount <= debug_bx_subcount + 1;
+                        else                        
+                            debug_bx_subcount <= (others => '0');
+                            
+                            if(debug_bx_count < 18) then
+                                debug_bx_count <= debug_bx_count + 2;
+                            else
+                                debug_bx_count <= (others => '0'); --wrap around 
+                            end if;                            
+                        end if;
+                                                    
+                    end if;
+                
+                end if;            
+            end process handle_fixed_end_process;
+            
+            
             ready_to_handle         <= (not level1_r_en) and (not empty_latch) and 
                 (not level1_empty) and (not level1_r_en_latch) and (not ready_to_handle_latch);
             
-            level1_big_region_end   <= done_with_big_region;
+            level1_big_region_end   <= level1_fixed_end;--done_with_big_region;
             
+            level2_next_strobe      <= level2_big_region_end and (not level2_next_latch); --force to 1-clock strobe
+            
+            -- ============
             read_process : process(clk_level1_to_2)
                 variable target_pipe_index      : integer range 0 to LEVEL1_TO_2_PIPE_COUNT-1 := 0;
                 variable target_pipe_subindex   : integer range 0 to LEVEL2_SMALL_REGIONS_PER_RAM-1 := 0;
@@ -277,6 +347,9 @@ begin
             begin
             
                 if (rising_edge(clk_level1_to_2)) then
+                
+                    link_big_region_end_latch       <= link_big_region_end;
+                    level2_next_latch               <= level2_big_region_end;
                 
                     empty_latch                     <= level1_empty;
                     level1_r_en                     <= '0';
@@ -375,22 +448,23 @@ begin
                         end if; -- end of ready to handle if
                         
                         --check if Level-2 is done reading big-region from Level-1
-                        if (level2_big_region_end = '1') then
+                        if (level2_next_strobe = '1') then
                         
-                            if (need_to_drain = '1') then
+                            debug_source_event_index    <= debug_source_event_index + 1;   
+                                                        
+                            if (need_to_drain = '1') then                            
                                 read_overflow_error         <= '1';
-                                debug_roverflow_error_count <= debug_roverflow_error_count + 1;
+                                debug_roverflow_error_count <= debug_roverflow_error_count + 1;                                
                             end if;
                             
-                            if (done_with_big_region = '1') then
-                        
-                                done_with_big_region        <= '0'; --release done for next big-region
-                                debug_source_event_index    <= debug_source_event_index + 1;
+                            if (done_with_big_region = '1') then                        
+                                done_with_big_region        <= '0'; --release done for next big-region                             
                             else --need to drain!
                                 need_to_drain               <= '1';
                             end if;
                             
                         end if;
+                        
                         
                         if (need_to_drain = '1') then 
                         

@@ -166,8 +166,44 @@ begin
             type debug_count_arr_t is array(integer range <>) of integer;
             signal debug_pipe_valid_count   : debug_count_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0) := (others => 0);
             
+            constant LVL2_CLOCKS_PER_2BX    : integer := 15; --for 300MHz, 15 clocks in 2x 40MHz            
+            signal debug_bx_subcount        : unsigned(5 downto 0) := (others => '0'); 
+            signal debug_bx_count           : unsigned(5 downto 0) := (others => '0');
+            
         begin                    
         
+            --=============
+            --  check to see if big-regions finishing on time
+            debug_bx_count_process : process(clk_level1_to_2)
+            begin
+                if(rising_edge(clk_level1_to_2)) then
+                
+                    if (reset = '1' or level1_big_region_end(g) = '1') then
+                        debug_bx_subcount <= (others => '1');
+                        debug_bx_count <= (others => '1');
+                    end if; 
+                    
+                    if(debug_bx_count < 19) then
+                        if(debug_bx_subcount < LVL2_CLOCKS_PER_2BX) then
+                            debug_bx_subcount <= debug_bx_subcount + 1;
+                        else                        
+                            debug_bx_subcount <= (others => '0');
+                            
+                            if(debug_bx_count < 18) then
+                                debug_bx_count <= debug_bx_count + 2;
+                            else
+                                debug_bx_count <= (others => '0'); --wrap around 
+                            end if;                            
+                        end if;
+                    elsif (tracker_group_out_valid(0) = '1') then
+                        debug_bx_subcount <= (others => '0');
+                        debug_bx_count <= (others => '0');
+                    end if;
+                
+                end if;            
+            end process debug_bx_count_process;
+            
+            
             
             next_big_region(g)          <= level1_big_region_end(g); -- Note: should be on clk_level1_to_2
             
