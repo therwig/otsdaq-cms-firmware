@@ -118,6 +118,14 @@ package regionizer_params_pkg is
     type level1_to_2_global_pipe_t is array(FIBER_GROUPS-1 downto 0) of level1_to_2_detector_pipe_t;
 
 
+
+    type level2_to_1_sr_closed_t is record
+        tracker_closed      : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+        emcalo_closed       : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+        calo_closed         : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+    end record level2_to_1_sr_closed_t;   
+    type level2_to_1_sr_closed_arr_t is array(integer range <>) of level2_to_1_sr_closed_t;
+    
     
     --algorithm inputs interpreted as physics objects
     type algo_input_physics_objects_t is record
@@ -271,19 +279,30 @@ package body regionizer_params_pkg is
     function is_eta_small_region_overlap(
         eta:signed(9 downto 0))
         return std_logic is
-            
+       
+        variable threshold : integer;
     begin
-    
-        if(
-            (eta > -170 - ETA_OVERLAP_SIZE/2 and 
-            eta < -170 + ETA_OVERLAP_SIZE/2) or 
-            (eta > 170 - ETA_OVERLAP_SIZE/2 and 
-            eta < 170 + ETA_OVERLAP_SIZE/2) 
-            ) then
-            return '1';
-        else
-            return '0';
-        end if;
+            
+                
+        threshold   := -300; --init to lowest threshold
+        for i in 0 to SMALL_REGION_ETA_COUNT-2 loop
+        
+            --consider potential overlaps first
+            if(eta > threshold - ETA_OVERLAP_SIZE/2 and
+                    eta < threshold + ETA_OVERLAP_SIZE/2) then
+                    
+                return '1';  
+             
+            elsif(eta < threshold) then
+            
+                return '1';
+                             
+            end if;
+            
+            threshold       := threshold + 600/SMALL_REGION_ETA_COUNT;
+        end loop;
+        
+        return '1';
     end;   --function is_eta_small_region_overlap 
     
     -- ==========================================================================================
@@ -292,17 +311,27 @@ package body regionizer_params_pkg is
     function is_phi_small_region_overlap(
         phi:signed(9 downto 0))
         return std_logic is
-            
-    begin
     
-        if(
-            (phi > 0 - PHI_OVERLAP_SIZE/2 and
-             phi < 0 + PHI_OVERLAP_SIZE/2) 
-            ) then
-            return '1';
-        else
-            return '0';
-        end if;
+        variable threshold : integer;
+    begin
+            
+        threshold   := -300; --init to lowest threshold
+        for i in 0 to SMALL_REGION_PHI_COUNT-2 loop
+        
+            --consider potential overlaps first
+            if(phi > threshold - PHI_OVERLAP_SIZE/2 and
+                    phi < threshold + PHI_OVERLAP_SIZE/2) then
+                    
+                return '1';
+                
+            elsif (phi < threshold) then  
+                return '0';     
+            end if;
+            
+            threshold       := threshold + 600/SMALL_REGION_PHI_COUNT;
+        end loop;
+        
+        return '0'; 
     end;   --function is_phi_small_region_overlap 
     
     
@@ -332,7 +361,8 @@ package body regionizer_params_pkg is
                     return i+1;
                 end if;
                 
-            elsif (eta < threshold) then       
+            elsif (eta < threshold) then   
+                return i;    
             end if;
             
             threshold       := threshold + 600/SMALL_REGION_ETA_COUNT;
@@ -367,7 +397,8 @@ package body regionizer_params_pkg is
                     return i+1;
                 end if;
                 
-            elsif (phi < threshold) then       
+            elsif (phi < threshold) then   
+                return i;    
             end if;
             
             threshold       := threshold + 600/SMALL_REGION_PHI_COUNT;

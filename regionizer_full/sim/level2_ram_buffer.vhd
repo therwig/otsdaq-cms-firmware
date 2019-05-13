@@ -37,11 +37,11 @@ entity level2_ram_buffer is
     generic (
         SMALL_REGIONS_PER_RAM   : integer := LEVEL2_SMALL_REGIONS_PER_RAM;
         PARALLEL_OBJECT_RAMS    : integer := LEVEL2_PARALLEL_OBJECT_RAMS;
+        SHARED_BUFFER_INDEX     : integer;  --use for debugging to label data out
         OBJECTS_TO_ALGO         : integer := 25
     );
     port ( 
         clk_level1_to_2         : in  std_logic;
-        clk_level2_to_algo      : in  std_logic;
         
         level1_big_region_end   : in  std_logic;
         
@@ -51,7 +51,7 @@ entity level2_ram_buffer is
         small_region_closed     : out std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0);  
         
         robjects_re             : in  std_logic;
-        robjects_out_valid      : out std_logic;
+        robjects_out_valid      : out std_logic_vector(PARALLEL_OBJECT_RAMS-1 downto 0);
         robjects_out            : out physics_object_arr_t(PARALLEL_OBJECT_RAMS-1 downto 0);
         
         -- overflow not possible.. overflow_error          : out std_logic;
@@ -60,10 +60,12 @@ entity level2_ram_buffer is
 end level2_ram_buffer;
 
 architecture Behavioral of level2_ram_buffer is
+   
 
     component level2_uram_buffer  
         generic (
             SMALL_REGIONS_PER_RAM   : integer := LEVEL2_SMALL_REGIONS_PER_RAM;
+            SHARED_BUFFER_INDEX     : integer;  --use for debugging to label data out
             OBJECTS_PER_SMALL_REGION: integer := OBJECTS_TO_ALGO/PARALLEL_OBJECT_RAMS
         ); 
         port (
@@ -215,7 +217,7 @@ begin
                 
                     small_region_object_count   <= (others => 0);  
                     small_region_ram_pointer    <= (others => 0);
-                    small_region_closed_sig         <= (others => '0');                    
+                    small_region_closed_sig     <= (others => '0');                    
                     
                 elsif (small_region_closed_sig(object_pipe_in.sr_ram_subindex) = '0' and 
                     object_pipe_in.valid = '1') then --if small-region is still open and have data
@@ -278,7 +280,8 @@ begin
         
             generic map (
                 SMALL_REGIONS_PER_RAM   => LEVEL2_SMALL_REGIONS_PER_RAM,
-                OBJECTS_PER_SMALL_REGION=> OBJECTS_TO_ALGO / LEVEL2_PARALLEL_OBJECT_RAMS
+                SHARED_BUFFER_INDEX     => SHARED_BUFFER_INDEX,
+                OBJECTS_PER_SMALL_REGION=> (OBJECTS_TO_ALGO + LEVEL2_PARALLEL_OBJECT_RAMS - 1) / LEVEL2_PARALLEL_OBJECT_RAMS -- ceil(OBJECTS_TO_ALGO / LEVEL2_PARALLEL_OBJECT_RAMS)
             )
             port map (
                 clk_level1_to_2         => clk_level1_to_2,             --: in std_logic;
@@ -291,7 +294,7 @@ begin
                 
                 robject_re_in           => robjects_re,                 --: in std_logic;
                 small_region_rindex     => small_region_rindex,         --: in integer range 0 to SMALL_REGIONS_PER_RAM-1;
-                robject_valid           => robjects_out_valid_arr(i),   --: out std_logic;
+                robject_valid           => robjects_out_valid(i),       --: out std_logic;
                 robject_dout            => robject_sig,                 --: out physics_object_t;
                 
                 reset                   => reset                        --: in std_logic
@@ -302,27 +305,53 @@ begin
     
     -- ==========================================================================================
     gen_level2_re_process : if TRUE generate
+            
+        constant CLOCKS_TO_READ         : integer := (OBJECTS_TO_ALGO + LEVEL2_PARALLEL_OBJECT_RAMS - 1) / LEVEL2_PARALLEL_OBJECT_RAMS; -- ceil(OBJECTS_TO_ALGO/LEVEL2_PARALLEL_OBJECT_RAMS)
+        
+        signal read_count               : unsigned(3 downto 0) := (others => '0');
+        
+        signal debug_done_with_stack    : std_logic := '0';
+        
     begin
     
+        -- =====
+        -- Read behavior:
+        --      Each re gets PARALLEL_OBJECT_RAMS objects out of the RAMs, stepping through
+        --          each small-region stack and each small-region for the active big region.
+        --      e.g. OBJECTS_TO_ALGO = 25, PARALLEL_OBJECT_RAMS = 5
+        --          would readout all 25 objects for the small-region[0] after the first 5 re strobes
+        
         -- ========================================
         re_process : process(clk_level1_to_2)
         begin
             if (rising_edge(clk_level1_to_2)) then
-                robjects_out_valid <= and_reduce(robjects_out_valid_arr);
+                            
+                debug_done_with_stack       <= '0';    
                 
                 if (reset = '1') then
                 
                     small_region_rindex <= 0;
+                    read_count          <= (others => '0');
                     
                 else --else not reset
                 
                     if (robjects_re = '1') then
                     
-                        if(small_region_rindex = SMALL_REGIONS_PER_RAM - 1) then
-                            small_region_rindex <= 0; 
-                        else
-                            small_region_rindex <= small_region_rindex + 1;
+                        if(read_count = CLOCKS_TO_READ-1) then
+                            --switch to next small-region sharing the RAM
+                            read_count              <= (others => '0'); 
+                            debug_done_with_stack   <= '1';
+                    
+                            if(small_region_rindex = SMALL_REGIONS_PER_RAM - 1) then
+                                --wrap around back to first small-region sharing the RAM
+                                small_region_rindex <= 0; 
+                            else
+                                small_region_rindex <= small_region_rindex + 1;
+                            end if;
+                        else --still reading from small-region stack
+                            read_count <= read_count + 1;
                         end if;
+                        
                     end if;
                     
                 end if; --end primary reset if

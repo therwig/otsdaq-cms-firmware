@@ -249,6 +249,7 @@ begin
             
             signal empty_latch              : std_logic;
             signal ready_to_handle          : std_logic; --delay by 1 clock handling of small region index
+            signal ready_to_handle_latch    : std_logic; 
             signal level1_r_en_latch        : std_logic; --prevent next read for 1 clock after handling
             
             signal small_region_closed_latch: std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
@@ -264,7 +265,8 @@ begin
             
         begin
         
-            ready_to_handle         <= (not level1_r_en) and (not empty_latch) and (not level1_empty) and (not level1_r_en_latch);
+            ready_to_handle         <= (not level1_r_en) and (not empty_latch) and 
+                (not level1_empty) and (not level1_r_en_latch) and (not ready_to_handle_latch);
             
             level1_big_region_end   <= done_with_big_region;
             
@@ -279,6 +281,7 @@ begin
                     empty_latch                     <= level1_empty;
                     level1_r_en                     <= '0';
                     level1_r_en_latch               <= level1_r_en;
+                    ready_to_handle_latch           <= ready_to_handle;
                     
                     small_region_closed_latch       <= small_region_closed;
                     

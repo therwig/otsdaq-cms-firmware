@@ -45,8 +45,8 @@ entity level1_fifo_only_buffers is
         link_object_in          : in  physics_object_arr_t (LINK_COUNT-1 downto 0);
         level1_big_region_end   : out std_logic_vector(FIBER_GROUPS-1 downto 0);
         
-        level2_big_region_end   : in  std_logic;
-        small_region_closed     : in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+        level2_big_region_end   : in  std_logic_vector(FIBER_GROUPS-1 downto 0);
+        small_region_closed     : in  level2_to_1_sr_closed_arr_t(FIBER_GROUPS-1 downto 0);
         level2_pipe_out         : out level1_to_2_global_pipe_t;
                 
         overflow_error          : out std_logic;
@@ -151,8 +151,8 @@ begin
                     link_object_in                  => link_object_in(SOURCE_FIBER_INDEX),           --: in  physics_object_t;
                     level1_big_region_end           => group_big_region_end(i),     --: out std_logic;
                     
-                    level2_big_region_end           => level2_big_region_end,       --: in  std_logic;
-                    small_region_closed             => small_region_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+                    level2_big_region_end           => level2_big_region_end(g),    --: in  std_logic;
+                    small_region_closed             => small_region_closed(g).tracker_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
                     level2_pipe_in                  => level1_to_2_pipes(i),        --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                     level2_pipe_out                 => level1_to_2_pipes(i+1),      --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                             
@@ -202,8 +202,8 @@ begin
                     link_object_in                  => link_object_in(SOURCE_FIBER_INDEX),           --: in  physics_object_t;
                     level1_big_region_end           => group_big_region_end(i),    --: out std_logic;
                     
-                    level2_big_region_end           => level2_big_region_end,       --: in  std_logic;
-                    small_region_closed             => small_region_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+                    level2_big_region_end           => level2_big_region_end(g),    --: in  std_logic;
+                    small_region_closed             => small_region_closed(g).emcalo_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
                     level2_pipe_in                  => level1_to_2_pipes(i),        --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                     level2_pipe_out                 => level1_to_2_pipes(i+1),      --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                             
@@ -251,10 +251,10 @@ begin
                     
                     link_object_we_in               => link_object_we_in(SOURCE_FIBER_INDEX),        --: in  std_logic;
                     link_object_in                  => link_object_in(SOURCE_FIBER_INDEX),           --: in  physics_object_t;
-                    level1_big_region_end           => group_big_region_end(i),    --: out std_logic;
+                    level1_big_region_end           => group_big_region_end(i),     --: out std_logic;
                     
-                    level2_big_region_end           => level2_big_region_end,       --: in  std_logic;
-                    small_region_closed             => small_region_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+                    level2_big_region_end           => level2_big_region_end(g),    --: in  std_logic;
+                    small_region_closed             => small_region_closed(g).calo_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
                     level2_pipe_in                  => level1_to_2_pipes(i),        --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                     level2_pipe_out                 => level1_to_2_pipes(i+1),      --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                             

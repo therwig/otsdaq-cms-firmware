@@ -33,6 +33,7 @@ use UNISIM.VComponents.all;
 entity level2_uram_buffer is
     generic (
         SMALL_REGIONS_PER_RAM   : integer := LEVEL2_SMALL_REGIONS_PER_RAM;
+        SHARED_BUFFER_INDEX     : integer;  --use for debugging to label data out
         OBJECTS_PER_SMALL_REGION: integer := 5
     );
     port (         
@@ -89,7 +90,9 @@ begin
         signal      re                          : std_logic := '0';
         
         signal      waddr                       : std_logic_vector(LEVEL_RAM_ADDR_SIZE-1 downto 0) := (others => '0');
-               
+        
+        signal      level1_big_region_end_latch : std_logic;
+        signal      level1_big_region_end_strobe: std_logic; --force one clock width       
         
         type small_region_addr_arr_t is array(integer range <>) of unsigned(LEVEL_RAM_ADDR_SIZE-2 downto 0);
         type ram_addr_arr_t is array(1 downto 0) of small_region_addr_arr_t(SMALL_REGIONS_PER_RAM-1 downto 0);
@@ -104,20 +107,36 @@ begin
         signal      robject_valid_sig           : std_logic := '0';
         signal      dout                        : raw_physics_object_t;
         signal      object_out                  : physics_object_t;
+        
                        
         constant    READ_LATENCY                : natural := 2;
         type debug_small_region_arr_t is array(READ_LATENCY-1 downto 0) of integer;
-        signal      debug_small_region_index    : debug_small_region_arr_t;
+        signal      debug_dout_phi_label_arr    : debug_small_region_arr_t;
+        signal      debug_dout_eta_label_arr    : debug_small_region_arr_t;
+        signal      debug_eta_bit               : unsigned(0 downto 0);
+        signal      debug_dout_rindex_label     : eta_phi_small_region_t;
         
         signal      debug_no_more_data          : std_logic := '0'; 
+        signal      debug_target_raddr          : unsigned(LEVEL_RAM_ADDR_SIZE-2 downto 0);
+        signal      debug_target_raddr_end      : unsigned(LEVEL_RAM_ADDR_SIZE-2 downto 0);
          
     begin     
     
-        robject_valid       <= robject_valid_sig;
+        robject_valid                   <= robject_valid_sig;
         
-        object_out          <= convert_raw_to_physics_object(dout);
+        debug_dout_rindex_label         <= ( 
+            eta_index => debug_dout_eta_label_arr(READ_LATENCY-1),
+            phi_index => debug_dout_phi_label_arr(READ_LATENCY-1),
+            eta_phi_small_region => SMALL_REGION_ETA_COUNT * 
+                            debug_dout_phi_label_arr(READ_LATENCY-1) +
+                            debug_dout_eta_label_arr(READ_LATENCY-1));
+                            
+        object_out                      <= convert_raw_to_physics_object(dout,
+                                            debug_dout_rindex_label);
                     
-        robject_dout        <= object_out when robject_valid_sig = '1' else null_physics_object;
+        robject_dout                    <= object_out when robject_valid_sig = '1' else null_physics_object;
+        
+        level1_big_region_end_strobe    <= level1_big_region_end and (not level1_big_region_end_latch);
         
         
         level2_addr_process : process(clk_level1_to_2)
@@ -131,14 +150,21 @@ begin
             variable target_raddr_end           : unsigned(LEVEL_RAM_ADDR_SIZE-2 downto 0);
         begin
                         
+            
             if(rising_edge(clk_level1_to_2)) then
             
                 s                           := small_region_windex;
                 rs                          := small_region_rindex;
                 we                          <= '0';
-                
-                debug_small_region_index    <= debug_small_region_index(READ_LATENCY-2 downto 0) & 
+                level1_big_region_end_latch <= level1_big_region_end;
+                                
+                debug_eta_bit(0)            <= raddr(LEVEL_RAM_ADDR_SIZE-1);
+                               
+                debug_dout_phi_label_arr    <= debug_dout_phi_label_arr(READ_LATENCY-2 downto 0) & 
                     small_region_rindex;
+                debug_dout_eta_label_arr    <= debug_dout_eta_label_arr(READ_LATENCY-2 downto 0) & 
+                    to_integer(debug_eta_bit);
+                    
                 
                 target_waddr                := waddr_arr(
                                 to_integer(unsigned'("" & 
@@ -156,6 +182,8 @@ begin
                                     (not waddr(LEVEL_RAM_ADDR_SIZE-1)))))
                                     (rs);
                                       
+                debug_target_raddr          <= target_raddr;
+                debug_target_raddr_end      <= target_raddr_end;
                 
 -- ============= -- primary reset or not if statement         
                 if (reset = '1') then                
@@ -184,7 +212,7 @@ begin
                 else --not reset 
                 
                 
-                    if ( level1_big_region_end = '1') then 
+                    if ( level1_big_region_end_strobe = '1') then 
                         --when big-region ends, toggle high order bit
                         -- and reset waddr for new big-region
                         

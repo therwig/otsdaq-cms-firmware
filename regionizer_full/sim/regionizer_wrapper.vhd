@@ -111,7 +111,7 @@ architecture arch of regionizer_wrapper is
             level1_big_region_end   : out std_logic_vector(FIBER_GROUPS-1 downto 0);
                             
             level2_big_region_end   : in  std_logic_vector(FIBER_GROUPS-1 downto 0);
-            small_region_closed     : in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+            small_region_closed     : in  level2_to_1_sr_closed_arr_t(FIBER_GROUPS-1 downto 0);
             level2_pipe_out         : out level1_to_2_global_pipe_t;
                     
             overflow_error          : out std_logic;
@@ -124,13 +124,12 @@ architecture arch of regionizer_wrapper is
         port ( 
             
             clk_level1_to_2         : in  std_logic;
-            clk_level2_to_algo      : in  std_logic;
                     
             level1_big_region_end   : in  std_logic_vector(FIBER_GROUPS-1 downto 0);
             
             object_pipe_in          : in  level1_to_2_global_pipe_t;
             
-            small_region_closed     : out std_logic_vector(SMALL_REGION_COUNT-1 downto 0);  
+            small_region_closed     : out level2_to_1_sr_closed_arr_t(FIBER_GROUPS-1 downto 0);  
             next_big_region         : out std_logic_vector(FIBER_GROUPS-1 downto 0);
             
             robjects_re             : in  std_logic;
@@ -745,7 +744,8 @@ begin
             
             signal level1_big_region_end            : std_logic_vector(FIBER_GROUPS-1 downto 0);
             signal level1_to_2_pipes_out            : level1_to_2_global_pipe_t;
-            signal small_region_closed              : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+            signal small_region_closed              : level2_to_1_sr_closed_arr_t(FIBER_GROUPS-1 downto 0);
+            signal level2_big_region_end            : std_logic_vector(FIBER_GROUPS-1 downto 0);
         begin
         
             level1_buffers : level1_fifo_only_buffers    
@@ -763,7 +763,7 @@ begin
                     link_object_in          => link_objects_to_level1,          --: in physics_object_arr_t (LINK_COUNT-1 downto 0);
                     level1_big_region_end   => level1_big_region_end,           --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
                     
-                    level2_big_region_end   => '0',                             --: in  std_logic;
+                    level2_big_region_end   => level2_big_region_end,           --: in  std_logic_vector(FIBER_GROUPS-1 downto 0);
                     small_region_closed     => small_region_closed,             --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
                     level2_pipe_out         => level1_to_2_pipes_out,           --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                     
@@ -776,13 +776,12 @@ begin
             level2_buffers : level2_ram_buffers 
                 port map ( 
                     clk_level1_to_2         => link_clk,--clk_320,              --: in std_logic; 
-                    clk_level2_to_algo      => link_clk,--clk_320,              --: in std_logic; 
                
                     level1_big_region_end   => level1_big_region_end,           --: in std_logic_vector (FIBER_GROUPS-1 downto 0);
                         
                     object_pipe_in          => level1_to_2_pipes_out,           --: in level1_to_2_global_pipe_t;
                     
-                    next_big_region         => open,                            --: out std_logic;
+                    next_big_region         => level2_big_region_end,           --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
                     
                     small_region_closed     => small_region_closed,             --: out std_logic_vector(SMALL_REGION_COUNT-1 downto 0);  
                             
