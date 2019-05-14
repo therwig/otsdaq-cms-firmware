@@ -1,0 +1,32 @@
+#-----------------------------------------------------------
+# Vivado v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Tue May 14 11:19:28 2019
+# Process ID: 7658
+# Current directory: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full_walgo/regionizer.runs/synth_1
+# Command line: vivado -log infra_wrapper.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source infra_wrapper.tcl
+# Log file: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full_walgo/regionizer.runs/synth_1/infra_wrapper.vds
+# Journal file: /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full_walgo/regionizer.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source infra_wrapper.tcl -notrace
+Command: synth_design -top infra_wrapper -part xcvu9p-flgb2104-2-i
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xcvu9p'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xcvu9p'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 7708 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:03 . Memory (MB): peak = 1766.980 ; gain = 0.000 ; free physical = 54587 ; free virtual = 132021
+---------------------------------------------------------------------------------
+ERROR: [Synth 8-1031] algo_input_t is not declared [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full_walgo/sim/regionizer_wrapper.vhd:14]
+INFO: [Synth 8-2810] unit regionizer_wrapper ignored due to previous errors [/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full_walgo/sim/regionizer_wrapper.vhd:9]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 1766.984 ; gain = 0.004 ; free physical = 54601 ; free virtual = 132037
+---------------------------------------------------------------------------------
+RTL Elaboration failed
+INFO: [Common 17-83] Releasing license: Synthesis
+3 Infos, 0 Warnings, 0 Critical Warnings and 2 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Tue May 14 11:19:50 2019...

@@ -1,0 +1,1 @@
+-wto "8e6c7d0b230e4011aade48dfa24eefb2" --incr --debug "typical" --relax --mt "8" -L "fifo_generator_v13_2_2" -L "xil_defaultlib" -L "work" -L "unisims_ver" -L "unimacro_ver" -L "secureip" -L "xpm" --snapshot "regionizer_tb_behav" "work.regionizer_tb" "work.glbl" -log "elaborate.log" 
