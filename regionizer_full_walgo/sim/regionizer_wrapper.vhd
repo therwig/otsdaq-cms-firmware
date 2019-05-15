@@ -4,14 +4,14 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.regionizer_pkg.all;
   
-use work.algo_pkg.all; --because of vivado issues, copied pieces to tmux_params_pkg
+use work.algo_pkg.all;
 
 entity regionizer_wrapper is
     port(
   
         link_clk            : in  std_logic;
         
-        algo_in_debug       : out algo_input_t;
+        algo_in_debug       : out algo_input_physics_objects_t;
         
         -- Input Links 
         link_in_master      : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
@@ -172,7 +172,7 @@ architecture arch of regionizer_wrapper is
 --    signal tmux_algo_in : algo_tmux_buffer_t;
 
     -- map tmux_algo_in on algo_in since naming of inputs and outputs to HLS component already done
-    signal algo_in                      : algo_input_t;
+    signal algo_in                      : algo_input_physics_objects_t;
   
 --    constant RESET_DELAY : natural := 23;
 --    signal ap_rst_delay : std_logic_vector(RESET_DELAY-1 downto 0) := (others => '1');

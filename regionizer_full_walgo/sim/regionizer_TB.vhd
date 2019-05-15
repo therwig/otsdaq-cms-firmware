@@ -39,7 +39,7 @@ architecture TB_ARCHITECTURE of regionizer_tb is
       
             link_clk            : in  std_logic;
             
-            algo_in_debug       : out algo_input_t;
+            algo_in_debug       : out algo_input_physics_objects_t;
             
             -- Input Links 
             link_in_master      : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
@@ -92,7 +92,7 @@ architecture TB_ARCHITECTURE of regionizer_tb is
 	 	   	 
 	signal has_reset : std_logic := '0';
 	
-	signal algo_in      : algo_input_t;
+	signal algo_in      : algo_input_physics_objects_t;
 	
 begin
 	

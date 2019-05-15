@@ -102,6 +102,7 @@ package regionizer_pkg is
     constant TRACKER_OBJECTS_TO_ALGO        : integer := 25;
     constant EMCALO_OBJECTS_TO_ALGO         : integer := 20;
     constant CALO_OBJECTS_TO_ALGO           : integer := 15;
+    constant MUON_OBJECTS_TO_ALGO           : integer := 2;
     
     type level1_to_2_pipe_t is record
         object              : physics_object_t;
@@ -130,10 +131,10 @@ package regionizer_pkg is
     --algorithm inputs interpreted as physics objects
     type algo_input_physics_objects_t is record
     
-        emcalo_objects      : physics_object_arr_t(14 downto 0);
-        calo_objects        : physics_object_arr_t(14 downto 0); 
-        trk_objects         : physics_object_arr_t(14 downto 0); 
-        muon_objects        : physics_object_arr_t(1 downto 0);
+        trk_objects         : physics_object_arr_t(TRACKER_OBJECTS_TO_ALGO-1 downto 0); 
+        emcalo_objects      : physics_object_arr_t(EMCALO_OBJECTS_TO_ALGO-1 downto 0);
+        calo_objects        : physics_object_arr_t(CALO_OBJECTS_TO_ALGO-1 downto 0); 
+        muon_objects        : physics_object_arr_t(MUON_OBJECTS_TO_ALGO-1 downto 0);
          
         vertex              : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
         

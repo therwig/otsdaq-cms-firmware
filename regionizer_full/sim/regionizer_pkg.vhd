@@ -102,6 +102,7 @@ package regionizer_pkg is
     constant TRACKER_OBJECTS_TO_ALGO        : integer := 25;
     constant EMCALO_OBJECTS_TO_ALGO         : integer := 20;
     constant CALO_OBJECTS_TO_ALGO           : integer := 15;
+    constant MUON_OBJECTS_TO_ALGO           : integer := 2;
     
     type level1_to_2_pipe_t is record
         object              : physics_object_t;
@@ -117,23 +118,20 @@ package regionizer_pkg is
     end record level1_to_2_detector_pipe_t;
     type level1_to_2_global_pipe_t is array(FIBER_GROUPS-1 downto 0) of level1_to_2_detector_pipe_t;
 
-
-
     type level2_to_1_sr_closed_t is record
         tracker_closed      : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
         emcalo_closed       : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
         calo_closed         : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
     end record level2_to_1_sr_closed_t;   
     type level2_to_1_sr_closed_arr_t is array(integer range <>) of level2_to_1_sr_closed_t;
-    
-    
+        
+        
     --algorithm inputs interpreted as physics objects
-    type algo_input_physics_objects_t is record
-    
-        emcalo_objects      : physics_object_arr_t(14 downto 0);
-        calo_objects        : physics_object_arr_t(14 downto 0); 
-        trk_objects         : physics_object_arr_t(14 downto 0); 
-        muon_objects        : physics_object_arr_t(1 downto 0);
+    type algo_input_physics_objects_t is record    
+        trk_objects         : physics_object_arr_t(TRACKER_OBJECTS_TO_ALGO-1 downto 0); 
+        emcalo_objects      : physics_object_arr_t(EMCALO_OBJECTS_TO_ALGO-1 downto 0);
+        calo_objects        : physics_object_arr_t(CALO_OBJECTS_TO_ALGO-1 downto 0); 
+        muon_objects        : physics_object_arr_t(MUON_OBJECTS_TO_ALGO-1 downto 0);
          
         vertex              : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
         
@@ -142,13 +140,6 @@ package regionizer_pkg is
         source_event_index  : natural;         
     end record algo_input_physics_objects_t; 
     
-    type event_small_region_eta_arr_t               is array(integer range <>) of algo_input_physics_objects_t;    
-    subtype event_small_region_eta_buffer_t         is event_small_region_eta_arr_t(SMALL_REGION_ETA_COUNT-1 downto 0);
-    type event_small_region_phi_eta_arr_t           is array(integer range <>) of event_small_region_eta_buffer_t;
-    subtype event_small_region_phi_eta_buffer_t     is event_small_region_phi_eta_arr_t(SMALL_REGION_PHI_COUNT-1 downto 0);
-    
-    type event_small_region_phi_eta_buffer_arr_t    is array(integer range <>) of event_small_region_phi_eta_buffer_t;
-
     
     type output_fiber_t is array(natural range <> ) of std_logic_vector(OUTPUT_WORD_SIZE-1 downto 0);
     
@@ -180,29 +171,6 @@ package regionizer_pkg is
         sr_ram_subindex     => 0
     );
     
-    
-    constant null_event_buffer          : event_small_region_phi_eta_buffer_t := ( 
-        --phi
-        others => (
-            --eta 
-            others => (
-                 emcalo_objects     => (others => null_physics_object),
-                 calo_objects       => (others => null_physics_object),
-                 trk_objects        => (others => null_physics_object),
-                 muon_objects       => (others => null_physics_object),
-                 
-                 vertex             => (others => '0'),
-                         
-                 source_event_index => INVALID_EVENT_INDEX,
-                 
-                 small_region       => null_small_region
-            )
-        ));
-
-
---    --EXAMPLE from AlgorithmConstants from old CMS_CAL/work
---          function find_egamma_pipelined_col(eta_minus:std_logic; egamma: std_logic_vector(3 downto 0))
---                    return integer;
 
     constant ETA_OVERLAP_SIZE       : integer := 32;
     constant PHI_OVERLAP_SIZE       : integer := 32;

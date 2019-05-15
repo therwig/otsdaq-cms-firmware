@@ -25,7 +25,7 @@ architecture arch of infra_wrapper is
       
             link_clk            : in  std_logic;
             
-            algo_in_debug       : out algo_input_t;
+            algo_in_debug       : out algo_input_physics_objects_t;
             
             -- Input Links 
             link_in_master      : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
@@ -68,7 +68,7 @@ begin
       
             link_clk                => link_clk,            --: in  std_logic;
             
-            algo_in_debug           => open,                --: out algo_input_t;
+            algo_in_debug           => open,                --: out algo_input_physics_objects_t;
             
             -- Input Links 
             link_in_master          => links_in,            --: in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);

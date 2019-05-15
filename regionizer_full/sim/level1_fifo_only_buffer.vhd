@@ -23,7 +23,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 
-use work.regionizer_params_pkg.all;
+use work.regionizer_pkg.all;
 
 
 -- Uncomment the following library declaration if instantiating
@@ -137,7 +137,7 @@ begin
         signal level1_r_en              : std_logic := '0';
         signal level1_empty             : std_logic;
         signal level1_full              : std_logic;
-        signal level1_rd_object         : physics_object_t;
+        signal level1_rd_object         : physics_object_t := null_physics_object;
         
         signal level1_has_event_data    : std_logic_vector(1 downto 0) := (others => '0'); --indicate data has been received for big-event
         
@@ -247,10 +247,10 @@ begin
             signal robject_small_region     : get_eta_phi_small_region_t;
             signal sr_overlap_index         : integer range 0 to 3 := 0;
             
-            signal empty_latch              : std_logic;
+            signal empty_latch              : std_logic := '0';
             signal ready_to_handle          : std_logic; --delay by 1 clock handling of small region index
-            signal ready_to_handle_latch    : std_logic; 
-            signal level1_r_en_latch        : std_logic; --prevent next read for 1 clock after handling
+            signal ready_to_handle_latch    : std_logic := '0'; 
+            signal level1_r_en_latch        : std_logic := '0'; --prevent next read for 1 clock after handling
             
             signal small_region_closed_latch: std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
             
@@ -263,8 +263,8 @@ begin
             constant BX_SUBCOUNT_TO_DONE    : integer := 15;
             signal level1_fixed_end         : std_logic := '0';
             
-            signal level2_next_latch        : std_logic;
-            signal level2_next_strobe       : std_logic;
+            signal level2_next_latch        : std_logic := '0';
+            signal level2_next_strobe       : std_logic := '0';
             
             -- for debugging
             signal debug_source_event_index : integer := 0; 

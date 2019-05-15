@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 use ieee.std_logic_misc.all;
 
-use work.regionizer_params_pkg.all;
+use work.regionizer_pkg.all;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -52,7 +52,7 @@ entity level2_ram_buffers is
         
         robjects_re             : in  std_logic;
         robjects_out_valid      : out std_logic;
-        robjects_out            : out physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
+        robjects_out            : out raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
         
         -- overflow not possible.. overflow_error          : out std_logic;
         reset                   : in  std_logic
@@ -100,11 +100,19 @@ architecture Behavioral of level2_ram_buffers is
     end record level2_out_pipe_t;
     type level2_out_pipe_arr_t is array(natural range <> ) of level2_out_pipe_t;
     
-    signal level2_out_pipes         : level2_out_pipe_arr_t(2 downto 0);
+    signal level2_out_pipes         : level2_out_pipe_arr_t(2 downto 0) := (others => (valid => '0', objects => (others => null_physics_object)));
     
-    signal level2_tracker_out_valid : std_logic := '0';
+    signal level2_detector_out_valid : std_logic := '0';
     signal level2_emcalo_out_valid  : std_logic := '0';
     signal level2_calo_out_valid    : std_logic := '0';
+    
+    type integer_arr_t is array(natural range <> ) of integer;
+    constant DETECTOR_OBJECTS_TO_ALGO_ARR       : integer_arr_t(2 downto 0) := (0 => 25, 1 => 20, 2 => 15);
+    constant OBJECTS_OFFSET_TO_ALGO_ARR         : integer_arr_t(2 downto 0) := (
+        0 => 0, 
+        1 => DETECTOR_OBJECTS_TO_ALGO_ARR(0), 
+        2 => DETECTOR_OBJECTS_TO_ALGO_ARR(0)+DETECTOR_OBJECTS_TO_ALGO_ARR(1));
+    constant DETECTOR_PIPES_IN_ARR              : integer_arr_t(2 downto 0) := (0 => LEVEL1_TO_2_PIPE_COUNT, 1 => LEVEL1_TO_2_PIPE_COUNT, 2 => LEVEL1_TO_2_PIPE_COUNT);
      
 begin
 
@@ -129,39 +137,132 @@ begin
     --          of Level-2 to the algo.
     
 
-    robjects_out_valid          <= robjects_re; -- unnecessary and_reduce(all valids)
-
+    robjects_out_valid          <= '1';--robjects_re; -- unnecessary and_reduce(all valids)
+    
+    
+    robjects_out_gen : for i in 0 to ALGO_INPUT_OBJECTS_COUNT-1 generate 
+        robjects_out(i) <= convert_physics_object_to_raw(level2_out_pipes(0).objects(i));
+    end generate;
+    
     -- ==========================================================================================
-    -- generate Tracker Level-2 buffers
-    level2_tracker_buffer_gen : if TRUE generate
-        constant DETECTOR_OBJECTS_TO_ALGO   : integer := 25;   
+    -- generate detector Level-2 buffers
+    level2_detector_buffer_gen : for d in 0 to 2 generate
+        constant DETECTOR_OBJECTS_TO_ALGO   : integer := DETECTOR_OBJECTS_TO_ALGO_ARR(d);
+        constant OBJECTS_OFFSET_TO_ALGO     : integer := OBJECTS_OFFSET_TO_ALGO_ARR(d);
+           
         constant SHARED_SMALL_REGION_RAMS   : integer := SMALL_REGION_COUNT/SMALL_REGIONS_PER_RAM;    
         constant CLOCKS_TO_STAGGER          : integer := 2;
         
-        constant CLOCKS_TO_READ         : integer := (DETECTOR_OBJECTS_TO_ALGO + LEVEL2_PARALLEL_OBJECT_RAMS - 1) / LEVEL2_PARALLEL_OBJECT_RAMS; -- ceil(DETECTOR_OBJECTS_TO_ALGO/LEVEL2_PARALLEL_OBJECT_RAMS)
-           
+        constant CLOCKS_TO_READ             : integer := (DETECTOR_OBJECTS_TO_ALGO + LEVEL2_PARALLEL_OBJECT_RAMS - 1) / LEVEL2_PARALLEL_OBJECT_RAMS; -- ceil(DETECTOR_OBJECTS_TO_ALGO/LEVEL2_PARALLEL_OBJECT_RAMS)
         
-        type level2_out_tracker_set_t is record
+        
+        type level2_out_detector_set_t is record
             valid   : std_logic_vector(LEVEL2_PARALLEL_OBJECT_RAMS-1 downto 0);
             objects : physics_object_arr_t(LEVEL2_PARALLEL_OBJECT_RAMS-1 downto 0);
-        end record level2_out_tracker_set_t;
-        type level2_out_tracker_set_arr_t is array(natural range <> ) of level2_out_tracker_set_t;
-        
+        end record level2_out_detector_set_t;        
+        type level2_out_detector_set_arr_t is array(natural range <> ) of level2_out_detector_set_t;
+        type level2_out_detector_sr_set_arr_t is array(natural range <> ) of level2_out_detector_set_arr_t(CLOCKS_TO_READ-1 downto 0);        
+        type level2_out_detector_group_set_full_arr_t is array(natural range <> ) of level2_out_detector_sr_set_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0);
+        signal detector_group_out_set_arr     : level2_out_detector_group_set_full_arr_t(FIBER_GROUPS-1 downto 0); 
         
     begin
     
         -- ==========================================================================================
-        level2_tracker_buffer_group_gen : for g in 0 to FIBER_GROUPS-1 generate
+        -- generate Tracker Level-2 buffers
+        -- FIXME FIXME FIXME
+        level2_detector_map_small_region_to_algo_gen : if TRUE generate            
+                    
+            constant LVL2_CLOCKS_PER_2BX    : integer := 15; --for 300MHz, 15 clocks in 2x 40MHz 
+                       
+            signal debug_bx_subcount        : unsigned(5 downto 0) := (others => '0'); 
+            signal debug_bx_count           : unsigned(5 downto 0) := (others => '0');
+            signal target_group_index       : unsigned(1 downto 0) := (others => '0');
             
+            signal target_sr_index          : unsigned(0 downto 0) := (others => '0');
+            signal g                        : integer range 0 to 2 := 0;
+            signal i                        : integer range 0 to 1 := 0;
+        begin            
+        
+            g           <= to_integer(target_group_index);
+            i           <= to_integer(target_sr_index);
+            
+            level2_out_pipes(0).valid <= '1';
+            level2_detector_map_small_region_objects_to_algo_gen : for j in 0 to CLOCKS_TO_READ-1 generate 
+                level2_out_pipes(0).objects(
+                    (j+1) * LEVEL2_PARALLEL_OBJECT_RAMS - 1 + OBJECTS_OFFSET_TO_ALGO downto 
+                        j * LEVEL2_PARALLEL_OBJECT_RAMS     + OBJECTS_OFFSET_TO_ALGO) <= 
+                    detector_group_out_set_arr(g)(i)(j).objects;
+            end generate;
+        
+            -- ============ 
+            level2_detector_map_small_region_to_algo_process : process(clk_level1_to_2)
+            begin
+            
+            
+            
+                if ( rising_edge(clk_level1_to_2) ) then
+                
+                    target_sr_index(0)      <= not target_sr_index(0);
+                    
+                    -- handle bx counting from link end
+                    if (reset = '1') then
+                    
+                        debug_bx_subcount   <= (others => '0');--'1');
+                        debug_bx_count      <= (others => '0');--'1');
+                        target_group_index  <= (others => '0');
+                             
+                        
+--                    elsif (link_big_region_end_latch = '1') then
+                    
+--                        debug_bx_subcount   <= (others => '0');
+--                        debug_bx_count      <= (others => '0');
+                    end if; 
+                    
+                    if(debug_bx_count < 19) then
+                        if(debug_bx_subcount < LVL2_CLOCKS_PER_2BX) then
+                            debug_bx_subcount <= debug_bx_subcount + 1;
+                        else                        
+                            debug_bx_subcount <= (others => '0');
+                            
+                            if(debug_bx_count = 4) then
+                                target_group_index <= target_group_index + 1;
+                            elsif(debug_bx_count = 10) then
+                                target_group_index <= target_group_index + 1;
+                            elsif(debug_bx_count = 16) then
+                                target_group_index <= (others => '0');
+                            end if;
+                               
+                            
+                            if(debug_bx_count < 18) then
+                                debug_bx_count <= debug_bx_count + 2;
+                            else
+                                debug_bx_count <= (others => '0'); --wrap around 
+                            end if;                            
+                        end if;
+                                                    
+                    end if;
+                    
+                end if; --end rising edge if
+                
+            end process level2_detector_map_small_region_to_algo_process;
+        end generate level2_detector_map_small_region_to_algo_gen;
+    
+    
+        -- ==========================================================================================
+        level2_detector_buffer_group_gen : for g in 0 to FIBER_GROUPS-1 generate
+            
+            signal detector_pipe_in         : level1_to_2_pipe_arr_t(DETECTOR_PIPES_IN_ARR(d)-1 downto 0);
+            signal detector_closed          : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+                
             type robjects_re_arr_t is array(integer range <>) of std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0);            
             signal robjects_re              : robjects_re_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0) := (others => (others => '0'));
             signal local_re_arr             : std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => '0');
             
-            signal level2_out_set_arr       : level2_out_tracker_set_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0); 
+            signal level2_out_set_arr       : level2_out_detector_set_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0); 
                                     
-            signal tracker_group_out_valid  : std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => '0');
+            signal detector_group_out_valid : std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => '0');
             --type detector_stagger_out_valid_t is array(integer range <>) of std_logic_vector(SMALL_REGIONS_PER_RAM-1 downto 0);
-            --signal tracker_stagger_out_valid: detector_stagger_out_valid_t(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => (others => '0'));
+            --signal detector_stagger_out_valid: detector_stagger_out_valid_t(SMALL_REGIONS_PER_RAM-1 downto 0) := (others => (others => '0'));
                 
             type debug_count_arr_t is array(integer range <>) of integer;
             signal debug_pipe_valid_count   : debug_count_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0) := (others => 0);
@@ -171,6 +272,20 @@ begin
             signal debug_bx_count           : unsigned(5 downto 0) := (others => '0');
             
         begin                    
+            
+            --connect the proper detector specific objects
+            tracker_detector_pipe_gen : if d = 0 generate
+                detector_pipe_in                        <= object_pipe_in(g).tracker_pipe;
+                small_region_closed(g).tracker_closed   <= detector_closed;
+            end generate;
+            emcalo_detector_pipe_gen  : if d = 1 generate
+                detector_pipe_in                        <= object_pipe_in(g).emcalo_pipe;
+                small_region_closed(g).emcalo_closed    <= detector_closed;
+            end generate;
+            calo_detector_pipe_gen    : if d = 2 generate
+                detector_pipe_in                        <= object_pipe_in(g).calo_pipe;
+                small_region_closed(g).calo_closed      <= detector_closed;
+            end generate;
         
             --=============
             --  check to see if big-regions finishing on time
@@ -195,7 +310,7 @@ begin
                                 debug_bx_count <= (others => '0'); --wrap around 
                             end if;                            
                         end if;
-                    elsif (tracker_group_out_valid(0) = '1') then
+                    elsif (detector_group_out_valid(0) = '1') then
                         debug_bx_subcount <= (others => '0');
                         debug_bx_count <= (others => '0');
                     end if;
@@ -207,12 +322,12 @@ begin
             
             next_big_region(g)          <= level1_big_region_end(g); -- Note: should be on clk_level1_to_2
             
-            --tracker_group_out_valid     <= (
-            --    0 => or_reduce(tracker_stagger_out_valid(0)),
-            --    1 => or_reduce(tracker_stagger_out_valid(1)));
+            --detector_group_out_valid     <= (
+            --    0 => or_reduce(detector_stagger_out_valid(0)),
+            --    1 => or_reduce(detector_stagger_out_valid(1)));
         
             -- ==========================================================================================
-            level2_tracker_buffer_multiram_gen : for i in 0 to SHARED_SMALL_REGION_RAMS-1 generate
+            level2_detector_buffer_multiram_gen : for i in 0 to SHARED_SMALL_REGION_RAMS-1 generate
             begin
             
                 --=============
@@ -222,7 +337,7 @@ begin
                     
                         if (reset = '1' or level1_big_region_end(g) = '1') then
                             debug_pipe_valid_count(i) <= 0;
-                        elsif (object_pipe_in(g).tracker_pipe(i).valid = '1') then
+                        elsif (detector_pipe_in(i).valid = '1') then
                             debug_pipe_valid_count(i) <= debug_pipe_valid_count(i) + 1;
                         end if; 
                     
@@ -230,7 +345,7 @@ begin
                 end process debug_count_process;
                 
                 --=============
-                layer2_tracker_buffer: level2_ram_buffer
+                layer2_detector_buffer: level2_ram_buffer
                     generic map (
                         SHARED_BUFFER_INDEX             => i,
                         OBJECTS_TO_ALGO                 => DETECTOR_OBJECTS_TO_ALGO  
@@ -240,10 +355,10 @@ begin
                                 
                         level1_big_region_end           => level1_big_region_end(g),    --: in  std_logic;
                         
-                        object_pipe_in                  => object_pipe_in(g).tracker_pipe(i),           --: in  level1_to_2_pipe_t;
+                        object_pipe_in                  => detector_pipe_in(i),           --: in  level1_to_2_pipe_t;
                         
                         next_big_region                 => open,                        --: out std_logic;
-                        small_region_closed             => small_region_closed(g).tracker_closed((i+1)*2-1 downto i*2),   --: out std_logic_vector(SMALL_REGION_COUNT-1 downto 0);  
+                        small_region_closed             => detector_closed((i+1)*2-1 downto i*2),   --: out std_logic_vector(SMALL_REGION_COUNT-1 downto 0);  
                         
                         robjects_re                     => or_reduce(robjects_re(i)),   --: in  std_logic;
                         robjects_out_valid              => level2_out_set_arr(i).valid,    --: out std_logic_vector(PARALLEL_OBJECT_RAMS-1 downto 0);
@@ -251,13 +366,13 @@ begin
                 
                         reset                           => reset
                     );    
-                --end tracker buffer component
+                --end detector buffer component
                                                      
-            end generate level2_tracker_buffer_multiram_gen;
+            end generate level2_detector_buffer_multiram_gen;
             
             
             -- ==========================================================================================
-            level2_tracker_read_stagger_gen : for i in 0 to SMALL_REGIONS_PER_RAM-1 generate
+            level2_detector_read_stagger_gen : for i in 0 to SMALL_REGIONS_PER_RAM-1 generate
                                 
                 constant STAGGER_START_INDEX    : unsigned(3 downto 0) := to_unsigned(i*
                     ((((SMALL_REGIONS_PER_RAM - 1)*CLOCKS_TO_STAGGER) + MAX_CLOCKS_TO_READ - 1)/ 
@@ -290,7 +405,7 @@ begin
                 --      clocks needed to read one small-region out to algo. Plus
                 --      add delay of ceil(ALGO_MAX_DETECTOR_OBJECTS/SHARED_SMALL_REGION_RAMS) 
                 --      to account for other detectors finishing                 
-                level2_tracker_read_process : process(clk_level1_to_2)
+                level2_detector_read_process : process(clk_level1_to_2)
                 begin
                     
                     if ( rising_edge(clk_level1_to_2) ) then
@@ -388,18 +503,18 @@ begin
                          
                     end if; --end rising edge if                   
                     
-                end process level2_tracker_read_process;
+                end process level2_detector_read_process;
                 
-            end generate level2_tracker_read_stagger_gen;
+            end generate level2_detector_read_stagger_gen;
                         
             -- ==========================================================================================
-            level2_tracker_read_to_algo_handle_gen : for i in 0 to SMALL_REGIONS_PER_RAM-1 generate
+            level2_detector_read_to_algo_handle_gen : for i in 0 to SMALL_REGIONS_PER_RAM-1 generate
                             
                 signal level2_out_set_ready     : std_logic := '0';
                 signal level2_read_count        : unsigned(3 downto 0) := (others => '0');
                                            
-                signal robject_set              : level2_out_tracker_set_t;   
-                signal local_robject_pipe       : level2_out_tracker_set_arr_t(CLOCKS_TO_READ-1 downto 0);  
+                signal robject_set              : level2_out_detector_set_t;   
+                signal local_robject_pipe       : level2_out_detector_set_arr_t(CLOCKS_TO_READ-1 downto 0);  
                                 
                 constant URAM_READ_LATENCY      : integer := 2;
                 signal uram_read_valid_pipe     : std_logic_vector(URAM_READ_LATENCY-1 downto 0) := (others => '0');
@@ -421,8 +536,10 @@ begin
                 robject_set.valid           <= level2_out_set_arr(to_integer(small_region_rindex)).valid;
                 robject_set.objects         <= level2_out_set_arr(to_integer(small_region_rindex)).objects;
             
+                detector_group_out_set_arr(g)(i)  <= local_robject_pipe; --map to high level signals
+                
                 -- ============             
-                level2_tracker_read_to_algo_handle_process : process(clk_level1_to_2)
+                level2_detector_read_to_algo_handle_process : process(clk_level1_to_2)
                 begin
                 
                     if ( rising_edge(clk_level1_to_2) ) then
@@ -430,7 +547,7 @@ begin
                         uram_read_valid_pipe        <= uram_read_valid_pipe(URAM_READ_LATENCY-2 downto 0) &
                                 local_re_arr(i);       
                                    
-                        tracker_group_out_valid(i)  <= '0'; 
+                        detector_group_out_valid(i)  <= '0'; 
                                                
                         if (reset = '1') then
                         
@@ -458,9 +575,9 @@ begin
                                     end if;
                                     
                                     --pass detector outputs to final outputs!
-                                    tracker_group_out_valid(i)  <= '1'; --local_robject_pipe(CLOCKS_TO_READ-2).valid(0);
+                                    detector_group_out_valid(i)  <= '1'; --local_robject_pipe(CLOCKS_TO_READ-2).valid(0);
                                     debug_small_region_out      <= local_robject_pipe(CLOCKS_TO_READ-2).objects(0).small_region;
-                                    
+                                                                        
                                 else                                
                                     level2_read_count           <= level2_read_count + 1; 
                                 end if; 
@@ -469,13 +586,18 @@ begin
                         end if; --end primary reset if
                          
                     end if; --end rising edge if  
-                end process level2_tracker_read_to_algo_handle_process;
+                end process level2_detector_read_to_algo_handle_process;
                             
-            end generate level2_tracker_read_to_algo_handle_gen;
+            end generate level2_detector_read_to_algo_handle_gen;
             
             
-        end generate level2_tracker_buffer_group_gen;
-    end generate level2_tracker_buffer_gen;
+        end generate level2_detector_buffer_group_gen;
+    end generate level2_detector_buffer_gen;
+    
+    
+    
+    
+    
         
 
 end Behavioral;

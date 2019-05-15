@@ -102,6 +102,7 @@ begin
         signal      raddr_arr                   : small_region_addr_arr_t(SMALL_REGIONS_PER_RAM-1 downto 0)  := (others => (others => '0'));
         
         signal      raddr                       : std_logic_vector(LEVEL_RAM_ADDR_SIZE-1 downto 0) := (others => '0');
+        signal      din_sig                     : raw_physics_object_t := (others => '0');
         signal      din                         : raw_physics_object_t := (others => '0');
         
         signal      robject_valid_sig           : std_logic := '0';
@@ -120,6 +121,8 @@ begin
         signal      debug_target_raddr_end      : unsigned(LEVEL_RAM_ADDR_SIZE-2 downto 0);
          
     begin     
+    
+        din_sig                         <= convert_physics_object_to_raw(object_in);
     
         robject_valid                   <= robject_valid_sig;
         
@@ -256,7 +259,7 @@ begin
                                     std_logic_vector(target_waddr);
                                     
                             we     <= '1';                        
-                            din    <= convert_physics_object_to_raw(object_in);     
+                            din    <= din_sig; --convert_physics_object_to_raw(object_in);     
                                     
                         end if;                
                         

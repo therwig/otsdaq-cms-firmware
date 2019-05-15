@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 use ieee.std_logic_misc.all;
 
-use work.regionizer_params_pkg.all;
+use work.regionizer_pkg.all;
 
 
 
@@ -88,10 +88,10 @@ architecture Behavioral of level2_ram_buffer is
     end component level2_uram_buffer;
      
 
-    signal object_in_latch              : physics_object_t;
+    
     signal small_region_windex_latch    : integer range 0 to SMALL_REGIONS_PER_RAM-1 := 0;
     
-           
+    signal object_in_latch              : physics_object_arr_t(PARALLEL_OBJECT_RAMS-1 downto 0) := (others => null_physics_object);       
     signal ram_din_we                   : std_logic_vector(PARALLEL_OBJECT_RAMS-1 downto 0) := (others => '0');
             
     signal debug_read_event_index       : natural := INVALID_EVENT_INDEX;
@@ -204,8 +204,8 @@ begin
             
             
             if (rising_edge(clk_level1_to_2)) then
-                            
-                object_in_latch                 <= object_pipe_in.object;
+                                            
+                object_in_latch                 <= (others => object_pipe_in.object);
                 small_region_windex_latch       <= object_pipe_in.sr_ram_subindex;
                 ram_din_we                      <= (others => '0');
             
@@ -222,7 +222,7 @@ begin
                 elsif (small_region_closed_sig(object_pipe_in.sr_ram_subindex) = '0' and 
                     object_pipe_in.valid = '1') then --if small-region is still open and have data
                                                       
-                    ram_din_we(ram_pointer)                                     <= '1';
+                    ram_din_we(ram_pointer)                                     <= '1';                    
                     small_region_object_count(object_pipe_in.sr_ram_subindex)   <= object_count + 1;
                                                 
                     --increment RAM pointer                                                
@@ -289,7 +289,7 @@ begin
                 level1_big_region_end   => level1_big_region_end,       --: in std_logic;
                 
                 object_we_in            => ram_din_we(i),               --: in std_logic;
-                object_in               => object_in_latch,             --: in physics_object_t;
+                object_in               => object_in_latch(i),          --: in physics_object_t;
                 small_region_windex     => small_region_windex_latch,   --: in integer range 0 to SMALL_REGIONS_PER_RAM-1
                 
                 robject_re_in           => robjects_re,                 --: in std_logic;
