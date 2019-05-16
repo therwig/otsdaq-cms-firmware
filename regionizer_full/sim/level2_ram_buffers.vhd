@@ -164,7 +164,7 @@ begin
         type level2_out_detector_set_arr_t is array(natural range <> ) of level2_out_detector_set_t;
         type level2_out_detector_sr_set_arr_t is array(natural range <> ) of level2_out_detector_set_arr_t(CLOCKS_TO_READ-1 downto 0);        
         type level2_out_detector_group_set_full_arr_t is array(natural range <> ) of level2_out_detector_sr_set_arr_t(SHARED_SMALL_REGION_RAMS-1 downto 0);
-        signal detector_group_out_set_arr     : level2_out_detector_group_set_full_arr_t(FIBER_GROUPS-1 downto 0); 
+        signal detector_group_out_set_arr     : level2_out_detector_group_set_full_arr_t(FIBER_GROUPS-1 downto 0) := (others => (others => (others => (valid => (others => '0'), objects => (others => null_physics_object))))); 
         
     begin
     
@@ -518,7 +518,7 @@ begin
                 signal level2_read_count        : unsigned(3 downto 0) := (others => '0');
                                            
                 signal robject_set              : level2_out_detector_set_t;   
-                signal local_robject_pipe       : level2_out_detector_set_arr_t(CLOCKS_TO_READ-1 downto 0);  
+                signal local_robject_pipe       : level2_out_detector_set_arr_t(CLOCKS_TO_READ-1 downto 0) := (others => (valid => (others => '0'), objects => (others => null_physics_object)));  
                                 
                 constant URAM_READ_LATENCY      : integer := 2;
                 signal uram_read_valid_pipe     : std_logic_vector(URAM_READ_LATENCY-1 downto 0) := (others => '0');

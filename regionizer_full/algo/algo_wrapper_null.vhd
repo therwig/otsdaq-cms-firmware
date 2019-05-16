@@ -30,7 +30,7 @@ end entity algo_wrapper;
 architecture behav of algo_wrapper is
 begin
 
-    hi_gen : if ALGO_OBJECTS_OUT < ALGO_INPUT_OBJECTS_COUNT generate
+    hi_gen : if ALGO_OBJECTS_OUT <= ALGO_INPUT_OBJECTS_COUNT generate
     begin
         process(clk)
         begin
@@ -45,7 +45,7 @@ begin
         end process;
     end generate hi_gen;
     
-    lo_gen : if ALGO_INPUT_OBJECTS_COUNT < ALGO_OBJECTS_OUT generate
+    lo_gen : if ALGO_OBJECTS_OUT > ALGO_INPUT_OBJECTS_COUNT generate
     begin
         process(clk)
         begin

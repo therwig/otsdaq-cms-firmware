@@ -12,8 +12,8 @@ package regionizer_pkg is
     
     constant INFRA_FIFOS_PER_FIBER              : natural := 3; --FIXME to 7 -- e.g. use 672 fifos in infra    
     
-    constant FIBER_GROUPS                       : natural := 1; --FIXME to 3   
-    constant FIBERS_IN_GROUP                    : natural := 1; --FIXME to MAX_FIBER_COUNT / FIBER_GROUPS;
+    constant FIBER_GROUPS                       : natural := 3; --FIXME to 3   
+    constant FIBERS_IN_GROUP                    : natural := 3; --FIXME to MAX_FIBER_COUNT / FIBER_GROUPS;
     
 	constant INPUT_FIBERS                       : natural := FIBER_GROUPS * FIBERS_IN_GROUP; -- up to MAX_FIBER_COUNT
 	constant INPUT_WORD_SIZE                    : natural := 64; --in bits 	
@@ -25,7 +25,7 @@ package regionizer_pkg is
     
     constant PHYSICS_OBJECT_BIT_SIZE            : natural := 64; --in bits 
     
-    constant INPUT_DECTECTOR_COUNT              : natural := 1; --FIXME to 3;
+    constant INPUT_DECTECTOR_COUNT              : natural := 3; --FIXME to 3;
     
     constant TRACKER_FIBERS                     : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
     constant EMCALO_FIBERS                      : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
@@ -37,8 +37,8 @@ package regionizer_pkg is
     type raw_physics_object_arr_t is array(integer range <>) of raw_physics_object_t;
     
     constant VERTEX_BIT_WIDTH                   : natural := 10;
-    constant SMALL_REGION_ETA_COUNT             : natural := 2;--3;
-    constant SMALL_REGION_PHI_COUNT             : natural := 9;--2;
+    constant SMALL_REGION_ETA_COUNT             : natural := 2;
+    constant SMALL_REGION_PHI_COUNT             : natural := 9;
     constant SMALL_REGION_COUNT                 : natural := SMALL_REGION_ETA_COUNT * SMALL_REGION_PHI_COUNT;
     
     
@@ -100,7 +100,7 @@ package regionizer_pkg is
     constant CALO_OBJECTS_TO_ALGO           : integer := 15;
     constant MUON_OBJECTS_TO_ALGO           : integer := 2;
     constant ALGO_MAX_DETECTOR_OBJECTS          : natural := TRACKER_OBJECTS_TO_ALGO;
-    constant ALGO_INPUT_OBJECTS_COUNT           : natural := TRACKER_OBJECTS_TO_ALGO; --FIXME to TRACKER_OBJECTS_TO_ALGO + EMCALO_OBJECTS_TO_ALGO + CALO_OBJECTS_TO_ALGO + MUON_OBJECTS_TO_ALGO
+    constant ALGO_INPUT_OBJECTS_COUNT           : natural := TRACKER_OBJECTS_TO_ALGO + EMCALO_OBJECTS_TO_ALGO + CALO_OBJECTS_TO_ALGO; --FIXME to TRACKER_OBJECTS_TO_ALGO + EMCALO_OBJECTS_TO_ALGO + CALO_OBJECTS_TO_ALGO + MUON_OBJECTS_TO_ALGO
     
     type level1_to_2_pipe_t is record
         object              : physics_object_t;
