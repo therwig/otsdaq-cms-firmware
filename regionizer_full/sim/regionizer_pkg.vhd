@@ -81,7 +81,7 @@ package regionizer_pkg is
         eta                 : signed(9 downto 0);
         
         quality             : std_logic;             --just tracker
-        lsEM                : std_logic;             --just calo
+        --lsEM is just bit-0 of z0... lsEM                : std_logic;             --just calo
         z0                  : signed(9 downto 0);  --just tracker
         otherPt             : signed(15 downto 0); --pt-err or em-pt (for calo)
         pt                  : signed(15 downto 0);
@@ -152,7 +152,7 @@ package regionizer_pkg is
         phi                 => (others => '0'),
         eta                 => (others => '0'),
         quality             => '0',
-        lsEM                => '0',
+        --lsEM                => '0',
         z0                  => (others => '0'),
         otherPt             => (others => '0'),
         pt                  => (others => '0'),
@@ -458,7 +458,7 @@ package body regionizer_pkg is
             phi                 => signed(raw(32 + 19 downto 32 + 10)),
             eta                 => signed(raw(32 + 9 downto 32 + 0)),
             quality             =>        raw(32 + 31),
-            lsEM                =>        raw(32 + 20),
+            --lsEM                =>        raw(32 + 20),
             z0                  => signed(raw(32 + 29 downto 32 + 20)),
             otherPt             => signed(raw(0 + 31 downto 0 + 16)),
             pt                  => signed(raw(0 + 15 downto 0 + 0)),
@@ -482,7 +482,7 @@ package body regionizer_pkg is
     
         return_raw(63)                        := object.quality;
         return_raw(62)                        := '0';
-        return_raw(52)                        := object.lsEM;
+        --return_raw(52)                        := object.lsEM;
         return_raw(61 downto 52)              := std_logic_vector(object.z0);
         return_raw(51 downto 42)              := std_logic_vector(object.phi);
         return_raw(41 downto 32)              := std_logic_vector(object.eta);

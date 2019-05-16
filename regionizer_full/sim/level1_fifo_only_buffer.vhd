@@ -149,7 +149,7 @@ begin
     
         level1_din(63)                        <= link_object_in.quality;
         level1_din(62)                        <= link_big_region_end; -- '0'; --FIXME(?) hijacked a bit
-        level1_din(52)                        <= link_object_in.lsEM;
+        --level1_din(52)                        <= link_object_in.lsEM;
         level1_din(61 downto 52)              <= std_logic_vector(link_object_in.z0);
         level1_din(51 downto 42)              <= std_logic_vector(link_object_in.phi);
         level1_din(41 downto 32)              <= std_logic_vector(link_object_in.eta);
@@ -231,7 +231,7 @@ begin
         
         level1_rd_big_region_end                <= level1_dout(62); --FIXME hijacked a bit!
         
-        level1_rd_object.lsEM                   <= level1_dout(52);    
+        --level1_rd_object.lsEM                   <= level1_dout(52);    
         level1_rd_object.z0                     <= signed(level1_dout(61 downto 52));
         level1_rd_object.phi                    <= signed(level1_dout(51 downto 42));
         level1_rd_object.eta                    <= signed(level1_dout(41 downto 32));
