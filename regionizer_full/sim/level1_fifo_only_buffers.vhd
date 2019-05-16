@@ -45,7 +45,7 @@ entity level1_fifo_only_buffers is
         link_object_in          : in  physics_object_arr_t (LINK_COUNT-1 downto 0);
         level1_big_region_end   : out std_logic_vector(FIBER_GROUPS-1 downto 0);
         
-        level2_big_region_end   : in  std_logic_vector(FIBER_GROUPS-1 downto 0);
+        level2_big_region_end   : in  input_group_bit_arr_t  (FIBER_GROUPS-1 downto 0);--std_logic_vector(FIBER_GROUPS-1 downto 0);
         small_region_closed     : in  level2_to_1_sr_closed_arr_t(FIBER_GROUPS-1 downto 0);
         level2_pipe_out         : out level1_to_2_global_pipe_t;
                 
@@ -89,7 +89,6 @@ architecture Behavioral of level1_fifo_only_buffers is
     type level1_detector_done_arr_t    is array(integer range <>) of std_logic_vector(INPUT_DECTECTOR_COUNT-1 downto 0);
     signal level1_detector_big_region_end   : level1_detector_done_arr_t(FIBER_GROUPS-1 downto 0) := (others => (others => '0'));
         
-    type integer_arr_t is array(natural range <> ) of integer;
     constant DETECTOR_FIBERS_ARR            : integer_arr_t(2 downto 0) := (0 => TRACKER_FIBERS, 1 => EMCALO_FIBERS, 2 => CALO_FIBERS);
     constant OBJECTS_FIBERS_ARR             : integer_arr_t(2 downto 0) := (
             0 => 0, 
@@ -163,7 +162,8 @@ begin
             
             -- ==========================================================================================
             gen_detector_level1_buffers : for i in 0 to TRACKER_FIBERS-1 generate
-                constant SOURCE_FIBER_INDEX : integer := g*FIBERS_IN_GROUP + OBJECTS_FIBERS_ARR(d) + i;         
+                constant SOURCE_FIBER_IN_GROUP  : integer := OBJECTS_FIBERS_ARR(d) + i;
+                constant SOURCE_FIBER_INDEX     : integer := g*FIBERS_IN_GROUP + SOURCE_FIBER_IN_GROUP;         
             begin
                                 
                 detector_level1_buffer: level1_fifo_only_buffer
@@ -181,7 +181,7 @@ begin
                         link_object_in                  => link_object_in(SOURCE_FIBER_INDEX),           --: in  physics_object_t;
                         level1_big_region_end           => group_big_region_end(i),     --: out std_logic;
                         
-                        level2_big_region_end           => level2_big_region_end(g),    --: in  std_logic;
+                        level2_big_region_end           => level2_big_region_end(g)(SOURCE_FIBER_IN_GROUP),    --: in  std_logic;
                         small_region_closed             => detector_closed,             --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
                         level2_pipe_in                  => level1_to_2_pipes(i),        --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                         level2_pipe_out                 => level1_to_2_pipes(i+1),      --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);

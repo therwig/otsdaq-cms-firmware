@@ -7,6 +7,8 @@ use ieee.numeric_std.all;
 --a la AlgorithConstants from old CMS_CAL/work
 package regionizer_pkg is
 
+    type integer_arr_t is array(natural range <> ) of integer;
+    
     constant MAX_FIBER_COUNT                    : natural := 60;
     
     
@@ -18,6 +20,7 @@ package regionizer_pkg is
 	constant INPUT_FIBERS                       : natural := FIBER_GROUPS * FIBERS_IN_GROUP; -- up to MAX_FIBER_COUNT
 	constant INPUT_WORD_SIZE                    : natural := 64; --in bits 	
     type input_fiber_t is array(natural range <> ) of std_logic_vector(INPUT_WORD_SIZE-1 downto 0);
+    type input_group_bit_arr_t is array(natural range <> ) of std_logic_vector(FIBERS_IN_GROUP-1 downto 0);
 	
     constant OUTPUT_FIBERS                      : natural := 8;
     constant OUTPUT_WORD_SIZE                   : natural := 64; --in bits    
@@ -40,20 +43,14 @@ package regionizer_pkg is
     constant SMALL_REGION_ETA_COUNT             : natural := 2;
     constant SMALL_REGION_PHI_COUNT             : natural := 9;
     constant SMALL_REGION_COUNT                 : natural := SMALL_REGION_ETA_COUNT * SMALL_REGION_PHI_COUNT;
+        
     
-    
-    
-    --scenario 0 add
-    constant LEVEL1_RAMS_PER_LINK               : natural := 6; -- Level-1 RAMs per link (i.e. if 6, then 5 of 30 s.r. in each RAM)    
-    constant LEVEL2_SMALL_REGION_SEGMENTS       : natural := 3; -- Level-2 RAMs per Algo-input-opbject (i.e. if 3, then 10 of 30 s.r. in each RAM)
-    --end scenario 0 add
-    
-    --scenario 1 add
     constant LEVEL2_SMALL_REGIONS_PER_RAM       : natural := SMALL_REGION_ETA_COUNT; -- Level-2 small-regions that share a RAMs (i.e. if 3, then each RAM is split by 3 for the small regions)
     constant LEVEL2_PARALLEL_OBJECT_RAMS        : natural := 5; -- Level-2 objects kept in parallel RAMs for quicker transition to HLS input width
-    constant LEVEL1_TO_2_PIPE_COUNT             : natural := SMALL_REGION_COUNT / LEVEL2_SMALL_REGIONS_PER_RAM;
-    --end scenario 1 add
-    
+    constant LEVEL2_SHARED_SMALL_REGION_RAMS    : natural := SMALL_REGION_COUNT / LEVEL2_SMALL_REGIONS_PER_RAM;
+    constant LEVEL1_TO_2_PIPE_COUNT             : natural := LEVEL2_SHARED_SMALL_REGION_RAMS;
+      
+    type level2_group_bit_arr_t is array(natural range <> ) of std_logic_vector(LEVEL2_SHARED_SMALL_REGION_RAMS-1 downto 0);
     
     
     constant INVALID_ETA_INDEX                  : natural := SMALL_REGION_ETA_COUNT;
@@ -99,9 +96,10 @@ package regionizer_pkg is
     constant EMCALO_OBJECTS_TO_ALGO         : integer := 20;
     constant CALO_OBJECTS_TO_ALGO           : integer := 15;
     constant MUON_OBJECTS_TO_ALGO           : integer := 2;
-    constant ALGO_MAX_DETECTOR_OBJECTS          : natural := TRACKER_OBJECTS_TO_ALGO;
-    constant ALGO_INPUT_OBJECTS_COUNT           : natural := TRACKER_OBJECTS_TO_ALGO + EMCALO_OBJECTS_TO_ALGO + CALO_OBJECTS_TO_ALGO; --FIXME to TRACKER_OBJECTS_TO_ALGO + EMCALO_OBJECTS_TO_ALGO + CALO_OBJECTS_TO_ALGO + MUON_OBJECTS_TO_ALGO
+    constant ALGO_MAX_DETECTOR_OBJECTS      : natural := TRACKER_OBJECTS_TO_ALGO;
+    constant ALGO_INPUT_OBJECTS_COUNT       : natural := TRACKER_OBJECTS_TO_ALGO + EMCALO_OBJECTS_TO_ALGO + CALO_OBJECTS_TO_ALGO; --FIXME to TRACKER_OBJECTS_TO_ALGO + EMCALO_OBJECTS_TO_ALGO + CALO_OBJECTS_TO_ALGO + MUON_OBJECTS_TO_ALGO
     
+        
     type level1_to_2_pipe_t is record
         object              : physics_object_t;
         valid               : std_logic;

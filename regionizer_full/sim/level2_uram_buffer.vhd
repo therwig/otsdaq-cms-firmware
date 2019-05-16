@@ -312,7 +312,7 @@ begin
             ram_waddr(URAM_ADDR_SIZE-LEVEL_RAM_ADDR_SIZE-1 downto 0)                <= 
                 (others => '0');
             
-            ram_din(URAM_DATA_SIZE-1 downto PHYSICS_OBJECT_BIT_SIZE-1)              <= 
+            ram_din(URAM_DATA_SIZE-1 downto PHYSICS_OBJECT_BIT_SIZE)                <= 
                 (others => '0');
             ram_din(PHYSICS_OBJECT_BIT_SIZE-1 downto 0)                             <= 
                 din;

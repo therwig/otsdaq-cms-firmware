@@ -189,16 +189,16 @@ begin
     gen_sim_fiber_type: for fiber_index in 0 to INPUT_FIBERS-1 generate
         link_in_master(fiber_index).tValid <= input_fiber_valid(fiber_index);
         link_in_master(fiber_index).tData <= input_fiber_data(fiber_index);
-        process(data_clk)
-        begin
-            link_in_master(fiber_index).tLast <= link_in_master(fiber_index).tValid;  
-        end process;
+--        process(data_clk)
+--        begin
+--            link_in_master(fiber_index).tLast <= link_in_master(fiber_index).tValid;  
+--        end process;
     end generate; 
             
     gen_sim_fiber_type_unused: for fiber_index in INPUT_FIBERS to MAX_FIBER_COUNT-1 generate        
         link_in_master(fiber_index).tValid <= '0';
         link_in_master(fiber_index).tData <= (others => '0');
-        link_in_master(fiber_index).tLast <= '0';
+        --link_in_master(fiber_index).tLast <= '0';
     end generate;
 			 
 			 
