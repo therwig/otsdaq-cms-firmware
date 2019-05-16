@@ -7,29 +7,25 @@ use ieee.numeric_std.all;
 --a la AlgorithConstants from old CMS_CAL/work
 package regionizer_pkg is
 
-    constant MAX_FIBER_COUNT                    : natural := 96;
+    constant MAX_FIBER_COUNT                    : natural := 60;
     
     
-    constant INFRA_FIFOS_PER_FIBER              : natural := 7; -- e.g. use 672 fifos in infra    
+    constant INFRA_FIFOS_PER_FIBER              : natural := 3; --FIXME to 7 -- e.g. use 672 fifos in infra    
     
-    constant FIBER_GROUPS                       : natural := 3;    
-    constant FIBERS_IN_GROUP                    : natural := MAX_FIBER_COUNT / FIBER_GROUPS;
+    constant FIBER_GROUPS                       : natural := 1; --FIXME to 3   
+    constant FIBERS_IN_GROUP                    : natural := 1; --FIXME to MAX_FIBER_COUNT / FIBER_GROUPS;
     
 	constant INPUT_FIBERS                       : natural := FIBER_GROUPS * FIBERS_IN_GROUP; -- up to MAX_FIBER_COUNT
-	constant INPUT_WORD_SIZE                    : natural := 64; --in bits 
-	
+	constant INPUT_WORD_SIZE                    : natural := 64; --in bits 	
     type input_fiber_t is array(natural range <> ) of std_logic_vector(INPUT_WORD_SIZE-1 downto 0);
 	
     constant OUTPUT_FIBERS                      : natural := 8;
-    constant OUTPUT_WORD_SIZE                   : natural := 64; --in bits
+    constant OUTPUT_WORD_SIZE                   : natural := 64; --in bits    
+    type output_fiber_t is array(natural range <> ) of std_logic_vector(OUTPUT_WORD_SIZE-1 downto 0);
     
     constant PHYSICS_OBJECT_BIT_SIZE            : natural := 64; --in bits 
     
-    
-    
-    constant INPUT_DECTECTOR_COUNT              : natural := 3;
-    constant ALGO_MAX_DETECTOR_OBJECTS          : natural := 25;
-    constant ALGO_INPUT_OBJECTS_COUNT           : natural := 60;
+    constant INPUT_DECTECTOR_COUNT              : natural := 1; --FIXME to 3;
     
     constant TRACKER_FIBERS                     : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
     constant EMCALO_FIBERS                      : natural := FIBERS_IN_GROUP/INPUT_DECTECTOR_COUNT;
@@ -103,6 +99,8 @@ package regionizer_pkg is
     constant EMCALO_OBJECTS_TO_ALGO         : integer := 20;
     constant CALO_OBJECTS_TO_ALGO           : integer := 15;
     constant MUON_OBJECTS_TO_ALGO           : integer := 2;
+    constant ALGO_MAX_DETECTOR_OBJECTS          : natural := TRACKER_OBJECTS_TO_ALGO;
+    constant ALGO_INPUT_OBJECTS_COUNT           : natural := TRACKER_OBJECTS_TO_ALGO; --FIXME to TRACKER_OBJECTS_TO_ALGO + EMCALO_OBJECTS_TO_ALGO + CALO_OBJECTS_TO_ALGO + MUON_OBJECTS_TO_ALGO
     
     type level1_to_2_pipe_t is record
         object              : physics_object_t;
@@ -141,7 +139,7 @@ package regionizer_pkg is
     end record algo_input_physics_objects_t; 
     
     
-    type output_fiber_t is array(natural range <> ) of std_logic_vector(OUTPUT_WORD_SIZE-1 downto 0);
+    
     
     constant null_small_region          : eta_phi_small_region_t := (
         eta_index           => INVALID_ETA_INDEX,
@@ -249,14 +247,14 @@ package body regionizer_pkg is
              
             elsif(eta < threshold) then
             
-                return '1';
+                return '0';
                              
             end if;
             
             threshold       := threshold + 600/SMALL_REGION_ETA_COUNT;
         end loop;
         
-        return '1';
+        return '0';
     end;   --function is_eta_small_region_overlap 
     
     -- ==========================================================================================

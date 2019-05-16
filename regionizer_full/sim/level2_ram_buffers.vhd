@@ -60,7 +60,8 @@ entity level2_ram_buffers is
 end level2_ram_buffers;
 
 architecture Behavioral of level2_ram_buffers is
-
+  
+    
     component level2_ram_buffer
         generic (
             SMALL_REGIONS_PER_RAM   : integer := LEVEL2_SMALL_REGIONS_PER_RAM;
@@ -107,7 +108,7 @@ architecture Behavioral of level2_ram_buffers is
     signal level2_calo_out_valid    : std_logic := '0';
     
     type integer_arr_t is array(natural range <> ) of integer;
-    constant DETECTOR_OBJECTS_TO_ALGO_ARR       : integer_arr_t(2 downto 0) := (0 => 25, 1 => 20, 2 => 15);
+    constant DETECTOR_OBJECTS_TO_ALGO_ARR       : integer_arr_t(2 downto 0) := (0 => TRACKER_OBJECTS_TO_ALGO, 1 => EMCALO_OBJECTS_TO_ALGO, 2 => CALO_OBJECTS_TO_ALGO);
     constant OBJECTS_OFFSET_TO_ALGO_ARR         : integer_arr_t(2 downto 0) := (
         0 => 0, 
         1 => DETECTOR_OBJECTS_TO_ALGO_ARR(0), 
@@ -146,7 +147,7 @@ begin
     
     -- ==========================================================================================
     -- generate detector Level-2 buffers
-    level2_detector_buffer_gen : for d in 0 to 2 generate
+    level2_detector_buffer_gen : for d in 0 to INPUT_DECTECTOR_COUNT-1 generate
         constant DETECTOR_OBJECTS_TO_ALGO   : integer := DETECTOR_OBJECTS_TO_ALGO_ARR(d);
         constant OBJECTS_OFFSET_TO_ALGO     : integer := OBJECTS_OFFSET_TO_ALGO_ARR(d);
            
@@ -224,13 +225,13 @@ begin
                         else                        
                             debug_bx_subcount <= (others => '0');
                             
-                            if(debug_bx_count = 4) then
-                                target_group_index <= target_group_index + 1;
-                            elsif(debug_bx_count = 10) then
-                                target_group_index <= target_group_index + 1;
-                            elsif(debug_bx_count = 16) then
+                            --if(debug_bx_count = 4) then
+                            --    target_group_index <= target_group_index + 1;
+                            --elsif(debug_bx_count = 10) then
+                            --    target_group_index <= target_group_index + 1;
+                            --elsif(debug_bx_count = 16) then
                                 target_group_index <= (others => '0');
-                            end if;
+                           -- end if;
                                
                             
                             if(debug_bx_count < 18) then
@@ -273,6 +274,7 @@ begin
             
         begin                    
             
+            ---------------
             --connect the proper detector specific objects
             tracker_detector_pipe_gen : if d = 0 generate
                 detector_pipe_in                        <= object_pipe_in(g).tracker_pipe;
@@ -286,6 +288,8 @@ begin
                 detector_pipe_in                        <= object_pipe_in(g).calo_pipe;
                 small_region_closed(g).calo_closed      <= detector_closed;
             end generate;
+            --end connect the proper detector specific objects
+            ---------------
         
             --=============
             --  check to see if big-regions finishing on time

@@ -29,6 +29,6 @@ package algo_pkg is
     
     
     
-    constant ALGO_OBJECTS_OUT                   : natural := 57;
+    constant ALGO_OBJECTS_OUT                   : natural := 60;
 
 end package;

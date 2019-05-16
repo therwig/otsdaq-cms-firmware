@@ -319,10 +319,8 @@ begin
                         else                        
                             debug_bx_subcount <= (others => '0');
                             
-                            if(debug_bx_count < 18) then
+                            if(debug_bx_count < 30) then --18) then
                                 debug_bx_count <= debug_bx_count + 2;
-                            else
-                                debug_bx_count <= (others => '0'); --wrap around 
                             end if;                            
                         end if;
                                                     

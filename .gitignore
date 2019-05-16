@@ -1,3 +1,5 @@
+*.runs
+*.sim
 vivado.*
 vivado_*
 *.log

@@ -86,9 +86,16 @@ architecture Behavioral of level1_fifo_only_buffers is
     
     type pipes_shr_t    is array(integer range <>) of level1_to_2_pipe_arr_t(LEVEL1_TO_2_PIPE_COUNT-1 downto 0);
     
-    signal level1_tracker_group_done    : std_logic_vector(FIBER_GROUPS-1 downto 0) := (others => '0');
-    signal level1_emcalo_group_done     : std_logic_vector(FIBER_GROUPS-1 downto 0) := (others => '0');
-    signal level1_calo_group_done       : std_logic_vector(FIBER_GROUPS-1 downto 0) := (others => '0');
+    type level1_detector_done_arr_t    is array(integer range <>) of std_logic_vector(INPUT_DECTECTOR_COUNT-1 downto 0);
+    signal level1_detector_big_region_end   : level1_detector_done_arr_t(FIBER_GROUPS-1 downto 0) := (others => (others => '0'));
+        
+    type integer_arr_t is array(natural range <> ) of integer;
+    constant DETECTOR_FIBERS_ARR            : integer_arr_t(2 downto 0) := (0 => TRACKER_FIBERS, 1 => EMCALO_FIBERS, 2 => CALO_FIBERS);
+    constant OBJECTS_FIBERS_ARR             : integer_arr_t(2 downto 0) := (
+            0 => 0, 
+            1 => DETECTOR_FIBERS_ARR(0), 
+            2 => DETECTOR_FIBERS_ARR(0)+DETECTOR_FIBERS_ARR(1));
+    
 begin
 
     --  This is the Level-1 FIFO-only buffer container.
@@ -103,9 +110,7 @@ begin
         if (rising_edge(clk_level1_to_2)) then
             
             for g in 0 to FIBER_GROUPS-1 loop
-                level1_big_region_end(g) <= level1_tracker_group_done(g) and 
-                                            level1_emcalo_group_done(g) and 
-                                            level1_calo_group_done(g);
+                level1_big_region_end(g) <= and_reduce(level1_detector_big_region_end(g));
             end loop;
             
         end if;
@@ -114,156 +119,81 @@ begin
     
     
     -- ==========================================================================================
-    --  Generate fiber groups for tracker
-    gen_tracker_fiber_groups : for g in 0 to FIBER_GROUPS-1 generate
-        signal level1_to_2_pipes        : pipes_shr_t(TRACKER_FIBERS downto 0) := (others => (others => empty_pipe));
-        signal group_big_region_end     : std_logic_vector(TRACKER_FIBERS-1 downto 0);
+    -- generate detector Level-1 buffers
+    level1_detector_buffer_gen : for d in 0 to INPUT_DECTECTOR_COUNT-1 generate
+        constant DETECTOR_FIBERS            : integer := DETECTOR_FIBERS_ARR(d);
     begin
-
-        level1_to_2_pipes(0)                        <= (others => empty_pipe);
-        level2_pipe_out(g).tracker_pipe             <= level1_to_2_pipes(TRACKER_FIBERS);
-        
-        -- ========
-        group_done_proc : process(clk_level1_to_2)
-        begin
-            if (rising_edge(clk_level1_to_2)) then
-                level1_tracker_group_done(g) <= and_reduce(group_big_region_end);
-            end if;
-        end process group_done_proc;
-        
-        -- ==========================================================================================
-        gen_tracker_level1_buffers : for i in 0 to TRACKER_FIBERS-1 generate
-            constant SOURCE_FIBER_INDEX : integer := g*FIBERS_IN_GROUP + i;         
-        begin
-                            
-            tracker_level1_buffer: level1_fifo_only_buffer
-                generic map (
-                    SOURCE_FIBER_INDEX              => SOURCE_FIBER_INDEX
-                )
-                port map (
-                    
-                    clk_link_to_level1              => clk_link_to_level1,          --: in  std_logic;
-                    clk_level1_to_2                 => clk_level1_to_2,             --: in  std_logic; 
-                    
-                    link_big_region_end             => link_big_region_end(SOURCE_FIBER_INDEX),      --: in  std_logic;
-                    
-                    link_object_we_in               => link_object_we_in(SOURCE_FIBER_INDEX),        --: in  std_logic;
-                    link_object_in                  => link_object_in(SOURCE_FIBER_INDEX),           --: in  physics_object_t;
-                    level1_big_region_end           => group_big_region_end(i),     --: out std_logic;
-                    
-                    level2_big_region_end           => level2_big_region_end(g),    --: in  std_logic;
-                    small_region_closed             => small_region_closed(g).tracker_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
-                    level2_pipe_in                  => level1_to_2_pipes(i),        --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
-                    level2_pipe_out                 => level1_to_2_pipes(i+1),      --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
-                            
-                    overflow_error                  => open,                        --: out std_logic;
-                    level2_reset                    => level2_reset,                --: in  std_logic;
-                    reset                           => reset                        --: in  std_logic
-                );    
-                
-        end generate gen_tracker_level1_buffers;
-    end generate gen_tracker_fiber_groups;
     
-    -- ==========================================================================================
-    --  Generate fiber groups for emcalo
-    gen_emcalo_fiber_groups : for g in 0 to FIBER_GROUPS-1 generate
-        signal level1_to_2_pipes        : pipes_shr_t(EMCALO_FIBERS downto 0) := (others => (others => empty_pipe));
-        signal group_big_region_end     : std_logic_vector(EMCALO_FIBERS-1 downto 0);
-    begin
-
-        level1_to_2_pipes(0)                        <= (others => empty_pipe);
-        level2_pipe_out(g).emcalo_pipe             <= level1_to_2_pipes(EMCALO_FIBERS);
-        
-        -- ========
-        group_done_proc : process(clk_level1_to_2)
-        begin
-            if (rising_edge(clk_level1_to_2)) then
-                level1_emcalo_group_done(g) <= and_reduce(group_big_region_end);
-            end if;
-        end process group_done_proc;
-        
         -- ==========================================================================================
-        gen_emcalo_level1_buffers : for i in 0 to EMCALO_FIBERS-1 generate
-            constant SOURCE_FIBER_INDEX : integer := g*FIBERS_IN_GROUP + TRACKER_FIBERS + i;   
+        --  Generate fiber groups for detector
+        gen_detector_fiber_groups : for g in 0 to FIBER_GROUPS-1 generate
+        
+            signal level1_to_2_pipes        : pipes_shr_t(DETECTOR_FIBERS downto 0) := (others => (others => empty_pipe));
+            signal group_big_region_end     : std_logic_vector(DETECTOR_FIBERS-1 downto 0);
+            signal detector_closed          : std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+            
         begin
-                
-            emcalo_level1_buffer: level1_fifo_only_buffer
-                generic map (
-                    SOURCE_FIBER_INDEX              => SOURCE_FIBER_INDEX
-                )
-                port map (
-                    
-                    clk_link_to_level1              => clk_link_to_level1,          --: in  std_logic;
-                    clk_level1_to_2                 => clk_level1_to_2,             --: in  std_logic; 
-                    
-                    link_big_region_end             => link_big_region_end(SOURCE_FIBER_INDEX),      --: in  std_logic;
-                    
-                    link_object_we_in               => link_object_we_in(SOURCE_FIBER_INDEX),        --: in  std_logic;
-                    link_object_in                  => link_object_in(SOURCE_FIBER_INDEX),           --: in  physics_object_t;
-                    level1_big_region_end           => group_big_region_end(i),    --: out std_logic;
-                    
-                    level2_big_region_end           => level2_big_region_end(g),    --: in  std_logic;
-                    small_region_closed             => small_region_closed(g).emcalo_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
-                    level2_pipe_in                  => level1_to_2_pipes(i),        --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
-                    level2_pipe_out                 => level1_to_2_pipes(i+1),      --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
-                            
-                    overflow_error                  => open,                        --: out std_logic;
-                    level2_reset                    => level2_reset,                --: in  std_logic;
-                    reset                           => reset                        --: in  std_logic
-                );    
-                
-        end generate gen_emcalo_level1_buffers;
-    end generate gen_emcalo_fiber_groups;
+        
+            ---------------
+            --connect the proper detector specific objects
+            tracker_detector_pipe_gen : if d = 0 generate
+                level2_pipe_out(g).tracker_pipe         <= level1_to_2_pipes(DETECTOR_FIBERS);
+                detector_closed                         <= small_region_closed(g).tracker_closed;
+            end generate;
+            emcalo_detector_pipe_gen  : if d = 1 generate
+                level2_pipe_out(g).emcalo_pipe          <= level1_to_2_pipes(DETECTOR_FIBERS);
+                detector_closed                         <= small_region_closed(g).emcalo_closed;
+            end generate;
+            calo_detector_pipe_gen    : if d = 2 generate
+                level2_pipe_out(g).calo_pipe            <= level1_to_2_pipes(DETECTOR_FIBERS);
+                detector_closed                         <= small_region_closed(g).calo_closed;
+            end generate;
+            --end connect the proper detector specific objects
+            ---------------
     
-    -- ==========================================================================================
-    --  Generate fiber groups for calo
-    gen_calo_fiber_groups : for g in 0 to FIBER_GROUPS-1 generate
-        signal level1_to_2_pipes        : pipes_shr_t(CALO_FIBERS downto 0) := (others => (others => empty_pipe));
-        signal group_big_region_end     : std_logic_vector(CALO_FIBERS-1 downto 0);
-    begin
-
-        level1_to_2_pipes(0)                        <= (others => empty_pipe);
-        level2_pipe_out(g).calo_pipe             <= level1_to_2_pipes(CALO_FIBERS);
-        
-        -- ========
-        group_done_proc : process(clk_level1_to_2)
-        begin
-            if (rising_edge(clk_level1_to_2)) then
-                level1_calo_group_done(g) <= and_reduce(group_big_region_end);
-            end if;
-        end process group_done_proc;
-        
-        -- ==========================================================================================
-        gen_calo_level1_buffers : for i in 0 to CALO_FIBERS-1 generate
-            constant SOURCE_FIBER_INDEX : integer := g*FIBERS_IN_GROUP + TRACKER_FIBERS + EMCALO_FIBERS + i;
-        begin
-                
-            calo_level1_buffer: level1_fifo_only_buffer
-                generic map (
-                    SOURCE_FIBER_INDEX              => SOURCE_FIBER_INDEX
-                )
-                port map (
+            level1_to_2_pipes(0)                        <= (others => empty_pipe);            
+            
+            -- ========
+            group_done_proc : process(clk_level1_to_2)
+            begin
+                if (rising_edge(clk_level1_to_2)) then
+                    level1_detector_big_region_end(g)(d) <= and_reduce(group_big_region_end);
+                end if;
+            end process group_done_proc;
+            
+            -- ==========================================================================================
+            gen_detector_level1_buffers : for i in 0 to TRACKER_FIBERS-1 generate
+                constant SOURCE_FIBER_INDEX : integer := g*FIBERS_IN_GROUP + OBJECTS_FIBERS_ARR(d) + i;         
+            begin
+                                
+                detector_level1_buffer: level1_fifo_only_buffer
+                    generic map (
+                        SOURCE_FIBER_INDEX              => SOURCE_FIBER_INDEX
+                    )
+                    port map (
+                        
+                        clk_link_to_level1              => clk_link_to_level1,          --: in  std_logic;
+                        clk_level1_to_2                 => clk_level1_to_2,             --: in  std_logic; 
+                        
+                        link_big_region_end             => link_big_region_end(SOURCE_FIBER_INDEX),      --: in  std_logic;
+                        
+                        link_object_we_in               => link_object_we_in(SOURCE_FIBER_INDEX),        --: in  std_logic;
+                        link_object_in                  => link_object_in(SOURCE_FIBER_INDEX),           --: in  physics_object_t;
+                        level1_big_region_end           => group_big_region_end(i),     --: out std_logic;
+                        
+                        level2_big_region_end           => level2_big_region_end(g),    --: in  std_logic;
+                        small_region_closed             => detector_closed,             --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
+                        level2_pipe_in                  => level1_to_2_pipes(i),        --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
+                        level2_pipe_out                 => level1_to_2_pipes(i+1),      --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
+                                
+                        overflow_error                  => open,                        --: out std_logic;
+                        level2_reset                    => level2_reset,                --: in  std_logic;
+                        reset                           => reset                        --: in  std_logic
+                    );    
                     
-                    clk_link_to_level1              => clk_link_to_level1,          --: in  std_logic;
-                    clk_level1_to_2                 => clk_level1_to_2,             --: in  std_logic; 
-                    
-                    link_big_region_end             => link_big_region_end(SOURCE_FIBER_INDEX),      --: in  std_logic;
-                    
-                    link_object_we_in               => link_object_we_in(SOURCE_FIBER_INDEX),        --: in  std_logic;
-                    link_object_in                  => link_object_in(SOURCE_FIBER_INDEX),           --: in  physics_object_t;
-                    level1_big_region_end           => group_big_region_end(i),     --: out std_logic;
-                    
-                    level2_big_region_end           => level2_big_region_end(g),    --: in  std_logic;
-                    small_region_closed             => small_region_closed(g).calo_closed,         --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
-                    level2_pipe_in                  => level1_to_2_pipes(i),        --: in  level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
-                    level2_pipe_out                 => level1_to_2_pipes(i+1),      --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
-                            
-                    overflow_error                  => open,                        --: out std_logic;
-                    level2_reset                    => level2_reset,                --: in  std_logic;
-                    reset                           => reset                        --: in  std_logic
-                );    
-                
-        end generate gen_calo_level1_buffers;
-    end generate gen_calo_fiber_groups;
+            end generate gen_detector_level1_buffers;
+        end generate gen_detector_fiber_groups;
+    end generate level1_detector_buffer_gen;
+    
 
 end Behavioral;

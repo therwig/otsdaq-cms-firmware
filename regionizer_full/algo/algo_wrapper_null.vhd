@@ -30,17 +30,34 @@ end entity algo_wrapper;
 architecture behav of algo_wrapper is
 begin
 
-
-    process(clk)
+    hi_gen : if ALGO_OBJECTS_OUT < ALGO_INPUT_OBJECTS_COUNT generate
     begin
-    
-        if (rising_edge(clk)) then
+        process(clk)
+        begin
         
-            valid_out <= valid_in;
-            for i in 0 to ALGO_OBJECTS_OUT-1 loop
-                results_out(i) <= objects_in(i);  
-            end loop;
-        end if;
-    end process;
+            if (rising_edge(clk)) then
+            
+                valid_out <= valid_in;
+                for i in 0 to ALGO_OBJECTS_OUT-1 loop
+                    results_out(i) <= objects_in(i);  
+                end loop;
+            end if;
+        end process;
+    end generate hi_gen;
+    
+    lo_gen : if ALGO_INPUT_OBJECTS_COUNT < ALGO_OBJECTS_OUT generate
+    begin
+        process(clk)
+        begin
+        
+            if (rising_edge(clk)) then
+            
+                valid_out <= valid_in;
+                for i in 0 to ALGO_INPUT_OBJECTS_COUNT-1 loop
+                    results_out(i) <= objects_in(i);  
+                end loop;
+            end if;
+        end process;
+    end generate lo_gen;
 
 end behav;
