@@ -85,7 +85,7 @@ module regionizer_clocks_clk_wiz
   //------------------------------------
 wire link_clk_regionizer_clocks;
 wire clk_in2_regionizer_clocks;
-  IBUF clkin1_ibuf
+  BUFG clkin1_bufg
    (.O (link_clk_regionizer_clocks),
     .I (link_clk));
 

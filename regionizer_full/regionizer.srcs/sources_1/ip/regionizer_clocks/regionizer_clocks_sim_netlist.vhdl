@@ -1,7 +1,7 @@
 -- Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2018.2 (lin64) Build 2258646 Thu Jun 14 20:02:38 MDT 2018
--- Date        : Wed May 15 11:11:15 2019
+-- Date        : Fri May 17 10:14:49 2019
 -- Host        : correlator2.fnal.gov running 64-bit Scientific Linux release 7.6 (Nitrogen)
 -- Command     : write_vhdl -force -mode funcsim
 --               /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/regionizer_clocks/regionizer_clocks_sim_netlist.vhdl
@@ -51,15 +51,10 @@ architecture STRUCTURE of regionizer_clocks_regionizer_clocks_clk_wiz is
   signal NLW_mmcme4_adv_inst_PSDONE_UNCONNECTED : STD_LOGIC;
   signal NLW_mmcme4_adv_inst_DO_UNCONNECTED : STD_LOGIC_VECTOR ( 15 downto 0 );
   attribute BOX_TYPE : string;
-  attribute BOX_TYPE of clkin1_ibuf : label is "PRIMITIVE";
-  attribute CAPACITANCE : string;
-  attribute CAPACITANCE of clkin1_ibuf : label is "DONT_CARE";
-  attribute IBUF_DELAY_VALUE : string;
-  attribute IBUF_DELAY_VALUE of clkin1_ibuf : label is "0";
-  attribute IFD_DELAY_VALUE : string;
-  attribute IFD_DELAY_VALUE of clkin1_ibuf : label is "AUTO";
-  attribute BOX_TYPE of clkout1_buf : label is "PRIMITIVE";
+  attribute BOX_TYPE of clkin1_bufg : label is "PRIMITIVE";
   attribute XILINX_LEGACY_PRIM : string;
+  attribute XILINX_LEGACY_PRIM of clkin1_bufg : label is "BUFG";
+  attribute BOX_TYPE of clkout1_buf : label is "PRIMITIVE";
   attribute XILINX_LEGACY_PRIM of clkout1_buf : label is "BUFG";
   attribute BOX_TYPE of clkout2_buf : label is "PRIMITIVE";
   attribute XILINX_LEGACY_PRIM of clkout2_buf : label is "BUFG";
@@ -69,11 +64,12 @@ architecture STRUCTURE of regionizer_clocks_regionizer_clocks_clk_wiz is
   attribute XILINX_LEGACY_PRIM of clkout4_buf : label is "BUFG";
   attribute BOX_TYPE of mmcme4_adv_inst : label is "PRIMITIVE";
 begin
-clkin1_ibuf: unisim.vcomponents.IBUF
+clkin1_bufg: unisim.vcomponents.BUFGCE
     generic map(
-      IOSTANDARD => "DEFAULT"
+      CE_TYPE => "ASYNC"
     )
         port map (
+      CE => '1',
       I => link_clk,
       O => link_clk_regionizer_clocks
     );

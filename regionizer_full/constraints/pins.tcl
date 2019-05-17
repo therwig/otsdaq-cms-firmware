@@ -1,4 +1,6 @@
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets link_clk_ibufg/O]
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets algo_reset_ibuf/O] 
+
 set_property PACKAGE_PIN A30 [get_ports link_clk_port]
 set_property IOSTANDARD LVCMOS18 [get_ports link_clk_port]
 set_property PACKAGE_PIN B30 [get_ports reset_port]

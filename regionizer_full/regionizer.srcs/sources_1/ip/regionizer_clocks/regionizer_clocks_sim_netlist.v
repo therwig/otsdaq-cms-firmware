@@ -1,7 +1,7 @@
 // Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.2 (lin64) Build 2258646 Thu Jun 14 20:02:38 MDT 2018
-// Date        : Wed May 15 11:11:14 2019
+// Date        : Fri May 17 10:14:49 2019
 // Host        : correlator2.fnal.gov running 64-bit Scientific Linux release 7.6 (Nitrogen)
 // Command     : write_verilog -force -mode funcsim
 //               /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/regionizer_clocks/regionizer_clocks_sim_netlist.v
@@ -33,7 +33,7 @@ module regionizer_clocks
   wire clk_240;
   wire clk_320;
   wire clk_40;
-  (* IBUF_LOW_PWR *) wire link_clk;
+  wire link_clk;
   wire locked;
   wire reset;
 
@@ -94,13 +94,12 @@ module regionizer_clocks_regionizer_clocks_clk_wiz
   wire [15:0]NLW_mmcme4_adv_inst_DO_UNCONNECTED;
 
   (* BOX_TYPE = "PRIMITIVE" *) 
-  (* CAPACITANCE = "DONT_CARE" *) 
-  (* IBUF_DELAY_VALUE = "0" *) 
-  (* IFD_DELAY_VALUE = "AUTO" *) 
-  IBUF #(
-    .IOSTANDARD("DEFAULT")) 
-    clkin1_ibuf
-       (.I(link_clk),
+  (* XILINX_LEGACY_PRIM = "BUFG" *) 
+  BUFGCE #(
+    .CE_TYPE("ASYNC")) 
+    clkin1_bufg
+       (.CE(1'b1),
+        .I(link_clk),
         .O(link_clk_regionizer_clocks));
   (* BOX_TYPE = "PRIMITIVE" *) 
   (* XILINX_LEGACY_PRIM = "BUFG" *) 
