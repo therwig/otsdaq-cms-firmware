@@ -9,13 +9,13 @@ package regionizer_pkg is
 
     type integer_arr_t is array(natural range <> ) of integer;
     
-    constant MAX_FIBER_COUNT                    : natural := 60;
+    constant MAX_FIBER_COUNT                    : natural := 96;
     
     
     constant INFRA_FIFOS_PER_FIBER              : natural := 3; --FIXME to 7 -- e.g. use 672 fifos in infra    
     
     constant FIBER_GROUPS                       : natural := 3; --FIXME to 3   
-    constant FIBERS_IN_GROUP                    : natural := 3; --FIXME to MAX_FIBER_COUNT / FIBER_GROUPS;
+    constant FIBERS_IN_GROUP                    : natural := MAX_FIBER_COUNT / FIBER_GROUPS; --FIXME to MAX_FIBER_COUNT / FIBER_GROUPS;
     
 	constant INPUT_FIBERS                       : natural := FIBER_GROUPS * FIBERS_IN_GROUP; -- up to MAX_FIBER_COUNT
 	constant INPUT_WORD_SIZE                    : natural := 64; --in bits 	
