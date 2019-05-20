@@ -15,16 +15,17 @@ use work.algo_pkg.all;
 
 entity algo_wrapper is
 	port (
-		clk : in std_logic;
+		clk         	: in std_logic;
 
-		valid_in : in std_logic;
-		objects_in : in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0); --ALGO_INPUT_OBJECTS_COUNT constant defined in regionizer_pkg
+		valid_in    	: in std_logic;
+		objects_in  	: in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0); --ALGO_INPUT_OBJECTS_COUNT constant defined in regionizer_pkg
+		vertex      	: in std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
 
-		valid_out: out std_logic;
-		results_out : out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);      --ALGO_OBJECTS_OUT constant defined in algo_pkg
+		valid_out   	: out std_logic;
+		results_out 	: out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);      --ALGO_OBJECTS_OUT constant defined in algo_pkg
 
-		reset : in std_logic
-);
+		reset       	: in std_logic
+	);
 
 
 end entity algo_wrapper;
@@ -276,6 +277,8 @@ architecture behav of algo_wrapper is
 			output_111_V 	 : out std_logic_vector(31 downto 0);
 			output_112_V 	 : out std_logic_vector(31 downto 0);
 			output_113_V 	 : out std_logic_vector(31 downto 0);
+
+			Z0_V     	 : in  std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
 
 			ap_clk   	 : in  std_logic;
 			ap_rst   	 : in  std_logic;
@@ -537,6 +540,8 @@ begin
 			output_111_V 	 => algo_objects_out(55)(63 downto 32),
 			output_112_V 	 => algo_objects_out(56)(31 downto 0),
 			output_113_V 	 => algo_objects_out(56)(63 downto 32),
+
+			Z0_V     	 => vertex,
 
 			ap_clk   	 => clk,
 			ap_rst   	 => reset,

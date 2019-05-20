@@ -1,13 +1,70 @@
 # compile vhdl design source files
 vhdl work  \
 "../../../../sim/algo_pkg.vhd" \
-"../../../../sim/regionizer_params_pkg.vhd" \
+"../../../../sim/regionizer_pkg.vhd" \
 "../../../../sim/regionizer_wrapper.vhd" \
 "../../../../sim/level2_ram_buffers.vhd" \
 "../../../../sim/level2_ram_buffer.vhd" \
 "../../../../sim/level2_uram_buffer.vhd" \
 "../../../../sim/level1_fifo_only_buffer.vhd" \
 "../../../../sim/level1_fifo_only_buffers.vhd" \
+
+vhdl xil_defaultlib  \
+"../../../../algo/pfalgo3_full/simple_puppi_hw_pocq.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgopcA.vhd" \
+"../../../../algo/pfalgo3_full/spfph_mu2trk_linkste.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgofYi.vhd" \
+"../../../../algo/pfalgo3_full/tk2calo_tkalgo.vhd" \
+"../../../../algo/pfalgo3_full/ptsort_hwopt_ind.vhd" \
+"../../../../algo/pfalgo3_full/tk2em_drvals_4195_s.vhd" \
+"../../../../algo/pfalgo3_full/em2calo_drvals_262_s.vhd" \
+"../../../../algo/pfalgo3_full/spfph_mualgo.vhd" \
+"../../../../algo/pfalgo3_full/simple_puppi_hw.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgolbW.vhd" \
+"../../../../algo/pfalgo3_full/p_lut_shift15_divide.vhd" \
+"../../../../algo/pfalgo3_full/tk2em_emalgo.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgocud.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgokbM.vhd" \
+"../../../../algo/pfalgo3_full/tk2calo_caloalgo.vhd" \
+"../../../../algo/pfalgo3_full/dr2_int_cap_14_s.vhd" \
+"../../../../algo/pfalgo3_full/pick_closest.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pack_out_s.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgodEe.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgoncg.vhd" \
+"../../../../algo/pfalgo3_full/tk2em_sumtk.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgobkb.vhd" \
+"../../../../algo/pfalgo3_full/tk2calo_sumtk.vhd" \
+"../../../../algo/pfalgo3_full/p_lut_shift15_divmb6.vhd" \
+"../../../../algo/pfalgo3_full/pick_closest_1.vhd" \
+"../../../../algo/pfalgo3_full/tk2calo_link_drdpt.vhd" \
+"../../../../algo/pfalgo3_full/spfph_mu2trk_dptvals.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgog8j.vhd" \
+"../../../../algo/pfalgo3_full/em2calo_link.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgoeOg.vhd" \
+"../../../../algo/pfalgo3_full/dr2_int_cap_10_s.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_unpack_in.vhd" \
+"../../../../algo/pfalgo3_full/pick_closest_2.vhd" \
+"../../../../algo/pfalgo3_full/em2calo_sumem.vhd" \
+
+vhdl work  \
+"../../../../algo/algo_wrapper.vhd" \
+
+vhdl xil_defaultlib  \
+"../../../../algo/pfalgo3_full/tk2calo_drdptvalsjbC.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgo3_full.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgohbi.vhd" \
+"../../../../algo/pfalgo3_full/tk2calo_drdptvals_cu.vhd" \
+"../../../../algo/pfalgo3_full/em2calo_sub.vhd" \
+"../../../../algo/pfalgo3_full/tk2em_elealgo.vhd" \
+"../../../../algo/pfalgo3_full/tk2em_link.vhd" \
+"../../../../algo/pfalgo3_full/dr2_int_cap_12_s.vhd" \
+"../../../../algo/pfalgo3_full/tk2em_photons.vhd" \
+"../../../../algo/pfalgo3_full/dr2_plus_dpt_int_cap.vhd" \
+"../../../../algo/pfalgo3_full/mp7wrapped_pfalgoibs.vhd" \
+"../../../../algo/pfalgo3_full/pfalgo3_full.vhd" \
+"../../../../sim/sync_regionizer.vhd" \
+
+vhdl work  \
 "../../../../sim/txt_util.vhd" \
 "../../../../sim/sim_file_read.vhd" \
 "../../../../sim/regionizer_TB.vhd" \

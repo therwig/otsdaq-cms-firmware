@@ -137,7 +137,7 @@ begin
         signal level1_r_en              : std_logic := '0';
         signal level1_empty             : std_logic;
         signal level1_full              : std_logic;
-        signal level1_rd_object         : physics_object_t;
+        signal level1_rd_object         : physics_object_t := null_physics_object;
         
         signal level1_has_event_data    : std_logic_vector(1 downto 0) := (others => '0'); --indicate data has been received for big-event
         
@@ -149,7 +149,7 @@ begin
     
         level1_din(63)                        <= link_object_in.quality;
         level1_din(62)                        <= link_big_region_end; -- '0'; --FIXME(?) hijacked a bit
-        level1_din(52)                        <= link_object_in.lsEM;
+        --level1_din(52)                        <= link_object_in.lsEM;
         level1_din(61 downto 52)              <= std_logic_vector(link_object_in.z0);
         level1_din(51 downto 42)              <= std_logic_vector(link_object_in.phi);
         level1_din(41 downto 32)              <= std_logic_vector(link_object_in.eta);
@@ -231,7 +231,7 @@ begin
         
         level1_rd_big_region_end                <= level1_dout(62); --FIXME hijacked a bit!
         
-        level1_rd_object.lsEM                   <= level1_dout(52);    
+        --level1_rd_object.lsEM                   <= level1_dout(52);    
         level1_rd_object.z0                     <= signed(level1_dout(61 downto 52));
         level1_rd_object.phi                    <= signed(level1_dout(51 downto 42));
         level1_rd_object.eta                    <= signed(level1_dout(41 downto 32));
@@ -247,10 +247,10 @@ begin
             signal robject_small_region     : get_eta_phi_small_region_t;
             signal sr_overlap_index         : integer range 0 to 3 := 0;
             
-            signal empty_latch              : std_logic;
+            signal empty_latch              : std_logic := '0';
             signal ready_to_handle          : std_logic; --delay by 1 clock handling of small region index
-            signal ready_to_handle_latch    : std_logic; 
-            signal level1_r_en_latch        : std_logic; --prevent next read for 1 clock after handling
+            signal ready_to_handle_latch    : std_logic := '0'; 
+            signal level1_r_en_latch        : std_logic := '0'; --prevent next read for 1 clock after handling
             
             signal small_region_closed_latch: std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
             
@@ -263,8 +263,8 @@ begin
             constant BX_SUBCOUNT_TO_DONE    : integer := 15;
             signal level1_fixed_end         : std_logic := '0';
             
-            signal level2_next_latch        : std_logic;
-            signal level2_next_strobe       : std_logic;
+            signal level2_next_latch        : std_logic := '0';
+            signal level2_next_strobe       : std_logic := '0';
             
             -- for debugging
             signal debug_source_event_index : integer := 0; 
@@ -319,10 +319,8 @@ begin
                         else                        
                             debug_bx_subcount <= (others => '0');
                             
-                            if(debug_bx_count < 18) then
+                            if(debug_bx_count < 30) then --18) then
                                 debug_bx_count <= debug_bx_count + 2;
-                            else
-                                debug_bx_count <= (others => '0'); --wrap around 
                             end if;                            
                         end if;
                                                     

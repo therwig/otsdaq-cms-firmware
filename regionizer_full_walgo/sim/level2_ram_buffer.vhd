@@ -265,7 +265,7 @@ begin
             phi                 => robject_sig.phi,
             eta                 => robject_sig.eta,
             quality             => robject_sig.quality,
-            lsEM                => robject_sig.lsEM,
+            --lsEM                => robject_sig.lsEM,
             z0                  => robject_sig.z0,
             otherPt             => robject_sig.otherPt,
             pt                  => robject_sig.pt,

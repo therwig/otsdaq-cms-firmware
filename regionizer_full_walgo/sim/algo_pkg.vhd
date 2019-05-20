@@ -6,7 +6,7 @@ package algo_pkg is
     type LinkMasterType is record
         tValid : std_logic;
         tData  : std_logic_vector(63 downto 0);
-        tLast  : std_logic;
+        --tLast  : std_logic;
     end record LinkMasterType;
     
     type LinkMasterArrType is array (natural range<>) of LinkMasterType;
@@ -29,6 +29,6 @@ package algo_pkg is
     
     
     
-    constant ALGO_OBJECTS_OUT                   : natural := 57;
+    constant ALGO_OBJECTS_OUT                   : natural := 60;
 
 end package;

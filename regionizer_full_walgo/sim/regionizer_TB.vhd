@@ -87,8 +87,8 @@ architecture TB_ARCHITECTURE of regionizer_tb is
     
     signal link_out_master : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
     signal link_out_slave  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
-    signal link_out_master2 : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
-    signal link_out_slave2  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+    --signal link_out_master2 : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+    --signal link_out_slave2  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
 	 	   	 
 	signal has_reset : std_logic := '0';
 	
@@ -189,16 +189,16 @@ begin
     gen_sim_fiber_type: for fiber_index in 0 to INPUT_FIBERS-1 generate
         link_in_master(fiber_index).tValid <= input_fiber_valid(fiber_index);
         link_in_master(fiber_index).tData <= input_fiber_data(fiber_index);
-        process(data_clk)
-        begin
-            link_in_master(fiber_index).tLast <= link_in_master(fiber_index).tValid;  
-        end process;
+--        process(data_clk)
+--        begin
+--            link_in_master(fiber_index).tLast <= link_in_master(fiber_index).tValid;  
+--        end process;
     end generate; 
             
     gen_sim_fiber_type_unused: for fiber_index in INPUT_FIBERS to MAX_FIBER_COUNT-1 generate        
         link_in_master(fiber_index).tValid <= '0';
         link_in_master(fiber_index).tData <= (others => '0');
-        link_in_master(fiber_index).tLast <= '0';
+        --link_in_master(fiber_index).tLast <= '0';
     end generate;
 			 
 			 

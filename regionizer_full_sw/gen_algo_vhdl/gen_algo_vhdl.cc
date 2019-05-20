@@ -60,15 +60,16 @@ use work.algo_pkg.all;\n\
 \n\
 entity algo_wrapper is\n\
 \t" << "port (\n\
-\t\t" << "clk : in std_logic;\n\
+\t\t" << "clk         \t: in  std_logic;\n\
 \n\
-\t\t" << "valid_in : in std_logic;\n\
-\t\t" << "objects_in : in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0); --ALGO_INPUT_OBJECTS_COUNT constant defined in regionizer_pkg\n\
+\t\t" << "valid_in    \t: in  std_logic;\n\
+\t\t" << "objects_in  \t: in  raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0); --ALGO_INPUT_OBJECTS_COUNT constant defined in regionizer_pkg\n\
+\t\t" << "vertex      \t: in  std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);\n\
 \n\
-\t\t" << "valid_out: out std_logic;\n\
-\t\t" << "results_out : out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);      --ALGO_OBJECTS_OUT constant defined in algo_pkg\n\
+\t\t" << "valid_out   \t: out std_logic;\n\
+\t\t" << "results_out \t: out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);      --ALGO_OBJECTS_OUT constant defined in algo_pkg\n\
 \n\
-\t\t" << "reset : in std_logic\n\
+\t\t" << "reset       \t: in  std_logic\n\
 \t);\n\n\n\
 end entity algo_wrapper;\n\n\
 " << endl;
@@ -98,6 +99,8 @@ architecture behav of algo_wrapper is\n\
     for(int i=0;i<OUTPUT_PORTS;++i)
       ss << "\t\t\t" << "output_" << i << "_V" << " \t : out std_logic_vector(31 downto 0);" << endl;
 
+    ss << endl;
+    ss << "\t\t\t" << "Z0_V    " << " \t : in  std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);" << endl;
     ss << endl;
     ss << "\t\t\t" << "ap_clk  " << " \t : in  std_logic;" << endl;
     ss << "\t\t\t" << "ap_rst  " << " \t : in  std_logic;" << endl;
@@ -170,6 +173,8 @@ begin\n\
 	  ss << "\t\t\t" << "output_" << i << "_V" << " \t => " << "algo_objects_out(" << i/2 << ")(63 downto 32)" << "," << endl;
       }
       
+    ss << endl;
+    ss << "\t\t\t" << "Z0_V    " << " \t => " << "vertex" << "," << endl;
     ss << endl;
     ss << "\t\t\t" << "ap_clk  " << " \t => " << "clk" << "," << endl;
     ss << "\t\t\t" << "ap_rst  " << " \t => " << "reset" << "," << endl;

@@ -34,65 +34,30 @@ architecture arch of regionizer_wrapper is
                                                     -- 1 := level-1 FIFO per link, shift-register transfer to level-2 object RAM shared in small-region groups
     
     component regionizer_clocks 
-           port (
-               reset                    : in std_logic;
-               link_clk                 : in std_logic;
-               clk_40                   : out std_logic;
-               clk_120                  : out std_logic;
-               clk_240                  : out std_logic;
-               clk_320                  : out std_logic;
-               locked                   : out std_logic
-           );
+        port (
+            reset                    : in std_logic;
+            link_clk                 : in std_logic;
+            clk_40                   : out std_logic;
+            clk_120                  : out std_logic;
+            clk_240                  : out std_logic;
+            clk_320                  : out std_logic;
+            locked                   : out std_logic
+        );
     end component regionizer_clocks;
     
-    -- component delcarations for scenario 0
-    component level1_multiram_buffers    
-        generic (
-           LINK_COUNT               : integer     
-        );
-        port (
-           
-            clk_link_to_level1      : in std_logic; 
-           
-            link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
-           
-            link_object_we_in       : in std_logic_vector (LINK_COUNT-1 downto 0);
-            link_object_in          : in physics_object_arr_t (LINK_COUNT-1 downto 0);
-           
-            level2_re_in            : in std_logic_vector(FIBER_GROUPS-1 downto 0);
-            level2_eta_phi_rindex   : in eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
-            
-            objects_out_valid       : out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-            objects_out             : out physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-            
-            overflow_error          : out std_logic;
-            reset                   : in std_logic
-        );
-    end component level1_multiram_buffers;
- 
-    component level2_pipelined_buffers 
-        generic (
-            LINK_COUNT              : integer := MAX_FIBER_COUNT
-        );
+    component sync_regionizer
         port ( 
+            clk                     : in  std_logic;
             
-            clk_level1_to_2         : in std_logic;
+            link0_event_end         : in  std_logic; 
             
-            link_big_region_end     : in std_logic_vector (LINK_COUNT-1 downto 0);
-             
-            level2_re               : out std_logic_vector(FIBER_GROUPS-1 downto 0);
-            level2_eta_phi_rindex   : out eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
-                   
-            level2_din_valid        : in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-            level2_din              : in physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
+            level1_next_event_out   : out input_group_bit_arr_t  (FIBER_GROUPS-1 downto 0);
+            level2_next_event_out   : out level2_group_bit_arr_t (FIBER_GROUPS-1 downto 0);
+            algo_vertex_select      : out std_logic_vector (FIBER_GROUPS-1 downto 0);
             
-            level2_dout_valid       : out std_logic;
-            level2_dout             : out physics_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
-                    
-            reset                   : in std_logic
+            reset                   : in  std_logic            
         );
-    end component level2_pipelined_buffers;
-    -- end component delcarations for scenario 0
+    end component sync_regionizer;
     
     -- component delcarations for scenario 1
     component level1_fifo_only_buffers    
@@ -110,7 +75,7 @@ architecture arch of regionizer_wrapper is
             link_object_in          : in  physics_object_arr_t(LINK_COUNT-1 downto 0);
             level1_big_region_end   : out std_logic_vector(FIBER_GROUPS-1 downto 0);
                             
-            level2_big_region_end   : in  std_logic_vector(FIBER_GROUPS-1 downto 0);
+            level2_big_region_end   : in  input_group_bit_arr_t(FIBER_GROUPS-1 downto 0);--std_logic_vector(FIBER_GROUPS-1 downto 0);
             small_region_closed     : in  level2_to_1_sr_closed_arr_t(FIBER_GROUPS-1 downto 0);
             level2_pipe_out         : out level1_to_2_global_pipe_t;
                     
@@ -125,7 +90,7 @@ architecture arch of regionizer_wrapper is
             
             clk_level1_to_2         : in  std_logic;
                     
-            level1_big_region_end   : in  std_logic_vector(FIBER_GROUPS-1 downto 0);
+            level1_big_region_end   : in  level2_group_bit_arr_t(FIBER_GROUPS-1 downto 0);--std_logic_vector(FIBER_GROUPS-1 downto 0);
             
             object_pipe_in          : in  level1_to_2_global_pipe_t;
             
@@ -149,6 +114,7 @@ architecture arch of regionizer_wrapper is
             
             valid_in            : in std_logic;
             objects_in          : in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0); --ALGO_INPUT_OBJECTS_COUNT constant defined in regionizer_pkg
+            vertex              : in std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
             
             valid_out           : out std_logic;
             results_out         : out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);   --ALGO_OBJECTS_OUT constant defined in algo_pkg
@@ -157,38 +123,44 @@ architecture arch of regionizer_wrapper is
         );
     end component algo_wrapper;
   
-    --=======================
-    -- tmux wrapper additions
     
-    
---    signal buffer_count : unsigned(4 downto 0) := (others => '0');
---    signal buffer_state : unsigned(FIBER_GROUPS downto 0) := (others => '0');
-        
---    type buffer_group_t is array(FIBERS_IN_GROUP-1 downto 0) of input_buffer_t;
---    type buffer_group_array_t is array(natural range <> ) of buffer_group_t;
---    signal tmux_buffers : buffer_group_array_t(FIBER_GROUPS-1 downto 0);
-    
-    
---    signal tmux_algo_in : algo_tmux_buffer_t;
-
-    -- map tmux_algo_in on algo_in since naming of inputs and outputs to HLS component already done
     signal algo_in                      : algo_input_physics_objects_t;
   
---    constant RESET_DELAY : natural := 23;
---    signal ap_rst_delay : std_logic_vector(RESET_DELAY-1 downto 0) := (others => '1');
     signal has_reset                    : std_logic := '0';
-    
-    
-    constant EVENT_BUFFER_COUNT         : natural := 3;
-    signal event_buffers                : event_small_region_phi_eta_buffer_arr_t(EVENT_BUFFER_COUNT-1 downto 0);
     
     signal clk_40, clk_120, clk_240, clk_320     : std_logic;
     
+    
+    signal level1_next_event            : input_group_bit_arr_t  (FIBER_GROUPS-1 downto 0);
+    signal level2_next_event            : level2_group_bit_arr_t (FIBER_GROUPS-1 downto 0);
+            
     signal level2_valid_out             : std_logic := '0';
     signal level2_objects_out           : raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0) := (others => (others => '0'));
+    
+    constant VERTEX_SHR_LATENCY         : integer := 10; --clocks from Level-0 to algo
+    type vertex_shr_t is array(natural range <> ) of std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+    type group_vertex_shr_t is array(natural range <> ) of vertex_shr_t(VERTEX_SHR_LATENCY-1 downto 0);
+    signal vertex_shr                   : group_vertex_shr_t(FIBER_GROUPS-1 downto 0) := (others => (others => (others => '0')));
+    signal algo_vertex_select           : std_logic_vector(FIBER_GROUPS-1 downto 0);
+    signal selected_vertex              : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+    
 begin
 
     algo_in_debug <= algo_in;
+    
+    algo_vertex_proc : process(link_clk)
+        variable selected_vertex_var : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+    begin
+        if (rising_edge(link_clk)) then
+            selected_vertex_var     := (others => '0');    
+            for i in 0 to FIBER_GROUPS-1 loop        
+                if(algo_vertex_select(i) = '1') then
+                    selected_vertex_var     := vertex_shr(i)(VERTEX_SHR_LATENCY-1);
+                end if;
+            end loop;
+            selected_vertex         <= selected_vertex_var;
+        end if; --end rising edge if        
+    end process algo_vertex_proc;
 
 
     clocks : regionizer_clocks 
@@ -237,20 +209,34 @@ begin
     --          19:10   := phi
     --          9:0     := eta
     
+    
+    -- ==========================================================================================
     gen_physics_object_buffer_levels : if TRUE generate
     
         signal link_objects_to_level1           : physics_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0);
         signal link_objects_to_level1_we        : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0) := (others => '0');
         signal link_big_region_ends             : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP - 1 downto 0) := (others => '0');
         
-    begin
-            
-         
+    begin            
+        
+        -- ========================================================================================== 
         --generate fiber buffer approach 
         --    (each fiber should buffer the same way in a group of 6)  
-        gen_fiber_group_buffer : for g in 0 to FIBER_GROUPS-1 generate        
+        gen_fiber_group_buffer : for g in 0 to FIBER_GROUPS-1 generate
+            signal link0_vertex                     : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0) := (others => '0'); 
         begin        
+                   
+            -- =======
+            group_vertex_from_link_process : process(link_clk)
+            begin
+            
+                if(rising_edge(link_clk)) then
+                    vertex_shr(g)                      <= vertex_shr(g)(VERTEX_SHR_LATENCY-2 downto 0) & link0_vertex;
+                end if;
+            end process group_vertex_from_link_process;
                         
+            
+            -- ==========================================================================================
             --generate per fiber
             gen_fiber_buffer : for i in 0 to FIBERS_IN_GROUP-1 generate
             
@@ -269,9 +255,17 @@ begin
                                        
             begin
                 
-                link_data           <= link_in_master(l).tdata;
-                link_data_valid     <= link_in_master(l).tvalid;
                 
+                
+                link_data           <= link_in_master(l).tData;
+                link_data_valid     <= link_in_master(l).tValid;
+                
+                -- =======
+                group_vertex_from_link0_gen : if i = 0 generate
+                    link0_vertex    <= link_vertex;
+                end generate group_vertex_from_link0_gen;
+                
+                -- =======
                 link_level0_buffer_transfer_process : process(link_clk)
                 begin
                 
@@ -338,7 +332,7 @@ begin
                                         phi                 => (others => '0'),
                                         eta                 => (others => '0'),
                                         quality             => '0',
-                                        lsEM                => '0',
+                                        --lsEM                => '0',
                                         z0                  => (others => '0'),
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
@@ -353,7 +347,7 @@ begin
                                         phi                 => signed(link_data(0 + 19 downto 0 + 10)),
                                         eta                 => signed(link_data(0 + 9 downto 0 + 0)),
                                         quality             =>        link_data(0 + 31),
-                                        lsEM                =>        link_data(0 + 20),
+                                        --lsEM                =>        link_data(0 + 20),
                                         z0                  => signed(link_data(0 + 29 downto 0 + 20)),
                                         otherPt             => link_physics_object_buffer(0).otherPt,
                                         pt                  => link_physics_object_buffer(0).pt,
@@ -366,7 +360,7 @@ begin
                                         phi                 => (others => '0'),
                                         eta                 => (others => '0'),
                                         quality             => '0',
-                                        lsEM                => '0',
+                                        --lsEM                => '0',
                                         z0                  => (others => '0'),
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
@@ -381,7 +375,7 @@ begin
                                         phi                 => signed(link_data(0 + 19 downto 0 + 10)),
                                         eta                 => signed(link_data(0 + 9 downto 0 + 0)),
                                         quality             =>        link_data(0 + 31),
-                                        lsEM                =>        link_data(0 + 20),
+                                        --lsEM                =>        link_data(0 + 20),
                                         z0                  => signed(link_data(0 + 29 downto 0 + 20)),
                                         otherPt             => link_physics_object_buffer(1).otherPt,
                                         pt                  => link_physics_object_buffer(1).pt,
@@ -394,7 +388,7 @@ begin
                                         phi                 => (others => '0'),
                                         eta                 => (others => '0'),
                                         quality             => '0',
-                                        lsEM                => '0',
+                                        --lsEM                => '0',
                                         z0                  => (others => '0'),
                                         otherPt             => signed(link_data(32 + 31 downto 32 + 16)),
                                         pt                  => signed(link_data(32 + 15 downto 32 + 0)),
@@ -412,7 +406,7 @@ begin
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
                                         quality             =>        link_data(32 + 31),
-                                        lsEM                =>        link_data(32 + 20),
+                                        --lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => link_physics_object_buffer(0).otherPt,
                                         pt                  => link_physics_object_buffer(0).pt,
@@ -428,7 +422,7 @@ begin
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
                                         quality             =>        link_data(32 + 31),
-                                        lsEM                =>        link_data(32 + 20),
+                                        --lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
                                         pt                  => signed(link_data(0 + 15 downto 0 + 0)),
@@ -446,7 +440,7 @@ begin
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
                                         quality             =>        link_data(32 + 31),
-                                        lsEM                =>        link_data(32 + 20),
+                                        --lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
                                         pt                  => signed(link_data(0 + 15 downto 0 + 0)),
@@ -516,63 +510,20 @@ begin
         end generate gen_fiber_group_buffer;
     
     
-        -- ========================= 
-        -- 0 := level-1 multiram per link sencario, 100-30 level-2 pipeline in HLS
-        gen_levels_1_and_2_scenario_0 : if BUFFER_SCENARIO = 0 generate
-        
-            signal level2_re                        : std_logic_vector(FIBER_GROUPS-1 downto 0);
-            signal level2_eta_phi_rindex            : eta_phi_small_region_arr_t(FIBER_GROUPS-1 downto 0);
-            
-            signal level2_din_valid                 : std_logic_vector(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
-            signal level2_din                       : physics_object_arr_t(FIBER_GROUPS * FIBERS_IN_GROUP * LEVEL1_RAMS_PER_LINK-1 downto 0);
-            
-        begin
-            level1_buffers : level1_multiram_buffers    
-                generic map (
-                    LINK_COUNT => FIBER_GROUPS * FIBERS_IN_GROUP 
-                )
-                port map (
-                    
-                    clk_link_to_level1       => link_clk,                       --: in std_logic; 
-               
-                    link_big_region_end      => link_big_region_ends,           --: in std_logic_vector (LINK_COUNT-1 downto 0);
-                   
-                    link_object_we_in        => link_objects_to_level1_we,      --: in std_logic_vector (LINK_COUNT-1 downto 0);
-                    link_object_in           => link_objects_to_level1,         --: in physics_object_arr_t (LINK_COUNT-1 downto 0);
-                   
-                    level2_re_in             => level2_re,                      --: in std_logic_vector(FIBER_GROUPS-1 downto 0);
-                    level2_eta_phi_rindex    => level2_eta_phi_rindex,          --: in eta_phi_small_region_arr_t;
-                    
-                    objects_out_valid        => level2_din_valid,               --: out std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                    objects_out              => level2_din,                     --: out raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                    
-                    overflow_error           => open,                           --: out std_logic;
-                    reset                    => reset                           --: in std_logic                  
-                );
+        sync : sync_regionizer
+            port map ( 
+                clk                     => link_clk,                    --: in  std_logic;
                 
-            level2_buffers : level2_pipelined_buffers 
-                generic map (
-                    LINK_COUNT => FIBER_GROUPS * FIBERS_IN_GROUP --: integer := MAX_FIBER_COUNT
-                )
-                port map ( 
-                    clk_level1_to_2          => link_clk,                       --: in std_logic; 
-               
-                    link_big_region_end      => link_big_region_ends,           --: in std_logic_vector (LINK_COUNT-1 downto 0);
-                   
-                    level2_re                => level2_re,                      --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
-                    level2_eta_phi_rindex    => level2_eta_phi_rindex,          --: out get_eta_phi_small_region_t;
-                    
-                    level2_din_valid         => level2_din_valid,               --: in std_logic_vector(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                    level2_din               => level2_din,                     --: in raw_physics_object_arr_t(LINK_COUNT*LEVEL1_RAMS_PER_LINK-1 downto 0);
-                    
-                    level2_dout_valid        => open,                           --: out std_logic;
-                    level2_dout              => open,                           --: out raw_physics_object_arr_t(INPUT_DECTECTOR_COUNT*ALGO_MAX_DETECTOR_OBJECTS-1 downto 0);
-                    
-                    reset                    => reset                           --: in std_logic
-                );
+                link0_event_end         => link_big_region_ends(0),     --: in  std_logic; 
+                
+                level1_next_event_out   => level1_next_event,           --: out input_group_bit_arr_t  (FIBER_GROUPS-1 downto 0);
+                level2_next_event_out   => level2_next_event,           --: out level2_group_bit_arr_t (FIBER_GROUPS-1 downto 0);
+                
+                algo_vertex_select      => algo_vertex_select,          --: out std_logic_vector (FIBER_GROUPS-1 downto 0);
+                        
+                reset                   => reset                        --: in  std_logic            
+            );
             
-        end generate gen_levels_1_and_2_scenario_0;  
-        
         -- ========================= 
         -- 1 := level-1 FIFO per link, shift-register transfer to level-2 object RAM shared in small-region groups
         gen_levels_1_and_2_scenario_1 : if BUFFER_SCENARIO = 1 generate
@@ -598,9 +549,9 @@ begin
                    
                     link_object_we_in       => link_objects_to_level1_we,       --: in std_logic_vector (LINK_COUNT-1 downto 0);
                     link_object_in          => link_objects_to_level1,          --: in physics_object_arr_t (LINK_COUNT-1 downto 0);
-                    level1_big_region_end   => level1_big_region_end,           --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
+                    level1_big_region_end   => open, --level1_big_region_end,           --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
                     
-                    level2_big_region_end   => level2_big_region_end,           --: in  std_logic_vector(FIBER_GROUPS-1 downto 0);
+                    level2_big_region_end   => level1_next_event, --level2_big_region_end,           --: in  std_logic_vector(FIBER_GROUPS-1 downto 0);
                     small_region_closed     => small_region_closed,             --: in  std_logic_vector(SMALL_REGION_COUNT-1 downto 0);
                     level2_pipe_out         => level1_to_2_pipes_out,           --: out level1_to_2_pipe_arr_t(LEVEL2_PIPES_OUT-1 downto 0);
                     
@@ -614,11 +565,11 @@ begin
                 port map ( 
                     clk_level1_to_2         => link_clk,--clk_320,              --: in std_logic; 
                
-                    level1_big_region_end   => level1_big_region_end,           --: in std_logic_vector (FIBER_GROUPS-1 downto 0);
+                    level1_big_region_end   => level2_next_event, --level1_big_region_end,           --: in std_logic_vector (FIBER_GROUPS-1 downto 0);
                         
                     object_pipe_in          => level1_to_2_pipes_out,           --: in level1_to_2_global_pipe_t;
                     
-                    next_big_region         => level2_big_region_end,           --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
+                    next_big_region         => open,--level2_big_region_end,           --: out std_logic_vector(FIBER_GROUPS-1 downto 0);
                     
                     small_region_closed     => small_region_closed,             --: out std_logic_vector(SMALL_REGION_COUNT-1 downto 0);  
                             
@@ -631,24 +582,36 @@ begin
             
         end generate gen_levels_1_and_2_scenario_1;       
         
-   end generate gen_physics_object_buffer_levels; 
+    end generate gen_physics_object_buffer_levels; 
         
    
-  
-    --connect to HLS algo block 
-    algo_wrapper_instance : algo_wrapper
-        port map (
-            clk             => link_clk,            --: in std_logic;
-
-            valid_in        => level2_valid_out,    --: in std_logic;
-            objects_in      => level2_objects_out,  --: in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
-            
-            valid_out       => open,                --: out std_logic;
-            results_out     => open,                --: out raw_algo_object_out_t(ALGO_OBJECTS_OUT-1 downto 0);
-            
-            reset           => reset                --: in std_logic
-        );
     
+    -- ========================= 
+    gen_algo : if TRUE generate
+        signal algo_out_valid   : std_logic;
+        signal algo_out         : raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+    begin
+        --connect to HLS algo block 
+        algo_wrapper_instance : algo_wrapper
+            port map (
+                clk             => link_clk,            --: in std_logic;
+    
+                valid_in        => level2_valid_out,    --: in std_logic;
+                objects_in      => level2_objects_out,  --: in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
+                vertex          => selected_vertex,     --:in std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+                
+                valid_out       => algo_out_valid,      --: out std_logic;
+                results_out     => algo_out,            --: out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+                
+                reset           => algo_reset           --: in std_logic
+            );
+            
+        gen_output_links : for i in 0 to ALGO_OBJECTS_OUT-1 generate
+            link_out_master(i).tValid   <= algo_out_valid;
+            link_out_master(i).tData    <= algo_out(i);
+        end generate gen_output_links;
+        
+    end generate gen_algo;
     
   
 end arch;
