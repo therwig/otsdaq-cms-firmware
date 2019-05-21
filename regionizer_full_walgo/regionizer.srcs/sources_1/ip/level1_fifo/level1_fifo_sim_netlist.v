@@ -1,10 +1,10 @@
 // Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.2 (lin64) Build 2258646 Thu Jun 14 20:02:38 MDT 2018
-// Date        : Wed May  8 23:35:27 2019
+// Date        : Wed May  8 23:35:23 2019
 // Host        : correlator2.fnal.gov running 64-bit Scientific Linux release 7.6 (Nitrogen)
-// Command     : write_verilog -force -mode funcsim
-//               /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/level1_fifo/level1_fifo_sim_netlist.v
+// Command     : write_verilog -force -mode funcsim -rename_top level1_fifo -prefix
+//               level1_fifo_ level1_fifo_sim_netlist.v
 // Design      : level1_fifo
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -606,7 +606,6 @@ module level1_fifo
         .wr_rst_busy(wr_rst_busy));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_generic_cstr" *) 
 module level1_fifo_blk_mem_gen_generic_cstr
    (D,
     clk,
@@ -645,7 +644,6 @@ module level1_fifo_blk_mem_gen_generic_cstr
         .tmp_ram_rd_en(tmp_ram_rd_en));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_prim_width" *) 
 module level1_fifo_blk_mem_gen_prim_width
    (D,
     clk,
@@ -684,7 +682,6 @@ module level1_fifo_blk_mem_gen_prim_width
         .tmp_ram_rd_en(tmp_ram_rd_en));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_prim_wrapper" *) 
 module level1_fifo_blk_mem_gen_prim_wrapper
    (D,
     clk,
@@ -968,7 +965,6 @@ module level1_fifo_blk_mem_gen_prim_wrapper
         .WEBWE({E,E,E,E,E,E,E,E}));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_top" *) 
 module level1_fifo_blk_mem_gen_top
    (D,
     clk,
@@ -1007,7 +1003,6 @@ module level1_fifo_blk_mem_gen_top
         .tmp_ram_rd_en(tmp_ram_rd_en));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_v8_4_1" *) 
 module level1_fifo_blk_mem_gen_v8_4_1
    (D,
     clk,
@@ -1046,7 +1041,6 @@ module level1_fifo_blk_mem_gen_v8_4_1
         .tmp_ram_rd_en(tmp_ram_rd_en));
 endmodule
 
-(* ORIG_REF_NAME = "blk_mem_gen_v8_4_1_synth" *) 
 module level1_fifo_blk_mem_gen_v8_4_1_synth
    (D,
     clk,
@@ -1085,7 +1079,6 @@ module level1_fifo_blk_mem_gen_v8_4_1_synth
         .tmp_ram_rd_en(tmp_ram_rd_en));
 endmodule
 
-(* ORIG_REF_NAME = "bram_fifo_rstlogic" *) 
 module level1_fifo_bram_fifo_rstlogic
    (wr_rst_busy,
     SR,
@@ -1194,7 +1187,6 @@ module level1_fifo_bram_fifo_rstlogic
         .R(1'b0));
 endmodule
 
-(* ORIG_REF_NAME = "compare" *) 
 module level1_fifo_compare
    (comp0,
     \gc0.count_d1_reg[6] ,
@@ -1434,7 +1426,6 @@ module level1_fifo_compare_3
         .O(ram_empty_i_reg));
 endmodule
 
-(* ORIG_REF_NAME = "fifo_generator_ramfifo" *) 
 module level1_fifo_fifo_generator_ramfifo
    (empty,
     full,
@@ -1542,7 +1533,6 @@ module level1_fifo_fifo_generator_ramfifo
         .wr_rst_busy(wr_rst_busy));
 endmodule
 
-(* ORIG_REF_NAME = "fifo_generator_top" *) 
 module level1_fifo_fifo_generator_top
    (empty,
     full,
@@ -1656,7 +1646,7 @@ endmodule
 (* C_WR_DEPTH_WRCH = "16" *) (* C_WR_FREQ = "1" *) (* C_WR_PNTR_WIDTH = "9" *) 
 (* C_WR_PNTR_WIDTH_AXIS = "10" *) (* C_WR_PNTR_WIDTH_RACH = "4" *) (* C_WR_PNTR_WIDTH_RDCH = "10" *) 
 (* C_WR_PNTR_WIDTH_WACH = "4" *) (* C_WR_PNTR_WIDTH_WDCH = "10" *) (* C_WR_PNTR_WIDTH_WRCH = "4" *) 
-(* C_WR_RESPONSE_LATENCY = "1" *) (* ORIG_REF_NAME = "fifo_generator_v13_2_2" *) 
+(* C_WR_RESPONSE_LATENCY = "1" *) 
 module level1_fifo_fifo_generator_v13_2_2
    (backup,
     backup_marker,
@@ -2674,7 +2664,6 @@ module level1_fifo_fifo_generator_v13_2_2
         .wr_rst_busy(wr_rst_busy));
 endmodule
 
-(* ORIG_REF_NAME = "fifo_generator_v13_2_2_synth" *) 
 module level1_fifo_fifo_generator_v13_2_2_synth
    (empty,
     full,
@@ -2721,7 +2710,6 @@ module level1_fifo_fifo_generator_v13_2_2_synth
         .wr_rst_busy(wr_rst_busy));
 endmodule
 
-(* ORIG_REF_NAME = "memory" *) 
 module level1_fifo_memory
    (dout,
     clk,
@@ -3276,7 +3264,6 @@ module level1_fifo_memory
         .R(SR));
 endmodule
 
-(* ORIG_REF_NAME = "rd_bin_cntr" *) 
 module level1_fifo_rd_bin_cntr
    (Q,
     v1_reg,
@@ -3719,7 +3706,6 @@ module level1_fifo_rd_bin_cntr
         .O(ram_empty_i_reg_2));
 endmodule
 
-(* ORIG_REF_NAME = "rd_fwft" *) 
 module level1_fifo_rd_fwft
    (empty,
     tmp_ram_rd_en,
@@ -3919,7 +3905,6 @@ module level1_fifo_rd_fwft
         .R(srst_full_ff_i));
 endmodule
 
-(* ORIG_REF_NAME = "rd_logic" *) 
 module level1_fifo_rd_logic
    (empty,
     tmp_ram_rd_en,
@@ -4036,7 +4021,6 @@ module level1_fifo_rd_logic
         .v1_reg_2(\c2/v1_reg ));
 endmodule
 
-(* ORIG_REF_NAME = "rd_status_flags_ss" *) 
 module level1_fifo_rd_status_flags_ss
    (out,
     \gc0.count_d1_reg[0] ,
@@ -4123,7 +4107,6 @@ module level1_fifo_rd_status_flags_ss
         .S(srst_full_ff_i));
 endmodule
 
-(* ORIG_REF_NAME = "reset_blk_ramfifo" *) 
 module level1_fifo_reset_blk_ramfifo
    (wr_rst_busy,
     SR,
@@ -4146,7 +4129,6 @@ module level1_fifo_reset_blk_ramfifo
         .wr_rst_busy(wr_rst_busy));
 endmodule
 
-(* ORIG_REF_NAME = "wr_bin_cntr" *) 
 module level1_fifo_wr_bin_cntr
    (Q,
     v1_reg,
@@ -4523,7 +4505,6 @@ module level1_fifo_wr_bin_cntr
         .O(ram_empty_i_reg_0));
 endmodule
 
-(* ORIG_REF_NAME = "wr_logic" *) 
 module level1_fifo_wr_logic
    (out,
     full,
@@ -4615,7 +4596,6 @@ module level1_fifo_wr_logic
         .v1_reg_1(\gaf.c2/v1_reg ));
 endmodule
 
-(* ORIG_REF_NAME = "wr_status_flags_ss" *) 
 module level1_fifo_wr_status_flags_ss
    (out,
     full,
