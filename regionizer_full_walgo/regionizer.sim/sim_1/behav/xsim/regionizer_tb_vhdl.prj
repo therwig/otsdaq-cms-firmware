@@ -62,9 +62,10 @@ vhdl xil_defaultlib  \
 "../../../../algo/pfalgo3_full/dr2_plus_dpt_int_cap.vhd" \
 "../../../../algo/pfalgo3_full/mp7wrapped_pfalgoibs.vhd" \
 "../../../../algo/pfalgo3_full/pfalgo3_full.vhd" \
-"../../../../sim/sync_regionizer.vhd" \
 
 vhdl work  \
+"../../../../sim/sync_regionizer.vhd" \
+"../../../../sim/infra_links.vhd" \
 "../../../../sim/txt_util.vhd" \
 "../../../../sim/sim_file_read.vhd" \
 "../../../../sim/regionizer_TB.vhd" \

@@ -39,7 +39,7 @@ entity sync_regionizer is
         
         level1_next_event_out   : out input_group_bit_arr_t  (FIBER_GROUPS-1 downto 0);
         level2_next_event_out   : out level2_group_bit_arr_t (FIBER_GROUPS-1 downto 0);
-        algo_vertex_select      : out std_logic_vector (FIBER_GROUPS-1 downto 0);
+        algo_group_valid        : out std_logic_vector (FIBER_GROUPS-1 downto 0);
         
         reset                   : in  std_logic
         
@@ -49,7 +49,7 @@ end sync_regionizer;
 architecture Behavioral of sync_regionizer is
 
     constant LINK_TO_LEVEL1_END_BX_LATENCY : integer := 1;
-    constant LINK_TO_LEVEL2_END_BX_LATENCY : integer := 2;
+    constant LINK_TO_LEVEL2_END_BX_LATENCY : integer := 1;
     constant LEVEL2_TO_ALGO_LATENCY        : integer := 10;
      
     signal sync_start_latch         : std_logic_vector(1 downto 0) := (others => '0');
@@ -59,7 +59,7 @@ architecture Behavioral of sync_regionizer is
     signal sync_started             : std_logic := '0';
     
     type group_18bx_subcount_arr_t is array(natural range <> ) of unsigned(8 downto 0);
-    signal group_18bx_subcount      : group_18bx_subcount_arr_t(FIBERS_IN_GROUP-1 downto 0) := (others => (others => '0'));
+    signal group_18bx_subcount      : group_18bx_subcount_arr_t(FIBER_GROUPS-1 downto 0) := (others => (others => '0'));
     
     signal sync_bx_runsubcount      : unsigned(8 downto 0) := (others => '0'); 
     signal sync_bx_subcount         : unsigned(5 downto 0) := (others => '0'); 
@@ -144,15 +144,32 @@ begin
     -- ==========================================================================================
     gen_group_running_18bx_subcount : for g in 0 to FIBER_GROUPS-1 generate
         constant BX_COUNT_MATCH         : integer := g*6;
+                
+        signal group_18bx_reset         : std_logic := '0';
+        signal group_18bx_reset_latch   : std_logic := '0';  
+         
+        signal debug_group_18bx_reset   : std_logic := '0';       
     begin
         process(clk)
         begin
             if (rising_edge(clk)) then
+            
+                group_18bx_reset            <= '0';
+                group_18bx_reset_latch      <= group_18bx_reset;
+                
+                debug_group_18bx_reset      <= '0';
+                
                 if(sync_bx_count = BX_COUNT_MATCH) then
-                    group_18bx_subcount(g) <= (others => '0');
-                else
-                    group_18bx_subcount(g) <= group_18bx_subcount(g) + 1;
+                    group_18bx_reset        <= sync_started;
                 end if;
+                
+                if(group_18bx_reset_latch = '0' and group_18bx_reset = '1') then
+                    group_18bx_subcount(g)  <= (others => '0');
+                    debug_group_18bx_reset  <= '1';
+                elsif(sync_started = '1') then
+                    group_18bx_subcount(g)  <= group_18bx_subcount(g) + 1;
+                end if;
+                
             end if;                
         end process;                
     end generate gen_group_running_18bx_subcount;
@@ -161,9 +178,15 @@ begin
     -- ==========================================================================================
     -- generate Level-1 next event signals
     gen_level1_next_event : for g in 0 to FIBER_GROUPS-1 generate
-        constant BX_RUNSUBCOUNT_MATCH     : integer := LINK_TO_LEVEL1_END_BX_LATENCY*CLOCKS_PER_2BX/2;     
-    begin
+        constant BX_RUNSUBCOUNT_MATCH     : integer := LINK_TO_LEVEL1_END_BX_LATENCY*CLOCKS_PER_2BX/2;  
+        
+        signal debug_level1_next_event    : std_logic;
+        signal debug_level1_next_event_arr: std_logic_vector(FIBERS_IN_GROUP-1 downto 0);        
+    begin   
     
+        debug_level1_next_event             <= or_reduce(debug_level1_next_event_arr);
+        -- ==========================================================================================
+        -- generate individual link shift register that will give synchronized strobe at each level-1 link buffer
         gen_level1_next_event_for_link : for i in 0 to FIBERS_IN_GROUP-1 generate
         
             constant LATCH_DEPTH                    : integer := LEVEL1_LATCH_DEPTH(g)(i);
@@ -172,16 +195,22 @@ begin
             signal link_shr                         : std_logic_vector(LATCH_DEPTH-1 downto 0);
             
         begin
+        
             level1_next_event_out(g)(i)     <= link_shr(LATCH_DEPTH-1);
-            process(clk)
+            
+            level1_next_event_proc : process(clk)
             begin
                 if (rising_edge(clk)) then
-                    link_shr <= link_shr(LATCH_DEPTH-2 downto 0) & '0';
+                
+                    link_shr                        <= link_shr(LATCH_DEPTH-2 downto 0) & '0';      
+                    debug_level1_next_event_arr(i)  <= '0';      
+                            
                     if(group_18bx_subcount(g) = BX_LINK_RUNSUBCOUNT_LAUNCH) then
-                        link_shr(0) <= '1'; 
+                        link_shr(0)                     <= '1'; 
+                        debug_level1_next_event_arr(i)  <= '1';
                     end if;
                 end if;                
-            end process;
+            end process level1_next_event_proc;
             
         end generate gen_level1_next_event_for_link;
     end generate gen_level1_next_event;
@@ -190,8 +219,15 @@ begin
     -- generate Level-2 next event signals
     gen_level2_next_event : for g in 0 to FIBER_GROUPS-1 generate
         constant BX_RUNSUBCOUNT_MATCH     : integer := LINK_TO_LEVEL2_END_BX_LATENCY*CLOCKS_PER_2BX/2; 
+        
+        signal debug_level2_next_event    : std_logic;
+        signal debug_level2_next_event_arr: std_logic_vector(LEVEL1_TO_2_PIPE_COUNT-1 downto 0);        
     begin      
                   
+        debug_level2_next_event             <= or_reduce(debug_level2_next_event_arr);
+        
+        -- ==========================================================================================
+        -- generate individual link shift register that will give synchronized strobe at each level-2 buffer
         gen_level2_next_event_for_buffer : for i in 0 to LEVEL1_TO_2_PIPE_COUNT-1 generate
         
             constant LATCH_DEPTH                    : integer := LEVEL2_LATCH_DEPTH(g)(i);
@@ -200,43 +236,55 @@ begin
             signal next_event_shr                   : std_logic_vector(LATCH_DEPTH-1 downto 0);
             
         begin        
-            level2_next_event_out(g)(i)     <= next_event_shr(LATCH_DEPTH-1);  
-            process(clk)
+            level2_next_event_out(g)(i)     <= next_event_shr(LATCH_DEPTH-1);
+              
+            level2_next_event_proc : process(clk)
             begin
                 if (rising_edge(clk)) then
-                    next_event_shr <= next_event_shr(LATCH_DEPTH-2 downto 0) & '0';
+                    
+                    next_event_shr <= next_event_shr(LATCH_DEPTH-2 downto 0) & '0';    
+                    debug_level2_next_event_arr(i)  <= '0';
+                          
                     if(group_18bx_subcount(g) = BX_BUFER_RUNSUBCOUNT_LAUNCH) then
                         next_event_shr(0) <= '1'; 
+                        debug_level2_next_event_arr(i)  <= '1';
                     end if;
                 end if;                
-            end process;
+            end process level2_next_event_proc;
             
         end generate gen_level2_next_event_for_buffer;
     end generate gen_level2_next_event;
     
     -- ==========================================================================================
     -- generate vertex select signals
-    gen_vertex_select : for g in 0 to FIBER_GROUPS-1 generate
-        constant BX_RUNSUBCOUNT_MATCH           : integer := LINK_TO_LEVEL1_END_BX_LATENCY*CLOCKS_PER_2BX/2 + LEVEL2_TO_ALGO_LATENCY; 
+    gen_algo_group_valid : for g in 0 to FIBER_GROUPS-1 generate
+        constant BX_RUNSUBCOUNT_ON_MATCH        : integer := LINK_TO_LEVEL1_END_BX_LATENCY*CLOCKS_PER_2BX/2 + LEVEL2_TO_ALGO_LATENCY; 
+        constant BX_RUNSUBCOUNT_OFF_MATCH       : integer := LINK_TO_LEVEL1_END_BX_LATENCY*CLOCKS_PER_2BX/2 + LEVEL2_TO_ALGO_LATENCY + SMALL_REGION_COUNT*2;
          
         constant LATCH_DEPTH                    : integer := VERTEX_LATCH_DEPTH(g);
-        constant BX_VERTEX_RUNSUBCOUNT_LAUNCH   : integer := BX_RUNSUBCOUNT_MATCH - LATCH_DEPTH;
+        constant BX_VALID_RUNSUBCOUNT_ON        : integer := BX_RUNSUBCOUNT_ON_MATCH  - LATCH_DEPTH;
+        constant BX_VALID_RUNSUBCOUNT_OFF       : integer := BX_RUNSUBCOUNT_OFF_MATCH - LATCH_DEPTH;
         
-        signal vertex_shr                       : std_logic_vector(LATCH_DEPTH-1 downto 0);
+        signal valid                            : std_logic := '0';
+        signal valid_shr                        : std_logic_vector(LATCH_DEPTH-1 downto 0);
     begin
         
-        algo_vertex_select(g)           <= vertex_shr(LATCH_DEPTH-1);
+        algo_group_valid(g)           <= valid_shr(LATCH_DEPTH-1);
         
-        process(clk)
+        algo_valid_proc : process(clk)
         begin
             if (rising_edge(clk)) then
-                vertex_shr <= vertex_shr(LATCH_DEPTH-2 downto 0) & '0';
-                if(group_18bx_subcount(g) = BX_VERTEX_RUNSUBCOUNT_LAUNCH) then
-                    vertex_shr(0) <= '1'; 
+            
+                valid_shr <= valid_shr(LATCH_DEPTH-2 downto 0) & valid;
+                
+                if   (group_18bx_subcount(g) = BX_VALID_RUNSUBCOUNT_ON) then
+                    valid <= '1'; 
+                elsif(group_18bx_subcount(g) = BX_VALID_RUNSUBCOUNT_OFF) then
+                   valid <= '0'; 
                 end if;
             end if;                
-        end process;
+        end process algo_valid_proc;
             
-    end generate gen_vertex_select;
+    end generate gen_algo_group_valid;
 
 end Behavioral;
