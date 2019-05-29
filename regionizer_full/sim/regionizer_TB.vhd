@@ -87,8 +87,8 @@ architecture TB_ARCHITECTURE of regionizer_tb is
     
     signal link_out_master : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
     signal link_out_slave  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
-    signal link_out_master2 : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
-    signal link_out_slave2  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+    --signal link_out_master2 : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+    --signal link_out_slave2  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
 	 	   	 
 	signal has_reset : std_logic := '0';
 	

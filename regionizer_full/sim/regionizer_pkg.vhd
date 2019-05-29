@@ -12,7 +12,7 @@ package regionizer_pkg is
     constant MAX_FIBER_COUNT                    : natural := 96;
     
     
-    constant INFRA_FIFOS_PER_FIBER              : natural := 3; --FIXME to 7 -- e.g. use 672 fifos in infra    
+    constant INFRA_FIFOS_PER_FIBER              : natural := 7; --FIXME to 7 -- e.g. use 672 fifos in infra    
     
     constant FIBER_GROUPS                       : natural := 3; --FIXME to 3   
     constant FIBERS_IN_GROUP                    : natural := MAX_FIBER_COUNT / FIBER_GROUPS; --FIXME to MAX_FIBER_COUNT / FIBER_GROUPS;
