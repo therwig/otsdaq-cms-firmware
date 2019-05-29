@@ -13,7 +13,12 @@ entity regionizer_wrapper is
   
         link_clk            : in  std_logic;
         
-        algo_in_debug       : out algo_input_physics_objects_t;
+        algo_in_debug       : out raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
+        algo_in_vertex_debug: out std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+        algo_in_valid_debug : out std_logic;
+        
+        algo_out_debug      : out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+        algo_out_valid_debug: out std_logic;
         
         -- Input Links 
         link_in_master      : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
@@ -126,7 +131,6 @@ architecture arch of regionizer_wrapper is
     end component algo_wrapper;
   
     
-    signal algo_in                      : algo_input_physics_objects_t;
   
     signal has_reset                    : std_logic := '0';
     
@@ -146,13 +150,9 @@ architecture arch of regionizer_wrapper is
     signal algo_group_valid             : std_logic_vector(FIBER_GROUPS-1 downto 0);
     signal selected_vertex              : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
     
-    signal algo_valid                   : std_logic;
     
 begin
-
-    algo_in_debug   <= algo_in;
     
-    algo_valid      <= or_reduce(algo_group_valid);
     
     algo_vertex_proc : process(link_clk)
         variable selected_vertex_var : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
@@ -594,22 +594,33 @@ begin
     
     -- ========================= 
     gen_algo : if TRUE generate
-        signal algo_out_valid   : std_logic;
-        signal algo_out         : raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+        signal algo_valid                   : std_logic;
+        signal algo_out_valid               : std_logic;
+        signal algo_out                     : raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
     begin
+        
+        algo_valid              <= or_reduce(algo_group_valid);
+        
+        algo_in_valid_debug     <= algo_valid;
+        algo_in_debug           <= level2_objects_out;
+        algo_in_vertex_debug    <= selected_vertex;
+        
+        algo_out_valid_debug    <= algo_out_valid;
+        algo_out_debug          <= algo_out;
+        
         --connect to HLS algo block 
         algo_wrapper_instance : algo_wrapper
             port map (
-                clk             => link_clk,            --: in std_logic;
+                clk             => link_clk,            --: in  std_logic;
     
-                valid_in        => algo_valid,          --: in std_logic;
-                objects_in      => level2_objects_out,  --: in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
-                vertex          => selected_vertex,     --:in std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+                valid_in        => algo_valid,          --: in  std_logic;
+                objects_in      => level2_objects_out,  --: in  raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
+                vertex          => selected_vertex,     --: in  std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
                 
                 valid_out       => algo_out_valid,      --: out std_logic;
                 results_out     => algo_out,            --: out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
                 
-                reset           => algo_reset           --: in std_logic
+                reset           => algo_reset           --: in  std_logic
             );
             
         gen_output_links : for i in 0 to ALGO_OBJECTS_OUT-1 generate

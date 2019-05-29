@@ -15,15 +15,16 @@ use work.algo_pkg.all;
 
 entity algo_wrapper is
 	port (
-		clk : in std_logic;
+		clk                   : in std_logic;
 
-		valid_in : in std_logic;
-		objects_in : in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0); --ALGO_INPUT_OBJECTS_COUNT constant defined in regionizer_pkg
+		valid_in              : in std_logic;
+		objects_in            : in raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0); --ALGO_INPUT_OBJECTS_COUNT constant defined in regionizer_pkg
+        vertex                : in std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+        
+		valid_out             : out std_logic;
+		results_out           : out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);      --ALGO_OBJECTS_OUT constant defined in algo_pkg
 
-		valid_out: out std_logic;
-		results_out : out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);      --ALGO_OBJECTS_OUT constant defined in algo_pkg
-
-		reset : in std_logic
+		reset                 : in std_logic
     );
 end entity algo_wrapper;
 

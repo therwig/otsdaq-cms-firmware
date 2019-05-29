@@ -31,7 +31,20 @@ architecture TB_ARCHITECTURE of regionizer_tb is
                 EOG                 : out std_logic
               );
     end component FILE_READ;
-    
+        
+    component FILE_WRITE
+        generic (
+            output_file:      string  := "sim_output.dat"; 
+            BIT_WIDTH:        integer := 5
+              );
+        port(
+            CLK              : in  std_logic;
+            RST              : in  std_logic;
+            VALID            : in  std_logic;
+            D                : in  std_logic_vector(BIT_WIDTH-1 downto 0);
+            EOG              : in  std_logic
+            );
+    end component FILE_WRITE;
     
     
     component regionizer_wrapper 
@@ -39,7 +52,12 @@ architecture TB_ARCHITECTURE of regionizer_tb is
       
             link_clk            : in  std_logic;
             
-            algo_in_debug       : out algo_input_physics_objects_t;
+            algo_in_debug       : out raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
+            algo_in_vertex_debug: out std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+            algo_in_valid_debug : out std_logic;
+            
+            algo_out_debug      : out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+            algo_out_valid_debug: out std_logic;
             
             -- Input Links 
             link_in_master      : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
@@ -82,67 +100,25 @@ architecture TB_ARCHITECTURE of regionizer_tb is
 	
 	
 	
-    signal link_in_master : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
-    signal link_in_slave  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+    signal link_in_master       : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+    signal link_in_slave        : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
     
-    signal link_out_master : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
-    signal link_out_slave  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+    signal link_out_master      : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+    signal link_out_slave       : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
     --signal link_out_master2 : LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
     --signal link_out_slave2  : LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
 	 	   	 
-	signal has_reset : std_logic := '0';
+	signal has_reset            : std_logic := '0';
 	
-	signal algo_in      : algo_input_physics_objects_t;
+	signal algo_in              : raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
+    signal algo_in_vertex       : std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+    signal algo_in_valid        : std_logic;
+            
+    signal algo_out             : raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+    signal algo_out_valid       : std_logic;
 	
 begin
-	
---	tb_fiber_in_gen : for i in 0 to FIBER_PAIRS-1 generate  
-		
---		tb_fiber_in(i*2) <= payload_even(i*32+31 downto i*32);
---		tb_fiber_in(i*2+1) <= payload_odd(i*32+31 downto i*32);
-		
---	end generate;		   		   
-	
---	process(data_clk)
---	begin		
---		if rising_edge(data_clk) and data_valid_even(0) = '1' then
---			tb_fiber_frame <= tb_fiber_frame + 1;
---		end if;
-		
-		
---	end process;
-	
-	
-	
-	
---	-- Unit Under Test port map
---	UUT : algorithm
---		port map (
---			data_clk => data_clk,	
---			algo_clk => algo_clk,
---			ipb_clk => ipb_clk,	  
---			ipb_reset => ipb_reset,	
---			data_rst => data_rst,
---			ipb_strobe => ipb_strobe,
---			ipb_we => ipb_we,		   
---			data_valid_even => data_valid_even,-- when inputBlock = '0' else (others => '0'),
---			data_valid_odd => data_valid_odd,	
---			start_event_even => start_event_even,
---			start_event_odd => start_event_odd,		   
---			ipb_addr => ipb_addr,	
---			ipb_wdata => ipb_wdata,			 
---			ipb_rdata => ipb_rdata,	  		 
---			ipb_ack => ipb_ack,		  		 
---			ipb_err => ipb_err,
---			payload_even => payload_even,
---			payload_odd => payload_odd,					 
---			output_fiber_valid => output_fiber_valid,	 
---			output_fiber_start => output_fiber_start,		 
---			output_fiber_strobe => output_fiber_strobe,
---			output_fiber_data => output_fiber_data
---		);
-
-	-- Add your stimulus here ...					
+					
 																							   	
 	data_clk <= not data_clk after DATA_CLK_PERIOD/2;	
 	
@@ -203,51 +179,66 @@ begin
 			 
 			 
     regionizer_wrapper_entity: regionizer_wrapper
-        port map(
-            link_clk    => data_clk, 
-            reset       => system_reset,
-            algo_reset  => algo_reset,
-    
-            algo_in_debug => algo_in,
-                        
-            link_in_master  => link_in_master,
-            link_in_slave   => link_in_slave,
-            link_out_master => link_out_master,
-            link_out_slave  => link_out_slave
+        port map(            
+            link_clk                => data_clk,        --: in  std_logic;
+                    
+            algo_in_debug           => algo_in,         --: out raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
+            algo_in_vertex_debug    => algo_in_vertex,  --: out std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+            algo_in_valid_debug     => algo_in_valid,   --: out std_logic;
+            
+            algo_out_debug          => algo_out,        --: out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+            algo_out_valid_debug    => algo_out_valid,  --: out std_logic;
+            
+            -- Input Links 
+            link_in_master          => link_in_master,  --: in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+            link_in_slave           => link_in_slave,   --: out LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+            
+            -- Output Links 
+            link_out_master         => link_out_master, --: out LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
+            link_out_slave          => link_out_slave,  --: in  LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
+        
+            algo_reset              => algo_reset,      --: in  std_logic;
+            reset                   => system_reset     --: in  std_logic
             );
            
---    i_algo_top_wrapper : entity work.algo_top_wrapper
---          port map(
---            ap_clk   => data_clk, --120 MHz
---            ap_rst   => input_fiber_reader_reset,
---            ap_start => input_fiber_valid(0),
---            ap_done  => open,
---            ap_idle  => open,
---            ap_ready => open,
-            
-    
---            link_in_master  => link_in_master,
---            link_in_slave   => link_in_slave,
---            link_out_master => link_out_master2,
---            link_out_slave  => link_out_slave2
---            );
          
---     gen_algo_in_output : for tmux_segment in 0 to ALGO_DATA_SIZE/TMUX_INPUT_WORD_SIZE-1 generate
+    -- ========================= 
+     gen_algo_in_output : if TRUE generate
+        
+         -- ========================= 
+        gen_vertex_in_output : if TRUE generate          
+          sim_HLSinput_writer_array: FILE_WRITE
+                      generic map(
+                          output_file   => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/sim_data/sim_HLS_input_vertex.dat",                          
+                          BIT_WIDTH     => VERTEX_BIT_WIDTH
+                      )
+                      port map(
+                          CLK  => data_clk,
+                          VALID => algo_in_valid,
+                          RST => input_fiber_reader_reset,
+                          D => algo_in_vertex,
+                          EOG => '0'
+                      );
+        end generate gen_vertex_in_output;
+        
+        -- ========================= 
+        gen_object_in_output : for i in 0 to ALGO_INPUT_OBJECTS_COUNT-1 generate
             
---          sim_HLSinput_writer_array: entity work.FILE_WRITE
---                      generic map(
---                          output_file => "/data/rrivera/CorrelatorTrigger/tmux_regionizer/sim_regionizer_wrapper/sim/sim_data/sim_HLSinput_fiber_"&integer'image(tmux_segment)&".dat",
---                          output_file => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/tmux_regionizer/sim_regionizer_wrapper/sim/sim_data/sim_HLSinput_fiber_"&integer'image(tmux_segment)&".dat",
---                          BIT_WIDTH => TMUX_INPUT_WORD_SIZE
---                      )
---                      port map(
---                          CLK  => data_clk,
---                          VALID => algo_in.valid,
---                          RST => input_fiber_reader_reset,
---                          D => algo_in.data(tmux_segment),
---                          EOG => '0'
---                      );      
---    end generate;
+          sim_HLSinput_writer_array: FILE_WRITE
+                      generic map(
+                          output_file   => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/sim_data/sim_HLS_input_object_"&integer'image(i)&".dat",                          
+                          BIT_WIDTH     => PHYSICS_OBJECT_BIT_SIZE
+                      )
+                      port map(
+                          CLK  => data_clk,
+                          VALID => algo_in_valid,
+                          RST => input_fiber_reader_reset,
+                          D => algo_in(i),
+                          EOG => '0'
+                      );
+        end generate gen_object_in_output;
+        
+    end generate gen_algo_in_output;
                           
 --	sim_output_writer_array: for fiber_index in 0 to OUTPUT_FIBERS-1 generate   
 	

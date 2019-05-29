@@ -15,8 +15,8 @@ entity FILE_WRITE is
        CLK              : in  std_logic;
        RST              : in  std_logic;
        VALID            : in  std_logic;
-       D                : in std_logic_vector(BIT_WIDTH-1 downto 0);
-       EOG              : in std_logic
+       D                : in  std_logic_vector(BIT_WIDTH-1 downto 0);
+       EOG              : in  std_logic
       );
 end FILE_WRITE;
 
