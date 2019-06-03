@@ -1,1 +1,0 @@
-vopt -64 +acc -l elaborate.log -L xil_defaultlib -L xpm -L fifo_generator_v13_2_3 -L work -L unisims_ver -L unimacro_ver -L secureip -work work work.raw_link_buffer_layer0 work.glbl -o raw_link_buffer_layer0_opt
