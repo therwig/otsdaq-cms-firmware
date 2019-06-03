@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 	return -1;
       }
     
-    const unsigned int LINE_SZ = 2000;
+    const unsigned int LINE_SZ = 3000;
     char line[LINE_SZ];
 
 
@@ -60,10 +60,11 @@ int main(int argc, char **argv)
     for(unsigned int i=0;0 && i<3;++i)
       fgets(line,LINE_SZ,fp);
 
-
+    unsigned int linenum = 0;
     while(fgets(line,LINE_SZ,fp))
       {
-	//cout << line << endl;
+	cout << linenum++ << " " << line << endl;
+
 	unsigned int length = strlen(line);
 	unsigned int j=0;
 	unsigned int l=0;
