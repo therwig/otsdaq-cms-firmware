@@ -1,3 +1,19 @@
+//==========================================
+//
+// written by rrivera at fnal dot gov 2019
+//
+//
+// usage:
+//   g++ create_tmux_inputs.cpp
+//   ./a.out <input file> <folder for resulting input files> <number of links>
+//
+// for example:
+//   ./a.out ../ttbar_pu140_tmux_inp.txt . 96
+//
+//==========================================
+
+
+
 #include <iostream>
 #include <string>
 #include <string.h>     /* strlen */
@@ -14,14 +30,16 @@ int main(int argc, char **argv)
 
   const std::string OUTPUT_FILE_RADIX = "sim_input_fiber_";
 
-  if(argc != 3)
+  if(argc != 4)
     {
-      cout << "Need one argument for input file and output path." << endl;
+      cout << "Need one argument for input file, output path, and number of links." << endl;
       return -1;
     }
 
+  const unsigned int NUM_OF_LINKS = atoi(argv[3]);
+
   std::vector<std::vector<unsigned long long> > links;
-  for(unsigned int i=0;i<48;++i)
+  for(unsigned int i=0;i<NUM_OF_LINKS;++i)
     links.push_back(std::vector<unsigned long long>()); //create empty link
 
   { //start read in links
@@ -39,7 +57,7 @@ int main(int argc, char **argv)
     unsigned long long tmp;
 
     //skip first header lines
-    for(unsigned int i=0;i<3;++i)
+    for(unsigned int i=0;0 && i<3;++i)
       fgets(line,LINE_SZ,fp);
 
 
@@ -70,7 +88,7 @@ int main(int argc, char **argv)
 	      cout << dec << l-1 <<  ": 0x" << hex << tmp << endl;
 
 	    //if (l == 5) return -1;
-	    if(l > 48)
+	    if(l > NUM_OF_LINKS)
 	      {
 		cout << "Impossible link!" << endl;
 		return -1;
@@ -88,7 +106,7 @@ int main(int argc, char **argv)
 	
 	if(0) //debug link row
 	  {
-	    for(unsigned int i=0;i<48;++i)
+	    for(unsigned int i=0;i<NUM_OF_LINKS;++i)
 	      if(links[i].size() == links[0].size())
 		cout << "0x" << hex << links[i].back() << " ";
 	      else
@@ -114,18 +132,17 @@ int main(int argc, char **argv)
     
    
     // add valid bit by group
-    const unsigned int GROUP_LINK_COUNT = 42/3;
+    const unsigned int GROUP_LINK_COUNT = NUM_OF_LINKS/3;
     
-    //double the 48 links to 96 links
 
     unsigned int link_file_index = 0;
 
     cout << "Link count = " << dec << links.size() << endl;
-    for(unsigned int l=0;l<42 && //specify max number of links
+    for(unsigned int l=0;l<NUM_OF_LINKS && //specify max number of links
 	  l<links.size();++l)
       {
-	for(unsigned int m=0;m< (l%GROUP_LINK_COUNT == 0?6:2) ;++m) //duplicate file to get to 96 links (for first, duplicated 12 times)
-	  {
+	//for(unsigned int m=0;m< (l%GROUP_LINK_COUNT == 0?6:2) ;++m) //duplicate file to get to 96 links (for first, duplicated 12 times)
+	//  {
 	    std::stringstream filename;
 	    filename << argv[2] << "/" << OUTPUT_FILE_RADIX << link_file_index++ << ".dat";
 	    FILE *fp = fopen(filename.str().c_str(),"w");
@@ -149,7 +166,7 @@ int main(int argc, char **argv)
 		//	    cout << hex << links[l][i] << endl;
 	      }
 	    fclose(fp);
-	  }
+	    // }
       }
   }
 
