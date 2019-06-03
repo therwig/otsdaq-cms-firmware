@@ -1,10 +1,10 @@
 // Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.2 (lin64) Build 2258646 Thu Jun 14 20:02:38 MDT 2018
-// Date        : Fri May 17 10:14:49 2019
+// Date        : Fri May 17 10:14:45 2019
 // Host        : correlator2.fnal.gov running 64-bit Scientific Linux release 7.6 (Nitrogen)
-// Command     : write_verilog -force -mode funcsim
-//               /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/regionizer.srcs/sources_1/ip/regionizer_clocks/regionizer_clocks_sim_netlist.v
+// Command     : write_verilog -force -mode funcsim -rename_top regionizer_clocks -prefix
+//               regionizer_clocks_ regionizer_clocks_sim_netlist.v
 // Design      : regionizer_clocks
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -47,7 +47,6 @@ module regionizer_clocks
         .reset(reset));
 endmodule
 
-(* ORIG_REF_NAME = "regionizer_clocks_clk_wiz" *) 
 module regionizer_clocks_regionizer_clocks_clk_wiz
    (clk_40,
     clk_120,
