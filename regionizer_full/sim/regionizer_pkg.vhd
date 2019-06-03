@@ -173,10 +173,14 @@ package regionizer_pkg is
     
     -- apply big region offset to center in region associated wit this FPGA
     --  TODO -- make these big region offsets registers
-    constant ETA_BIG_REGION_OFFSET  : integer := 0; -- eta big regions boundaries are at BR0 | -243 | BR1 | +243 | BR2 
+    constant ETA_BIG_REGION_OFFSET  : integer := -243; -- eta big regions boundaries are at BR0 | -243 | BR1 | +243 | BR2 
+                                                    -- possible eta offsets ?: +486, 0, -486
+    constant ETA_BIG_REGION_SIZE    : integer := 243; -- eta big regions boundaries are at BR0 | -243 | BR1 | +243 | BR2 
                                                     -- possible eta offsets ?: +486, 0, -486
     constant PHI_BIG_REGION_OFFSET  : integer := 0; -- phi big regions boundaries are at BR0 | -170 | BR1 | +170 | BR2
-                                                    -- possible phi offsets ?: +240, 0, -240    
+                                                    -- possible phi offsets ?: +240, 0, -240 
+    constant PHI_BIG_REGION_SIZE    : integer := 510; -- phi big regions boundaries are at BR0 | -170 | BR1 | +170 | BR2
+                                                    -- possible phi offsets ?: +240, 0, -240     
 
     function is_eta_small_region_overlap(
         eta                 : signed(9 downto 0))
@@ -232,9 +236,8 @@ package body regionizer_pkg is
        
         variable threshold : integer;
     begin
-            
                 
-        threshold   := -300; --init to lowest threshold
+        threshold   := ETA_BIG_REGION_OFFSET; --init to lowest threshold
         for i in 0 to SMALL_REGION_ETA_COUNT-2 loop
         
             --consider potential overlaps first
@@ -249,7 +252,7 @@ package body regionizer_pkg is
                              
             end if;
             
-            threshold       := threshold + 600/SMALL_REGION_ETA_COUNT;
+            threshold       := threshold + ETA_BIG_REGION_SIZE/SMALL_REGION_ETA_COUNT;
         end loop;
         
         return '0';
@@ -265,7 +268,7 @@ package body regionizer_pkg is
         variable threshold : integer;
     begin
             
-        threshold   := -300; --init to lowest threshold
+        threshold   := PHI_BIG_REGION_OFFSET; --init to lowest threshold
         for i in 0 to SMALL_REGION_PHI_COUNT-2 loop
         
             --consider potential overlaps first
@@ -278,7 +281,7 @@ package body regionizer_pkg is
                 return '0';     
             end if;
             
-            threshold       := threshold + 600/SMALL_REGION_PHI_COUNT;
+            threshold       := threshold + PHI_BIG_REGION_SIZE/SMALL_REGION_PHI_COUNT;
         end loop;
         
         return '0'; 
@@ -298,7 +301,7 @@ package body regionizer_pkg is
     begin
     
         
-        threshold   := -300; --init to lowest threshold
+        threshold   := ETA_BIG_REGION_OFFSET; --init to lowest threshold
         for i in 0 to SMALL_REGION_ETA_COUNT-2 loop
         
             --consider potential overlaps first
@@ -315,7 +318,7 @@ package body regionizer_pkg is
                 return i;    
             end if;
             
-            threshold       := threshold + 600/SMALL_REGION_ETA_COUNT;
+            threshold       := threshold + ETA_BIG_REGION_SIZE/SMALL_REGION_ETA_COUNT;
         end loop;
         
         return SMALL_REGION_ETA_COUNT-1;
@@ -334,7 +337,7 @@ package body regionizer_pkg is
     begin
     
         
-        threshold   := -300; --init to lowest threshold
+        threshold   := PHI_BIG_REGION_OFFSET; --init to lowest threshold
         for i in 0 to SMALL_REGION_PHI_COUNT-2 loop
         
             --consider potential overlaps first
@@ -351,7 +354,7 @@ package body regionizer_pkg is
                 return i;    
             end if;
             
-            threshold       := threshold + 600/SMALL_REGION_PHI_COUNT;
+            threshold       := threshold + PHI_BIG_REGION_SIZE/SMALL_REGION_PHI_COUNT;
         end loop;
         
         return SMALL_REGION_PHI_COUNT-1; 
