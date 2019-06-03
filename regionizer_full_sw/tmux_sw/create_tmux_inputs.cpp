@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     unsigned int linenum = 0;
     while(fgets(line,LINE_SZ,fp))
       {
-	cout << linenum++ << " " << line << endl;
+	//cout << linenum++ << " " << line << endl;
 
 	unsigned int length = strlen(line);
 	unsigned int j=0;
