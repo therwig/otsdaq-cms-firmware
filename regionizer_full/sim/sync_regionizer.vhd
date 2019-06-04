@@ -145,9 +145,10 @@ begin
     gen_group_running_18bx_subcount : for g in 0 to FIBER_GROUPS-1 generate
         constant BX_COUNT_MATCH         : integer := g*6;
                 
+        signal group_18bx_has_reset     : std_logic := '0';
         signal group_18bx_reset         : std_logic := '0';
-        signal group_18bx_reset_latch   : std_logic := '0';  
-         
+        signal group_18bx_reset_latch   : std_logic := '0';        
+                 
         signal debug_group_18bx_reset   : std_logic := '0';       
     begin
         process(clk)
@@ -159,6 +160,12 @@ begin
                 
                 debug_group_18bx_reset      <= '0';
                 
+                if ( reset = '1' ) then
+                    group_18bx_has_reset <= '0';
+                elsif ( group_18bx_reset = '1') then
+                    group_18bx_has_reset <= '1';
+                 end if;
+                
                 if(sync_bx_count = BX_COUNT_MATCH) then
                     group_18bx_reset        <= sync_started;
                 end if;
@@ -166,7 +173,7 @@ begin
                 if(group_18bx_reset_latch = '0' and group_18bx_reset = '1') then
                     group_18bx_subcount(g)  <= (others => '0');
                     debug_group_18bx_reset  <= '1';
-                elsif(sync_started = '1') then
+                elsif(sync_started = '1' and group_18bx_has_reset = '1') then
                     group_18bx_subcount(g)  <= group_18bx_subcount(g) + 1;
                 end if;
                 

@@ -594,12 +594,26 @@ begin
     
     -- ========================= 
     gen_algo : if TRUE generate
-        signal algo_valid                   : std_logic;
+    
+        signal algo_valid                   : std_logic;        
+        signal algo_valid_latch             : std_logic;
+        signal algo_valid_or                : std_logic;
+        
         signal algo_out_valid               : std_logic;
         signal algo_out                     : raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+        
     begin
         
-        algo_valid              <= or_reduce(algo_group_valid);
+        algo_valid_or           <= or_reduce(algo_group_valid);
+        process(link_clk)
+        begin
+            if (rising_edge(link_clk)) then
+                algo_valid_latch    <= algo_valid;
+            end if;
+        end process;
+        --make every other valid sig for II=2
+        algo_valid              <= algo_valid_or and (not algo_valid_latch);
+        
         
         algo_in_valid_debug     <= algo_valid;
         algo_in_debug           <= level2_objects_out;
