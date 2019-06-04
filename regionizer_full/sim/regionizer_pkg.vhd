@@ -177,7 +177,7 @@ package regionizer_pkg is
                                                     -- possible eta offsets ?: +486, 0, -486
     constant ETA_BIG_REGION_SIZE    : integer := 243; -- eta big regions boundaries are at BR0 | -243 | BR1 | +243 | BR2 
                                                     -- possible eta offsets ?: +486, 0, -486
-    constant PHI_BIG_REGION_OFFSET  : integer := 0; -- phi big regions boundaries are at BR0 | -170 | BR1 | +170 | BR2
+    constant PHI_BIG_REGION_OFFSET  : integer := 0; -- -510; -- phi big regions boundaries are at BR0 | -170 | BR1 | +170 | BR2
                                                     -- possible phi offsets ?: +240, 0, -240 
     constant PHI_BIG_REGION_SIZE    : integer := 510; -- phi big regions boundaries are at BR0 | -170 | BR1 | +170 | BR2
                                                     -- possible phi offsets ?: +240, 0, -240     

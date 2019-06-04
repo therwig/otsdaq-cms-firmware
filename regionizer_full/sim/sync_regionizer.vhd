@@ -266,7 +266,7 @@ begin
     -- generate vertex select signals
     gen_algo_group_valid : for g in 0 to FIBER_GROUPS-1 generate
         constant BX_RUNSUBCOUNT_ON_MATCH        : integer := LINK_TO_LEVEL1_END_BX_LATENCY*CLOCKS_PER_2BX/2 + LEVEL2_TO_ALGO_LATENCY; 
-        constant BX_RUNSUBCOUNT_OFF_MATCH       : integer := LINK_TO_LEVEL1_END_BX_LATENCY*CLOCKS_PER_2BX/2 + LEVEL2_TO_ALGO_LATENCY + SMALL_REGION_COUNT*2;
+        constant BX_RUNSUBCOUNT_OFF_MATCH       : integer := LINK_TO_LEVEL1_END_BX_LATENCY*CLOCKS_PER_2BX/2 + LEVEL2_TO_ALGO_LATENCY + SMALL_REGION_COUNT*5/2;
          
         constant LATCH_DEPTH                    : integer := VERTEX_LATCH_DEPTH(g);
         constant BX_VALID_RUNSUBCOUNT_ON        : integer := BX_RUNSUBCOUNT_ON_MATCH  - LATCH_DEPTH;

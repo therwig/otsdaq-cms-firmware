@@ -191,7 +191,6 @@ begin
         end generate gen_to_output_pipe;
        
         -- ==========================================================================================
-        -- generate Tracker Level-2 buffers
         level2_detector_map_small_region_to_algo_gen : if TRUE generate  
         begin                    
             -- ============ 
@@ -458,6 +457,10 @@ begin
                         
             -- ==========================================================================================
             level2_detector_read_to_algo_handle_gen : for i in 0 to SMALL_REGIONS_PER_RAM-1 generate
+                
+                constant STAGGER_START_INDEX    : unsigned(3 downto 0) := to_unsigned(i*
+                           ((((SMALL_REGIONS_PER_RAM - 1)*CLOCKS_TO_STAGGER) + MAX_CLOCKS_TO_READ - 1)/ 
+                           MAX_CLOCKS_TO_READ + 1),4); -- e.g. ceil( (2-1)*2 / 5 ) + 1 = 2            
                             
                 signal level2_out_set_ready     : std_logic := '0';
                 signal level2_read_count        : unsigned(3 downto 0) := (others => '0');
@@ -473,6 +476,7 @@ begin
                              
                 -- for debugging 
                 signal debug_small_region_out   : eta_phi_small_region_t;
+                signal debug_robject_2          : level2_out_detector_set_t; 
                 
             begin
                     
@@ -484,6 +488,9 @@ begin
                 level2_out_set_ready        <= uram_read_valid_pipe(URAM_READ_LATENCY-1);
                 robject_set.valid           <= level2_out_set_arr(to_integer(small_region_rindex)).valid;
                 robject_set.objects         <= level2_out_set_arr(to_integer(small_region_rindex)).objects;
+                
+                debug_robject_2.valid       <= level2_out_set_arr(2).valid;
+                debug_robject_2.objects     <= level2_out_set_arr(2).objects;
             
                 detector_group_out_set_arr(g)(i)  <= local_robject_pipe; --map to high level signals
                 
@@ -501,7 +508,7 @@ begin
                         if (reset = '1') then
                         
                             level2_read_count           <= (others => '0');
-                            small_region_rindex         <= (others => '0');
+                            small_region_rindex         <= STAGGER_START_INDEX; 
                             
                         else
                         

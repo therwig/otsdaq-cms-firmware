@@ -599,20 +599,46 @@ begin
         signal algo_valid_latch             : std_logic;
         signal algo_valid_or                : std_logic;
         
+        signal algo_valid_count             : unsigned(2 downto 0) := (others => '0');
+        
         signal algo_out_valid               : std_logic;
         signal algo_out                     : raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+        
+        --for debugging         
+        signal debug_group_valid_count      : integer := 0;
         
     begin
         
         algo_valid_or           <= or_reduce(algo_group_valid);
-        process(link_clk)
+        
+        -- =========
+        algo_valid_proc : process(link_clk)
         begin
             if (rising_edge(link_clk)) then
-                algo_valid_latch    <= algo_valid;
+            
+                algo_valid_latch    <= algo_valid_or;
+                algo_valid          <= '0';
+                
+                if(algo_valid_or = '0' or algo_valid_count = 4) then
+                    algo_valid_count        <= (others => '0');
+                elsif (algo_valid_or = '1') then
+                    algo_valid_count        <= algo_valid_count + 1;
+                end if;
+                
+                --make 2 strobes every 5 clocks for valid sig for II=2
+                if (algo_valid_count = 1 or algo_valid_count = 3) then
+                    algo_valid              <= '1';
+                end if;
+                
+                --for debugging, count number of small-region valids
+                if(algo_valid_latch = '0') then
+                    debug_group_valid_count <= 0;
+                elsif (algo_valid = '1') then
+                    debug_group_valid_count <= debug_group_valid_count + 1;
+                end if;
+                
             end if;
-        end process;
-        --make every other valid sig for II=2
-        algo_valid              <= algo_valid_or and (not algo_valid_latch);
+        end process algo_valid_proc;
         
         
         algo_in_valid_debug     <= algo_valid;
