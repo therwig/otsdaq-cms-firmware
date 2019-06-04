@@ -149,7 +149,7 @@ begin
 					   
 		sim_fiber_reader_entity: FILE_READ
 			generic map(
-				stim_file => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/sim_data/sim_input_fiber_"&integer'image(fiber_index)&".dat",
+				stim_file => "/data/rrivera/CorrelatorTrigger/puppi_regionizer_repo/otsdaq-cms-firmware/regionizer_full/sim/sim_data/sim_input_fiber_"&integer'image(fiber_index)&".dat",
 				BIT_WIDTH => INPUT_WORD_SIZE
 			)
 			port map(
@@ -209,7 +209,7 @@ begin
         gen_vertex_in_output : if TRUE generate          
           sim_HLSinput_writer_array: FILE_WRITE
                       generic map(
-                          output_file   => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/sim_data/sim_HLS_input_vertex.dat",                          
+                          output_file   => "/data/rrivera/CorrelatorTrigger/puppi_regionizer_repo/otsdaq-cms-firmware/regionizer_full/sim/sim_data/sim_HLS_input_vertex.dat",                          
                           BIT_WIDTH     => VERTEX_BIT_WIDTH
                       )
                       port map(
@@ -226,7 +226,7 @@ begin
             
           sim_HLSinput_writer_array: FILE_WRITE
                       generic map(
-                          output_file   => "/data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full/sim/sim_data/sim_HLS_input_object_"&integer'image(i)&".dat",                          
+                          output_file   => "/data/rrivera/CorrelatorTrigger/puppi_regionizer_repo/otsdaq-cms-firmware/regionizer_full/sim/sim_data/sim_HLS_input_object_"&integer'image(i)&".dat",                          
                           BIT_WIDTH     => PHYSICS_OBJECT_BIT_SIZE
                       )
                       port map(

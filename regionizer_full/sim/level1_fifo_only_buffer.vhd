@@ -273,6 +273,15 @@ begin
             signal debug_target_pipe_drop   : std_logic;
             signal debug_roverflow_error_count : unsigned(15 downto 0) := (others => '0');
             
+            signal debug_eta_0              : integer := 0; 
+            signal debug_eta_1              : integer := 0;             
+            signal debug_eta_is_overlap     : std_logic;
+            signal debug_phi_0              : integer := 0; 
+            signal debug_phi_1              : integer := 0;             
+            signal debug_phi_is_overlap     : std_logic;
+
+
+            
             
             constant LVL2_CLOCKS_PER_2BX    : integer := 15; --for 300MHz, 15 clocks in 2x 40MHz 
                        
@@ -361,6 +370,13 @@ begin
                                                         level1_rd_object.phi,
                                                         sr_overlap_index
                                                         );
+                    debug_eta_0                     <= get_eta_small_region_index  (level1_rd_object.eta,0);
+                    debug_eta_1                     <= get_eta_small_region_index  (level1_rd_object.eta,1);
+                    debug_eta_is_overlap            <=  is_eta_small_region_overlap(level1_rd_object.eta);
+                    debug_phi_0                     <= get_phi_small_region_index  (level1_rd_object.phi,0);
+                    debug_phi_1                     <= get_phi_small_region_index  (level1_rd_object.phi,1);
+                    debug_phi_is_overlap            <=  is_phi_small_region_overlap(level1_rd_object.phi);
+                    
                                                         
                     target_pipe_index               := robject_small_region.small_region.phi_index;
                     target_pipe_subindex            := robject_small_region.small_region.eta_index; 

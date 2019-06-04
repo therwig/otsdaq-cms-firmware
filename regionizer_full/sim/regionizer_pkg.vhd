@@ -168,8 +168,8 @@ package regionizer_pkg is
     );
     
 
-    constant ETA_OVERLAP_SIZE       : integer := 32;
-    constant PHI_OVERLAP_SIZE       : integer := 32;
+    constant ETA_OVERLAP_SIZE       : integer := 64;
+    constant PHI_OVERLAP_SIZE       : integer := 64;
     
     -- apply big region offset to center in region associated wit this FPGA
     --  TODO -- make these big region offsets registers
@@ -200,6 +200,10 @@ package regionizer_pkg is
     type get_eta_phi_small_region_t is record
         small_region        : eta_phi_small_region_t;
         is_another          : std_logic; --indicate there is another small region to get
+        
+        debug_i             : natural;
+        debug_is_eta_overlap: std_logic;
+        debug_is_phi_overlap: std_logic;
     end record;
     
     function get_eta_phi_small_region(
@@ -237,7 +241,7 @@ package body regionizer_pkg is
         variable threshold : integer;
     begin
                 
-        threshold   := ETA_BIG_REGION_OFFSET; --init to lowest threshold
+        threshold   := ETA_BIG_REGION_OFFSET + ETA_BIG_REGION_SIZE/SMALL_REGION_ETA_COUNT; --init to lowest threshold
         for i in 0 to SMALL_REGION_ETA_COUNT-2 loop
         
             --consider potential overlaps first
@@ -257,6 +261,42 @@ package body regionizer_pkg is
         
         return '0';
     end;   --function is_eta_small_region_overlap 
+        
+    -- ==========================================================================================
+    --  get_eta_small_region_index
+    --      Convert the eta bit field to eta small region index
+    function get_eta_small_region_index(
+        eta                 : signed(9 downto 0);
+        i                   : natural)
+        return integer is
+    
+        variable threshold : integer;
+    begin
+    
+        
+        threshold   := ETA_BIG_REGION_OFFSET + ETA_BIG_REGION_SIZE/SMALL_REGION_ETA_COUNT; --init to lowest threshold
+        for small_region_index in 0 to SMALL_REGION_ETA_COUNT-2 loop
+        
+            --consider potential overlaps first
+            if(eta > threshold - ETA_OVERLAP_SIZE/2 and
+                    eta < threshold + ETA_OVERLAP_SIZE/2) then
+                    
+                if(i = 0) then
+                    return small_region_index;
+                else
+                    return small_region_index + 1;
+                end if;
+                
+            elsif (eta < threshold) then   
+                return small_region_index;    
+            end if;
+            
+            threshold       := threshold + ETA_BIG_REGION_SIZE/SMALL_REGION_ETA_COUNT;
+        end loop;
+        
+        return SMALL_REGION_ETA_COUNT-1;
+        
+    end;   --function get_eta_small_region_index 
     
     -- ==========================================================================================
     --  is_phi_small_region_overlap
@@ -268,8 +308,8 @@ package body regionizer_pkg is
         variable threshold : integer;
     begin
             
-        threshold   := PHI_BIG_REGION_OFFSET; --init to lowest threshold
-        for i in 0 to SMALL_REGION_PHI_COUNT-2 loop
+        threshold   := PHI_BIG_REGION_OFFSET + PHI_BIG_REGION_SIZE/SMALL_REGION_PHI_COUNT; --init to lowest threshold
+        for small_region_index in 0 to SMALL_REGION_PHI_COUNT-2 loop
         
             --consider potential overlaps first
             if(phi > threshold - PHI_OVERLAP_SIZE/2 and
@@ -287,43 +327,7 @@ package body regionizer_pkg is
         return '0'; 
     end;   --function is_phi_small_region_overlap 
     
-    
-    
-    -- ==========================================================================================
-    --  get_eta_small_region_index
-    --      Convert the eta bit field to eta small region index
-    function get_eta_small_region_index(
-        eta                 : signed(9 downto 0);
-        i                   : natural)
-        return integer is
-    
-        variable threshold : integer;
-    begin
-    
         
-        threshold   := ETA_BIG_REGION_OFFSET; --init to lowest threshold
-        for i in 0 to SMALL_REGION_ETA_COUNT-2 loop
-        
-            --consider potential overlaps first
-            if(eta > threshold - ETA_OVERLAP_SIZE/2 and
-                    eta < threshold + ETA_OVERLAP_SIZE/2) then
-                    
-                if(i = 0) then
-                    return i;
-                else
-                    return i+1;
-                end if;
-                
-            elsif (eta < threshold) then   
-                return i;    
-            end if;
-            
-            threshold       := threshold + ETA_BIG_REGION_SIZE/SMALL_REGION_ETA_COUNT;
-        end loop;
-        
-        return SMALL_REGION_ETA_COUNT-1;
-        
-    end;   --function get_eta_small_region_index     
     
     -- ==========================================================================================
     --  get_phi_small_region_index
@@ -337,21 +341,21 @@ package body regionizer_pkg is
     begin
     
         
-        threshold   := PHI_BIG_REGION_OFFSET; --init to lowest threshold
-        for i in 0 to SMALL_REGION_PHI_COUNT-2 loop
+        threshold   := PHI_BIG_REGION_OFFSET + PHI_BIG_REGION_SIZE/SMALL_REGION_PHI_COUNT; --init to lowest threshold
+        for small_region_index in 0 to SMALL_REGION_PHI_COUNT-2 loop
         
             --consider potential overlaps first
             if(phi > threshold - PHI_OVERLAP_SIZE/2 and
                     phi < threshold + PHI_OVERLAP_SIZE/2) then
                     
                 if(i = 0) then
-                    return i;
+                    return small_region_index;
                 else
-                    return i+1;
+                    return small_region_index + 1;
                 end if;
                 
             elsif (phi < threshold) then   
-                return i;    
+                return small_region_index;    
             end if;
             
             threshold       := threshold + PHI_BIG_REGION_SIZE/SMALL_REGION_PHI_COUNT;
@@ -374,6 +378,13 @@ package body regionizer_pkg is
             return  get_eta_phi_small_region_t is
         variable return_object : get_eta_phi_small_region_t;
     begin
+    
+        return_object.debug_i := i;
+        
+        return_object.debug_is_eta_overlap := 
+            is_eta_small_region_overlap(eta);
+        return_object.debug_is_phi_overlap := 
+            is_phi_small_region_overlap(phi); 
         
         if(i = 0) then
         
@@ -387,7 +398,7 @@ package body regionizer_pkg is
                 return_object.small_region.eta_index;
             return_object.is_another := 
                 is_eta_small_region_overlap(eta) or
-                is_phi_small_region_overlap(phi);
+                is_phi_small_region_overlap(phi);                
                 
         elsif(i = 1) then
         
