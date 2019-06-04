@@ -14,15 +14,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1436999334fs"></ZoomStartTime>
-      <ZoomEndTime time="1588599335fs"></ZoomEndTime>
-      <Cursor1Time time="1478930000fs"></Cursor1Time>
+      <ZoomStartTime time="4395833333fs"></ZoomStartTime>
+      <ZoomEndTime time="5120833334fs"></ZoomEndTime>
+      <Cursor1Time time="5000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="241"></NameColumnWidth>
-      <ValueColumnWidth column_width="127"></ValueColumnWidth>
+      <ValueColumnWidth column_width="123"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="151" />
+   <WVObjectSize size="165" />
    <wave_markers>
       <marker label="" time="2245474000" />
       <marker label="" time="1399770000" />
@@ -43,7 +43,6 @@
    <wvobject type="array" fp_name="/regionizer_tb/input_fiber_data">
       <obj_property name="ElementShortName">input_fiber_data[95:0][63:0]</obj_property>
       <obj_property name="ObjectShortName">input_fiber_data[95:0][63:0]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/input_fiber_valid">
       <obj_property name="ElementShortName">input_fiber_valid[95:0]</obj_property>
@@ -74,15 +73,6 @@
       <obj_property name="ElementShortName">link_physics_object_buffer[1:0]</obj_property>
       <obj_property name="ObjectShortName">link_physics_object_buffer[1:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[1]">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_physics_object_buffer[0]">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-      </wvobject>
    </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/\gen_fiber_group_buffer(0)\/\gen_fiber_buffer(0)\/link_data_valid">
       <obj_property name="ElementShortName">link_data_valid</obj_property>
@@ -250,47 +240,6 @@
       <obj_property name="ElementShortName">link_object_in</obj_property>
       <obj_property name="ObjectShortName">link_object_in</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.phi">
-         <obj_property name="ElementShortName">.phi[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.phi[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.eta">
-         <obj_property name="ElementShortName">.eta[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.eta[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.quality">
-         <obj_property name="ElementShortName">.quality</obj_property>
-         <obj_property name="ObjectShortName">.quality</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.z0">
-         <obj_property name="ElementShortName">.z0[9:0]</obj_property>
-         <obj_property name="ObjectShortName">.z0[9:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.otherPt">
-         <obj_property name="ElementShortName">.otherPt[15:0]</obj_property>
-         <obj_property name="ObjectShortName">.otherPt[15:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.pt">
-         <obj_property name="ElementShortName">.pt[15:0]</obj_property>
-         <obj_property name="ObjectShortName">.pt[15:0]</obj_property>
-         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.small_region">
-         <obj_property name="ElementShortName">.small_region</obj_property>
-         <obj_property name="ObjectShortName">.small_region</obj_property>
-      </wvobject>
-      <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.source_fiber">
-         <obj_property name="ElementShortName">.source_fiber</obj_property>
-         <obj_property name="ObjectShortName">.source_fiber</obj_property>
-      </wvobject>
-      <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/link_object_in.source_event_index">
-         <obj_property name="ElementShortName">.source_event_index</obj_property>
-         <obj_property name="ObjectShortName">.source_event_index</obj_property>
-      </wvobject>
    </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/clk_level1_to_2">
       <obj_property name="ElementShortName">clk_level1_to_2</obj_property>
@@ -374,15 +323,6 @@
       <obj_property name="ElementShortName">robject_small_region</obj_property>
       <obj_property name="ObjectShortName">robject_small_region</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/gen_level1_handling/gen_level1_read_handling/robject_small_region.small_region">
-         <obj_property name="ElementShortName">.small_region</obj_property>
-         <obj_property name="ObjectShortName">.small_region</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/gen_level1_handling/gen_level1_read_handling/robject_small_region.is_another">
-         <obj_property name="ElementShortName">.is_another</obj_property>
-         <obj_property name="ObjectShortName">.is_another</obj_property>
-      </wvobject>
    </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/\level1_detector_buffer_gen(0)\/\gen_detector_fiber_groups(0)\/\gen_detector_level1_buffers(0)\/detector_level1_buffer/gen_level1_handling/gen_level1_read_handling/debug_target_pipe_closed">
       <obj_property name="ElementShortName">debug_target_pipe_closed</obj_property>
@@ -452,65 +392,16 @@
             <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3]">
                <obj_property name="ElementShortName">[3]</obj_property>
                <obj_property name="ObjectShortName">[3]</obj_property>
-               <obj_property name="isExpanded"></obj_property>
-               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object">
-                  <obj_property name="ElementShortName">.object</obj_property>
-                  <obj_property name="ObjectShortName">.object</obj_property>
-                  <obj_property name="isExpanded"></obj_property>
-                  <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.phi">
-                     <obj_property name="ElementShortName">.phi[9:0]</obj_property>
-                     <obj_property name="ObjectShortName">.phi[9:0]</obj_property>
-                  </wvobject>
-                  <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.eta">
-                     <obj_property name="ElementShortName">.eta[9:0]</obj_property>
-                     <obj_property name="ObjectShortName">.eta[9:0]</obj_property>
-                  </wvobject>
-                  <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.quality">
-                     <obj_property name="ElementShortName">.quality</obj_property>
-                     <obj_property name="ObjectShortName">.quality</obj_property>
-                  </wvobject>
-                  <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.z0">
-                     <obj_property name="ElementShortName">.z0[9:0]</obj_property>
-                     <obj_property name="ObjectShortName">.z0[9:0]</obj_property>
-                  </wvobject>
-                  <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.otherPt">
-                     <obj_property name="ElementShortName">.otherPt[15:0]</obj_property>
-                     <obj_property name="ObjectShortName">.otherPt[15:0]</obj_property>
-                  </wvobject>
-                  <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.pt">
-                     <obj_property name="ElementShortName">.pt[15:0]</obj_property>
-                     <obj_property name="ObjectShortName">.pt[15:0]</obj_property>
-                  </wvobject>
-                  <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.small_region">
-                     <obj_property name="ElementShortName">.small_region</obj_property>
-                     <obj_property name="ObjectShortName">.small_region</obj_property>
-                     <obj_property name="isExpanded"></obj_property>
-                  </wvobject>
-                  <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.source_fiber">
-                     <obj_property name="ElementShortName">.source_fiber</obj_property>
-                     <obj_property name="ObjectShortName">.source_fiber</obj_property>
-                  </wvobject>
-                  <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].object.source_event_index">
-                     <obj_property name="ElementShortName">.source_event_index</obj_property>
-                     <obj_property name="ObjectShortName">.source_event_index</obj_property>
-                  </wvobject>
-               </wvobject>
-               <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].valid">
-                  <obj_property name="ElementShortName">.valid</obj_property>
-                  <obj_property name="ObjectShortName">.valid</obj_property>
-               </wvobject>
-               <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[3].sr_ram_subindex">
-                  <obj_property name="ElementShortName">.sr_ram_subindex</obj_property>
-                  <obj_property name="ObjectShortName">.sr_ram_subindex</obj_property>
-               </wvobject>
             </wvobject>
             <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[2]">
                <obj_property name="ElementShortName">[2]</obj_property>
                <obj_property name="ObjectShortName">[2]</obj_property>
+               <obj_property name="isExpanded"></obj_property>
             </wvobject>
             <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[1]">
                <obj_property name="ElementShortName">[1]</obj_property>
                <obj_property name="ObjectShortName">[1]</obj_property>
+               <obj_property name="isExpanded"></obj_property>
             </wvobject>
             <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level1_buffers/level2_pipe_out[0].tracker_pipe[0]">
                <obj_property name="ElementShortName">[0]</obj_property>
@@ -552,82 +443,7 @@
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in">
       <obj_property name="ElementShortName">object_pipe_in[2:0]</obj_property>
       <obj_property name="ObjectShortName">object_pipe_in[2:0]</obj_property>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[2]">
-         <obj_property name="ElementShortName">[2]</obj_property>
-         <obj_property name="ObjectShortName">[2]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[1]">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0]">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-         <obj_property name="isExpanded"></obj_property>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe">
-            <obj_property name="ElementShortName">.tracker_pipe[8:0]</obj_property>
-            <obj_property name="ObjectShortName">.tracker_pipe[8:0]</obj_property>
-            <obj_property name="isExpanded"></obj_property>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[8]">
-               <obj_property name="ElementShortName">[8]</obj_property>
-               <obj_property name="ObjectShortName">[8]</obj_property>
-            </wvobject>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[7]">
-               <obj_property name="ElementShortName">[7]</obj_property>
-               <obj_property name="ObjectShortName">[7]</obj_property>
-            </wvobject>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[6]">
-               <obj_property name="ElementShortName">[6]</obj_property>
-               <obj_property name="ObjectShortName">[6]</obj_property>
-            </wvobject>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[5]">
-               <obj_property name="ElementShortName">[5]</obj_property>
-               <obj_property name="ObjectShortName">[5]</obj_property>
-            </wvobject>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[4]">
-               <obj_property name="ElementShortName">[4]</obj_property>
-               <obj_property name="ObjectShortName">[4]</obj_property>
-            </wvobject>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[3]">
-               <obj_property name="ElementShortName">[3]</obj_property>
-               <obj_property name="ObjectShortName">[3]</obj_property>
-               <obj_property name="isExpanded"></obj_property>
-               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[3].object">
-                  <obj_property name="ElementShortName">.object</obj_property>
-                  <obj_property name="ObjectShortName">.object</obj_property>
-                  <obj_property name="isExpanded"></obj_property>
-               </wvobject>
-               <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[3].valid">
-                  <obj_property name="ElementShortName">.valid</obj_property>
-                  <obj_property name="ObjectShortName">.valid</obj_property>
-               </wvobject>
-               <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[3].sr_ram_subindex">
-                  <obj_property name="ElementShortName">.sr_ram_subindex</obj_property>
-                  <obj_property name="ObjectShortName">.sr_ram_subindex</obj_property>
-               </wvobject>
-            </wvobject>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[2]">
-               <obj_property name="ElementShortName">[2]</obj_property>
-               <obj_property name="ObjectShortName">[2]</obj_property>
-            </wvobject>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[1]">
-               <obj_property name="ElementShortName">[1]</obj_property>
-               <obj_property name="ObjectShortName">[1]</obj_property>
-            </wvobject>
-            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].tracker_pipe[0]">
-               <obj_property name="ElementShortName">[0]</obj_property>
-               <obj_property name="ObjectShortName">[0]</obj_property>
-            </wvobject>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].emcalo_pipe">
-            <obj_property name="ElementShortName">.emcalo_pipe[8:0]</obj_property>
-            <obj_property name="ObjectShortName">.emcalo_pipe[8:0]</obj_property>
-         </wvobject>
-         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/object_pipe_in[0].calo_pipe">
-            <obj_property name="ElementShortName">.calo_pipe[8:0]</obj_property>
-            <obj_property name="ObjectShortName">.calo_pipe[8:0]</obj_property>
-         </wvobject>
-      </wvobject>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/next_big_region">
       <obj_property name="ElementShortName">next_big_region[2:0]</obj_property>
@@ -836,20 +652,227 @@
       <obj_property name="ObjectShortName">level2_out_set_arr[8:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/small_region_rindex">
-      <obj_property name="ElementShortName">small_region_rindex[3:0]</obj_property>
-      <obj_property name="ObjectShortName">small_region_rindex[3:0]</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/level2_out_set_ready">
       <obj_property name="ElementShortName">level2_out_set_ready</obj_property>
       <obj_property name="ObjectShortName">level2_out_set_ready</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/clk_level1_to_2">
+      <obj_property name="ElementShortName">clk_level1_to_2</obj_property>
+      <obj_property name="ObjectShortName">clk_level1_to_2</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/small_region_rindex">
+      <obj_property name="ElementShortName">small_region_rindex[3:0]</obj_property>
+      <obj_property name="ObjectShortName">small_region_rindex[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/debug_robject_2">
+      <obj_property name="ElementShortName">debug_robject_2</obj_property>
+      <obj_property name="ObjectShortName">debug_robject_2</obj_property>
+   </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/robject_set">
       <obj_property name="ElementShortName">robject_set</obj_property>
       <obj_property name="ObjectShortName">robject_set</obj_property>
-      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/robject_set.valid">
+         <obj_property name="ElementShortName">.valid[4:0]</obj_property>
+         <obj_property name="ObjectShortName">.valid[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/robject_set.objects">
+         <obj_property name="ElementShortName">.objects[4:0]</obj_property>
+         <obj_property name="ObjectShortName">.objects[4:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_stagger_gen(1)\/small_region_index">
+      <obj_property name="ElementShortName">small_region_index[3:0]</obj_property>
+      <obj_property name="ObjectShortName">small_region_index[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(1)\/small_region_rindex">
+      <obj_property name="ElementShortName">small_region_rindex[3:0]</obj_property>
+      <obj_property name="ObjectShortName">small_region_rindex[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(1)\/robject_set">
+      <obj_property name="ElementShortName">robject_set</obj_property>
+      <obj_property name="ObjectShortName">robject_set</obj_property>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(1)\/robject_set.valid">
+         <obj_property name="ElementShortName">.valid[4:0]</obj_property>
+         <obj_property name="ObjectShortName">.valid[4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(1)\/robject_set.objects">
+         <obj_property name="ElementShortName">.objects[4:0]</obj_property>
+         <obj_property name="ObjectShortName">.objects[4:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(1)\/debug_robject_2">
+      <obj_property name="ElementShortName">debug_robject_2</obj_property>
+      <obj_property name="ObjectShortName">debug_robject_2</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr">
+      <obj_property name="ElementShortName">level2_out_set_arr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">level2_out_set_arr[8:0]</obj_property>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[8]">
+         <obj_property name="ElementShortName">[8]</obj_property>
+         <obj_property name="ObjectShortName">[8]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[7]">
+         <obj_property name="ElementShortName">[7]</obj_property>
+         <obj_property name="ObjectShortName">[7]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[6]">
+         <obj_property name="ElementShortName">[6]</obj_property>
+         <obj_property name="ObjectShortName">[6]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[5]">
+         <obj_property name="ElementShortName">[5]</obj_property>
+         <obj_property name="ObjectShortName">[5]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[4]">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">[4]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[3]">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">[3]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[2]">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">[2]</obj_property>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[2].valid">
+            <obj_property name="ElementShortName">.valid[4:0]</obj_property>
+            <obj_property name="ObjectShortName">.valid[4:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[2].objects">
+            <obj_property name="ElementShortName">.objects[4:0]</obj_property>
+            <obj_property name="ObjectShortName">.objects[4:0]</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[2].objects[4]">
+               <obj_property name="ElementShortName">[4]</obj_property>
+               <obj_property name="ObjectShortName">[4]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[2].objects[3]">
+               <obj_property name="ElementShortName">[3]</obj_property>
+               <obj_property name="ObjectShortName">[3]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[2].objects[2]">
+               <obj_property name="ElementShortName">[2]</obj_property>
+               <obj_property name="ObjectShortName">[2]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[2].objects[1]">
+               <obj_property name="ElementShortName">[1]</obj_property>
+               <obj_property name="ObjectShortName">[1]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[2].objects[0]">
+               <obj_property name="ElementShortName">[0]</obj_property>
+               <obj_property name="ObjectShortName">[0]</obj_property>
+               <obj_property name="isExpanded"></obj_property>
+            </wvobject>
+         </wvobject>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[1]">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/level2_out_set_arr[0]">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe">
+      <obj_property name="ElementShortName">local_robject_pipe[4:0]</obj_property>
+      <obj_property name="ObjectShortName">local_robject_pipe[4:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[4]">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">[4]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[3]">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">[3]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[2]">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">[2]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[1]">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0]">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].valid">
+            <obj_property name="ElementShortName">.valid[4:0]</obj_property>
+            <obj_property name="ObjectShortName">.valid[4:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects">
+            <obj_property name="ElementShortName">.objects[4:0]</obj_property>
+            <obj_property name="ObjectShortName">.objects[4:0]</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[4]">
+               <obj_property name="ElementShortName">[4]</obj_property>
+               <obj_property name="ObjectShortName">[4]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[3]">
+               <obj_property name="ElementShortName">[3]</obj_property>
+               <obj_property name="ObjectShortName">[3]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[2]">
+               <obj_property name="ElementShortName">[2]</obj_property>
+               <obj_property name="ObjectShortName">[2]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[1]">
+               <obj_property name="ElementShortName">[1]</obj_property>
+               <obj_property name="ObjectShortName">[1]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0]">
+               <obj_property name="ElementShortName">[0]</obj_property>
+               <obj_property name="ObjectShortName">[0]</obj_property>
+               <obj_property name="isExpanded"></obj_property>
+               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].phi">
+                  <obj_property name="ElementShortName">.phi[9:0]</obj_property>
+                  <obj_property name="ObjectShortName">.phi[9:0]</obj_property>
+                  <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].eta">
+                  <obj_property name="ElementShortName">.eta[9:0]</obj_property>
+                  <obj_property name="ObjectShortName">.eta[9:0]</obj_property>
+                  <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+               </wvobject>
+               <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].quality">
+                  <obj_property name="ElementShortName">.quality</obj_property>
+                  <obj_property name="ObjectShortName">.quality</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].z0">
+                  <obj_property name="ElementShortName">.z0[9:0]</obj_property>
+                  <obj_property name="ObjectShortName">.z0[9:0]</obj_property>
+                  <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].otherPt">
+                  <obj_property name="ElementShortName">.otherPt[15:0]</obj_property>
+                  <obj_property name="ObjectShortName">.otherPt[15:0]</obj_property>
+                  <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].pt">
+                  <obj_property name="ElementShortName">.pt[15:0]</obj_property>
+                  <obj_property name="ObjectShortName">.pt[15:0]</obj_property>
+                  <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].small_region">
+                  <obj_property name="ElementShortName">.small_region</obj_property>
+                  <obj_property name="ObjectShortName">.small_region</obj_property>
+               </wvobject>
+               <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].source_fiber">
+                  <obj_property name="ElementShortName">.source_fiber</obj_property>
+                  <obj_property name="ObjectShortName">.source_fiber</obj_property>
+               </wvobject>
+               <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(0)\/local_robject_pipe[0].objects[0].source_event_index">
+                  <obj_property name="ElementShortName">.source_event_index</obj_property>
+                  <obj_property name="ObjectShortName">.source_event_index</obj_property>
+               </wvobject>
+            </wvobject>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/\level2_detector_read_to_algo_handle_gen(1)\/local_robject_pipe">
       <obj_property name="ElementShortName">local_robject_pipe[4:0]</obj_property>
       <obj_property name="ObjectShortName">local_robject_pipe[4:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
@@ -858,15 +881,663 @@
       <obj_property name="ElementShortName">detector_group_out_set_arr[2:0][1:0][4:0]</obj_property>
       <obj_property name="ObjectShortName">detector_group_out_set_arr[2:0][1:0][4:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[2]">
+         <obj_property name="ElementShortName">[2][1:0][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][1:0][4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[1]">
+         <obj_property name="ElementShortName">[1][1:0][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][1:0][4:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0]">
+         <obj_property name="ElementShortName">[0][1:0][4:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][1:0][4:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][1]">
+            <obj_property name="ElementShortName">[1][4:0]</obj_property>
+            <obj_property name="ObjectShortName">[1][4:0]</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][1][4]">
+               <obj_property name="ElementShortName">[4]</obj_property>
+               <obj_property name="ObjectShortName">[4]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][1][3]">
+               <obj_property name="ElementShortName">[3]</obj_property>
+               <obj_property name="ObjectShortName">[3]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][1][2]">
+               <obj_property name="ElementShortName">[2]</obj_property>
+               <obj_property name="ObjectShortName">[2]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][1][1]">
+               <obj_property name="ElementShortName">[1]</obj_property>
+               <obj_property name="ObjectShortName">[1]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][1][0]">
+               <obj_property name="ElementShortName">[0]</obj_property>
+               <obj_property name="ObjectShortName">[0]</obj_property>
+               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][1][0].valid">
+                  <obj_property name="ElementShortName">.valid[4:0]</obj_property>
+                  <obj_property name="ObjectShortName">.valid[4:0]</obj_property>
+               </wvobject>
+               <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][1][0].objects">
+                  <obj_property name="ElementShortName">.objects[4:0]</obj_property>
+                  <obj_property name="ObjectShortName">.objects[4:0]</obj_property>
+                  <obj_property name="isExpanded"></obj_property>
+               </wvobject>
+            </wvobject>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr[0][0]">
+            <obj_property name="ElementShortName">[0][4:0]</obj_property>
+            <obj_property name="ObjectShortName">[0][4:0]</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/\level2_detector_buffer_group_gen(0)\/detector_group_out_valid">
+      <obj_property name="ElementShortName">detector_group_out_valid[1:0]</obj_property>
+      <obj_property name="ObjectShortName">detector_group_out_valid[1:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_strobe_arr">
       <obj_property name="ElementShortName">detector_group_out_strobe_arr[2:0][1:0]</obj_property>
       <obj_property name="ObjectShortName">detector_group_out_strobe_arr[2:0][1:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_strobe_arr[2]">
+         <obj_property name="ElementShortName">[2][1:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_strobe_arr[1]">
+         <obj_property name="ElementShortName">[1][1:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][1:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_strobe_arr[0]">
+         <obj_property name="ElementShortName">[0][1:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][1:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
    </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig">
       <obj_property name="ElementShortName">selected_objects_sig[4:0]</obj_property>
       <obj_property name="ObjectShortName">selected_objects_sig[4:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[4]">
+         <obj_property name="ElementShortName">[4]</obj_property>
+         <obj_property name="ObjectShortName">[4]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[3]">
+         <obj_property name="ElementShortName">[3]</obj_property>
+         <obj_property name="ObjectShortName">[3]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[2]">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">[2]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[1]">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[0]">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[0].valid">
+            <obj_property name="ElementShortName">.valid[4:0]</obj_property>
+            <obj_property name="ObjectShortName">.valid[4:0]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[0].objects">
+            <obj_property name="ElementShortName">.objects[4:0]</obj_property>
+            <obj_property name="ObjectShortName">.objects[4:0]</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[0].objects[4]">
+               <obj_property name="ElementShortName">[4]</obj_property>
+               <obj_property name="ObjectShortName">[4]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[0].objects[3]">
+               <obj_property name="ElementShortName">[3]</obj_property>
+               <obj_property name="ObjectShortName">[3]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[0].objects[2]">
+               <obj_property name="ElementShortName">[2]</obj_property>
+               <obj_property name="ObjectShortName">[2]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[0].objects[1]">
+               <obj_property name="ElementShortName">[1]</obj_property>
+               <obj_property name="ObjectShortName">[1]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/selected_objects_sig[0].objects[0]">
+               <obj_property name="ElementShortName">[0]</obj_property>
+               <obj_property name="ObjectShortName">[0]</obj_property>
+               <obj_property name="isExpanded"></obj_property>
+            </wvobject>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe">
+      <obj_property name="ElementShortName">level2_out_init_pipe</obj_property>
+      <obj_property name="ObjectShortName">level2_out_init_pipe</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.valid">
+         <obj_property name="ElementShortName">.valid</obj_property>
+         <obj_property name="ObjectShortName">.valid</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects">
+         <obj_property name="ElementShortName">.objects[59:0]</obj_property>
+         <obj_property name="ObjectShortName">.objects[59:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[59]">
+            <obj_property name="ElementShortName">[59]</obj_property>
+            <obj_property name="ObjectShortName">[59]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[58]">
+            <obj_property name="ElementShortName">[58]</obj_property>
+            <obj_property name="ObjectShortName">[58]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[57]">
+            <obj_property name="ElementShortName">[57]</obj_property>
+            <obj_property name="ObjectShortName">[57]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[56]">
+            <obj_property name="ElementShortName">[56]</obj_property>
+            <obj_property name="ObjectShortName">[56]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[55]">
+            <obj_property name="ElementShortName">[55]</obj_property>
+            <obj_property name="ObjectShortName">[55]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[54]">
+            <obj_property name="ElementShortName">[54]</obj_property>
+            <obj_property name="ObjectShortName">[54]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[53]">
+            <obj_property name="ElementShortName">[53]</obj_property>
+            <obj_property name="ObjectShortName">[53]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[52]">
+            <obj_property name="ElementShortName">[52]</obj_property>
+            <obj_property name="ObjectShortName">[52]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[51]">
+            <obj_property name="ElementShortName">[51]</obj_property>
+            <obj_property name="ObjectShortName">[51]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[50]">
+            <obj_property name="ElementShortName">[50]</obj_property>
+            <obj_property name="ObjectShortName">[50]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[49]">
+            <obj_property name="ElementShortName">[49]</obj_property>
+            <obj_property name="ObjectShortName">[49]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[48]">
+            <obj_property name="ElementShortName">[48]</obj_property>
+            <obj_property name="ObjectShortName">[48]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[47]">
+            <obj_property name="ElementShortName">[47]</obj_property>
+            <obj_property name="ObjectShortName">[47]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[46]">
+            <obj_property name="ElementShortName">[46]</obj_property>
+            <obj_property name="ObjectShortName">[46]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[45]">
+            <obj_property name="ElementShortName">[45]</obj_property>
+            <obj_property name="ObjectShortName">[45]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[44]">
+            <obj_property name="ElementShortName">[44]</obj_property>
+            <obj_property name="ObjectShortName">[44]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[43]">
+            <obj_property name="ElementShortName">[43]</obj_property>
+            <obj_property name="ObjectShortName">[43]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[42]">
+            <obj_property name="ElementShortName">[42]</obj_property>
+            <obj_property name="ObjectShortName">[42]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[41]">
+            <obj_property name="ElementShortName">[41]</obj_property>
+            <obj_property name="ObjectShortName">[41]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[40]">
+            <obj_property name="ElementShortName">[40]</obj_property>
+            <obj_property name="ObjectShortName">[40]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[39]">
+            <obj_property name="ElementShortName">[39]</obj_property>
+            <obj_property name="ObjectShortName">[39]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[38]">
+            <obj_property name="ElementShortName">[38]</obj_property>
+            <obj_property name="ObjectShortName">[38]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[37]">
+            <obj_property name="ElementShortName">[37]</obj_property>
+            <obj_property name="ObjectShortName">[37]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[36]">
+            <obj_property name="ElementShortName">[36]</obj_property>
+            <obj_property name="ObjectShortName">[36]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[35]">
+            <obj_property name="ElementShortName">[35]</obj_property>
+            <obj_property name="ObjectShortName">[35]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[34]">
+            <obj_property name="ElementShortName">[34]</obj_property>
+            <obj_property name="ObjectShortName">[34]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[33]">
+            <obj_property name="ElementShortName">[33]</obj_property>
+            <obj_property name="ObjectShortName">[33]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[32]">
+            <obj_property name="ElementShortName">[32]</obj_property>
+            <obj_property name="ObjectShortName">[32]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[31]">
+            <obj_property name="ElementShortName">[31]</obj_property>
+            <obj_property name="ObjectShortName">[31]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[30]">
+            <obj_property name="ElementShortName">[30]</obj_property>
+            <obj_property name="ObjectShortName">[30]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[29]">
+            <obj_property name="ElementShortName">[29]</obj_property>
+            <obj_property name="ObjectShortName">[29]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[28]">
+            <obj_property name="ElementShortName">[28]</obj_property>
+            <obj_property name="ObjectShortName">[28]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[27]">
+            <obj_property name="ElementShortName">[27]</obj_property>
+            <obj_property name="ObjectShortName">[27]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[26]">
+            <obj_property name="ElementShortName">[26]</obj_property>
+            <obj_property name="ObjectShortName">[26]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[25]">
+            <obj_property name="ElementShortName">[25]</obj_property>
+            <obj_property name="ObjectShortName">[25]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[24]">
+            <obj_property name="ElementShortName">[24]</obj_property>
+            <obj_property name="ObjectShortName">[24]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[23]">
+            <obj_property name="ElementShortName">[23]</obj_property>
+            <obj_property name="ObjectShortName">[23]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[22]">
+            <obj_property name="ElementShortName">[22]</obj_property>
+            <obj_property name="ObjectShortName">[22]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[21]">
+            <obj_property name="ElementShortName">[21]</obj_property>
+            <obj_property name="ObjectShortName">[21]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[20]">
+            <obj_property name="ElementShortName">[20]</obj_property>
+            <obj_property name="ObjectShortName">[20]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[19]">
+            <obj_property name="ElementShortName">[19]</obj_property>
+            <obj_property name="ObjectShortName">[19]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[18]">
+            <obj_property name="ElementShortName">[18]</obj_property>
+            <obj_property name="ObjectShortName">[18]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[17]">
+            <obj_property name="ElementShortName">[17]</obj_property>
+            <obj_property name="ObjectShortName">[17]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[16]">
+            <obj_property name="ElementShortName">[16]</obj_property>
+            <obj_property name="ObjectShortName">[16]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[15]">
+            <obj_property name="ElementShortName">[15]</obj_property>
+            <obj_property name="ObjectShortName">[15]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[14]">
+            <obj_property name="ElementShortName">[14]</obj_property>
+            <obj_property name="ObjectShortName">[14]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[13]">
+            <obj_property name="ElementShortName">[13]</obj_property>
+            <obj_property name="ObjectShortName">[13]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[12]">
+            <obj_property name="ElementShortName">[12]</obj_property>
+            <obj_property name="ObjectShortName">[12]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[11]">
+            <obj_property name="ElementShortName">[11]</obj_property>
+            <obj_property name="ObjectShortName">[11]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[10]">
+            <obj_property name="ElementShortName">[10]</obj_property>
+            <obj_property name="ObjectShortName">[10]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[9]">
+            <obj_property name="ElementShortName">[9]</obj_property>
+            <obj_property name="ObjectShortName">[9]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[8]">
+            <obj_property name="ElementShortName">[8]</obj_property>
+            <obj_property name="ObjectShortName">[8]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[7]">
+            <obj_property name="ElementShortName">[7]</obj_property>
+            <obj_property name="ObjectShortName">[7]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[6]">
+            <obj_property name="ElementShortName">[6]</obj_property>
+            <obj_property name="ObjectShortName">[6]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[5]">
+            <obj_property name="ElementShortName">[5]</obj_property>
+            <obj_property name="ObjectShortName">[5]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[4]">
+            <obj_property name="ElementShortName">[4]</obj_property>
+            <obj_property name="ObjectShortName">[4]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[3]">
+            <obj_property name="ElementShortName">[3]</obj_property>
+            <obj_property name="ObjectShortName">[3]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[2]">
+            <obj_property name="ElementShortName">[2]</obj_property>
+            <obj_property name="ObjectShortName">[2]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[1]">
+            <obj_property name="ElementShortName">[1]</obj_property>
+            <obj_property name="ObjectShortName">[1]</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_init_pipe.objects[0]">
+            <obj_property name="ElementShortName">[0]</obj_property>
+            <obj_property name="ObjectShortName">[0]</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+         </wvobject>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes">
+      <obj_property name="ElementShortName">level2_out_pipes[2:0]</obj_property>
+      <obj_property name="ObjectShortName">level2_out_pipes[2:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2]">
+         <obj_property name="ElementShortName">[2]</obj_property>
+         <obj_property name="ObjectShortName">[2]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].valid">
+            <obj_property name="ElementShortName">.valid</obj_property>
+            <obj_property name="ObjectShortName">.valid</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects">
+            <obj_property name="ElementShortName">.objects[59:0]</obj_property>
+            <obj_property name="ObjectShortName">.objects[59:0]</obj_property>
+            <obj_property name="isExpanded"></obj_property>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[59]">
+               <obj_property name="ElementShortName">[59]</obj_property>
+               <obj_property name="ObjectShortName">[59]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[58]">
+               <obj_property name="ElementShortName">[58]</obj_property>
+               <obj_property name="ObjectShortName">[58]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[57]">
+               <obj_property name="ElementShortName">[57]</obj_property>
+               <obj_property name="ObjectShortName">[57]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[56]">
+               <obj_property name="ElementShortName">[56]</obj_property>
+               <obj_property name="ObjectShortName">[56]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[55]">
+               <obj_property name="ElementShortName">[55]</obj_property>
+               <obj_property name="ObjectShortName">[55]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[54]">
+               <obj_property name="ElementShortName">[54]</obj_property>
+               <obj_property name="ObjectShortName">[54]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[53]">
+               <obj_property name="ElementShortName">[53]</obj_property>
+               <obj_property name="ObjectShortName">[53]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[52]">
+               <obj_property name="ElementShortName">[52]</obj_property>
+               <obj_property name="ObjectShortName">[52]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[51]">
+               <obj_property name="ElementShortName">[51]</obj_property>
+               <obj_property name="ObjectShortName">[51]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[50]">
+               <obj_property name="ElementShortName">[50]</obj_property>
+               <obj_property name="ObjectShortName">[50]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[49]">
+               <obj_property name="ElementShortName">[49]</obj_property>
+               <obj_property name="ObjectShortName">[49]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[48]">
+               <obj_property name="ElementShortName">[48]</obj_property>
+               <obj_property name="ObjectShortName">[48]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[47]">
+               <obj_property name="ElementShortName">[47]</obj_property>
+               <obj_property name="ObjectShortName">[47]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[46]">
+               <obj_property name="ElementShortName">[46]</obj_property>
+               <obj_property name="ObjectShortName">[46]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[45]">
+               <obj_property name="ElementShortName">[45]</obj_property>
+               <obj_property name="ObjectShortName">[45]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[44]">
+               <obj_property name="ElementShortName">[44]</obj_property>
+               <obj_property name="ObjectShortName">[44]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[43]">
+               <obj_property name="ElementShortName">[43]</obj_property>
+               <obj_property name="ObjectShortName">[43]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[42]">
+               <obj_property name="ElementShortName">[42]</obj_property>
+               <obj_property name="ObjectShortName">[42]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[41]">
+               <obj_property name="ElementShortName">[41]</obj_property>
+               <obj_property name="ObjectShortName">[41]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[40]">
+               <obj_property name="ElementShortName">[40]</obj_property>
+               <obj_property name="ObjectShortName">[40]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[39]">
+               <obj_property name="ElementShortName">[39]</obj_property>
+               <obj_property name="ObjectShortName">[39]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[38]">
+               <obj_property name="ElementShortName">[38]</obj_property>
+               <obj_property name="ObjectShortName">[38]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[37]">
+               <obj_property name="ElementShortName">[37]</obj_property>
+               <obj_property name="ObjectShortName">[37]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[36]">
+               <obj_property name="ElementShortName">[36]</obj_property>
+               <obj_property name="ObjectShortName">[36]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[35]">
+               <obj_property name="ElementShortName">[35]</obj_property>
+               <obj_property name="ObjectShortName">[35]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[34]">
+               <obj_property name="ElementShortName">[34]</obj_property>
+               <obj_property name="ObjectShortName">[34]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[33]">
+               <obj_property name="ElementShortName">[33]</obj_property>
+               <obj_property name="ObjectShortName">[33]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[32]">
+               <obj_property name="ElementShortName">[32]</obj_property>
+               <obj_property name="ObjectShortName">[32]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[31]">
+               <obj_property name="ElementShortName">[31]</obj_property>
+               <obj_property name="ObjectShortName">[31]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[30]">
+               <obj_property name="ElementShortName">[30]</obj_property>
+               <obj_property name="ObjectShortName">[30]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[29]">
+               <obj_property name="ElementShortName">[29]</obj_property>
+               <obj_property name="ObjectShortName">[29]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[28]">
+               <obj_property name="ElementShortName">[28]</obj_property>
+               <obj_property name="ObjectShortName">[28]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[27]">
+               <obj_property name="ElementShortName">[27]</obj_property>
+               <obj_property name="ObjectShortName">[27]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[26]">
+               <obj_property name="ElementShortName">[26]</obj_property>
+               <obj_property name="ObjectShortName">[26]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[25]">
+               <obj_property name="ElementShortName">[25]</obj_property>
+               <obj_property name="ObjectShortName">[25]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[24]">
+               <obj_property name="ElementShortName">[24]</obj_property>
+               <obj_property name="ObjectShortName">[24]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[23]">
+               <obj_property name="ElementShortName">[23]</obj_property>
+               <obj_property name="ObjectShortName">[23]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[22]">
+               <obj_property name="ElementShortName">[22]</obj_property>
+               <obj_property name="ObjectShortName">[22]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[21]">
+               <obj_property name="ElementShortName">[21]</obj_property>
+               <obj_property name="ObjectShortName">[21]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[20]">
+               <obj_property name="ElementShortName">[20]</obj_property>
+               <obj_property name="ObjectShortName">[20]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[19]">
+               <obj_property name="ElementShortName">[19]</obj_property>
+               <obj_property name="ObjectShortName">[19]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[18]">
+               <obj_property name="ElementShortName">[18]</obj_property>
+               <obj_property name="ObjectShortName">[18]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[17]">
+               <obj_property name="ElementShortName">[17]</obj_property>
+               <obj_property name="ObjectShortName">[17]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[16]">
+               <obj_property name="ElementShortName">[16]</obj_property>
+               <obj_property name="ObjectShortName">[16]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[15]">
+               <obj_property name="ElementShortName">[15]</obj_property>
+               <obj_property name="ObjectShortName">[15]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[14]">
+               <obj_property name="ElementShortName">[14]</obj_property>
+               <obj_property name="ObjectShortName">[14]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[13]">
+               <obj_property name="ElementShortName">[13]</obj_property>
+               <obj_property name="ObjectShortName">[13]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[12]">
+               <obj_property name="ElementShortName">[12]</obj_property>
+               <obj_property name="ObjectShortName">[12]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[11]">
+               <obj_property name="ElementShortName">[11]</obj_property>
+               <obj_property name="ObjectShortName">[11]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[10]">
+               <obj_property name="ElementShortName">[10]</obj_property>
+               <obj_property name="ObjectShortName">[10]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[9]">
+               <obj_property name="ElementShortName">[9]</obj_property>
+               <obj_property name="ObjectShortName">[9]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[8]">
+               <obj_property name="ElementShortName">[8]</obj_property>
+               <obj_property name="ObjectShortName">[8]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[7]">
+               <obj_property name="ElementShortName">[7]</obj_property>
+               <obj_property name="ObjectShortName">[7]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[6]">
+               <obj_property name="ElementShortName">[6]</obj_property>
+               <obj_property name="ObjectShortName">[6]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[5]">
+               <obj_property name="ElementShortName">[5]</obj_property>
+               <obj_property name="ObjectShortName">[5]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[4]">
+               <obj_property name="ElementShortName">[4]</obj_property>
+               <obj_property name="ObjectShortName">[4]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[3]">
+               <obj_property name="ElementShortName">[3]</obj_property>
+               <obj_property name="ObjectShortName">[3]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[2]">
+               <obj_property name="ElementShortName">[2]</obj_property>
+               <obj_property name="ObjectShortName">[2]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[1]">
+               <obj_property name="ElementShortName">[1]</obj_property>
+               <obj_property name="ObjectShortName">[1]</obj_property>
+            </wvobject>
+            <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[2].objects[0]">
+               <obj_property name="ElementShortName">[0]</obj_property>
+               <obj_property name="ObjectShortName">[0]</obj_property>
+               <obj_property name="isExpanded"></obj_property>
+            </wvobject>
+         </wvobject>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[1]">
+         <obj_property name="ElementShortName">[1]</obj_property>
+         <obj_property name="ObjectShortName">[1]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/level2_out_pipes[0]">
+         <obj_property name="ElementShortName">[0]</obj_property>
+         <obj_property name="ObjectShortName">[0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/robjects_out">
+      <obj_property name="ElementShortName">robjects_out[59:0][63:0]</obj_property>
+      <obj_property name="ObjectShortName">robjects_out[59:0][63:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject fp_name="divider465" type="divider">
@@ -919,6 +1590,7 @@
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/robjects_out">
       <obj_property name="ElementShortName">robjects_out[59:0][63:0]</obj_property>
       <obj_property name="ObjectShortName">robjects_out[59:0][63:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/gen_levels_1_and_2_scenario_1/level2_buffers/\level2_detector_buffer_gen(0)\/detector_group_out_set_arr">
       <obj_property name="ElementShortName">detector_group_out_set_arr[2:0][1:0][4:0]</obj_property>
@@ -929,21 +1601,6 @@
       <obj_property name="ElementShortName">group_18bx_subcount[2:0][8:0]</obj_property>
       <obj_property name="ObjectShortName">group_18bx_subcount[2:0][8:0]</obj_property>
       <obj_property name="isExpanded"></obj_property>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/sync/group_18bx_subcount[2]">
-         <obj_property name="ElementShortName">[2][8:0]</obj_property>
-         <obj_property name="ObjectShortName">[2][8:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/sync/group_18bx_subcount[1]">
-         <obj_property name="ElementShortName">[1][8:0]</obj_property>
-         <obj_property name="ObjectShortName">[1][8:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
-      <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/sync/group_18bx_subcount[0]">
-         <obj_property name="ElementShortName">[0][8:0]</obj_property>
-         <obj_property name="ObjectShortName">[0][8:0]</obj_property>
-         <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-      </wvobject>
    </wvobject>
    <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_physics_object_buffer_levels/sync/\gen_algo_group_valid(1)\/BX_VALID_RUNSUBCOUNT_ON">
       <obj_property name="ElementShortName">BX_VALID_RUNSUBCOUNT_ON</obj_property>
@@ -962,9 +1619,18 @@
       <obj_property name="ElementShortName">valid_in</obj_property>
       <obj_property name="ObjectShortName">valid_in</obj_property>
    </wvobject>
+   <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_algo/algo_valid_count">
+      <obj_property name="ElementShortName">algo_valid_count[2:0]</obj_property>
+      <obj_property name="ObjectShortName">algo_valid_count[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_algo/debug_group_valid_count">
+      <obj_property name="ElementShortName">debug_group_valid_count</obj_property>
+      <obj_property name="ObjectShortName">debug_group_valid_count</obj_property>
+   </wvobject>
    <wvobject type="array" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_algo/algo_wrapper_instance/objects_in">
       <obj_property name="ElementShortName">objects_in[59:0][63:0]</obj_property>
       <obj_property name="ObjectShortName">objects_in[59:0][63:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/regionizer_tb/regionizer_wrapper_entity/gen_algo/algo_wrapper_instance/valid_out">
       <obj_property name="ElementShortName">valid_out</obj_property>
