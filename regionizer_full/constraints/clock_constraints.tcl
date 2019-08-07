@@ -4,7 +4,7 @@
 #
 ###########################################
 
-create_clock -name link_clk -period 3.32 [get_pins link_clk_ibufg/O]
+create_clock -name link_clk -period 4.1667 [get_pins link_clk_ibufg/O]
 
 
 #ignore timing from clk 40 things to chipscope

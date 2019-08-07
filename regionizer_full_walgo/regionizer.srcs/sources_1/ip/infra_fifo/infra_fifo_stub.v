@@ -1,10 +1,10 @@
 // Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2018.2 (lin64) Build 2258646 Thu Jun 14 20:02:38 MDT 2018
-// Date        : Wed May 22 13:42:04 2019
+// Date        : Wed May 22 13:41:58 2019
 // Host        : correlator2.fnal.gov running 64-bit Scientific Linux release 7.6 (Nitrogen)
-// Command     : write_verilog -force -mode synth_stub
-//               /data/rrivera/CorrelatorTrigger/otsdaq-cms-firmware/regionizer_full_walgo/regionizer.srcs/sources_1/ip/infra_fifo/infra_fifo_stub.v
+// Command     : write_verilog -force -mode synth_stub -rename_top infra_fifo -prefix
+//               infra_fifo_ infra_fifo_stub.v
 // Design      : infra_fifo
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xcvu9p-flgb2104-2-i
