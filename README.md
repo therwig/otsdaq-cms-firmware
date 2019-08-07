@@ -1,6 +1,6 @@
-#Repository for P2L1PF Regionizer
+# Repository for P2L1PF Regionizer
 
-##Prepare inputs
+## Prepare inputs
 Start from text file produced using `GlobalCorrelator_HLS` code
 ```
 cd regionizer_full_sw/tmux_sw/
@@ -10,7 +10,7 @@ cd -
 ```
 General usage is `./a.out <input file> <folder for resulting input files> <number of links>`
 
-##Run simulation:
+## Run simulation:
 ```
 cd regionizer_full
 vivado -mode batch -source run_behav_sim.tcl
