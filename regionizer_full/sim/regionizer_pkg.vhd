@@ -469,7 +469,7 @@ package body regionizer_pkg is
         return_object   := ( 
             phi                 => signed(raw(32 + 19 downto 32 + 10)),
             eta                 => signed(raw(32 + 9 downto 32 + 0)),
-            quality             =>        raw(32 + 31),
+            quality             =>        raw(32 + 30),
             --lsEM                =>        raw(32 + 20),
             z0                  => signed(raw(32 + 29 downto 32 + 20)),
             otherPt             => signed(raw(0 + 31 downto 0 + 16)),
@@ -492,8 +492,8 @@ package body regionizer_pkg is
         variable return_raw : raw_physics_object_t;      
     begin
     
-        return_raw(63)                        := object.quality;
-        return_raw(62)                        := '0';
+        return_raw(63)                        := '0';
+        return_raw(62)                        := object.quality;
         --return_raw(52)                        := object.lsEM;
         return_raw(61 downto 52)              := std_logic_vector(object.z0);
         return_raw(51 downto 42)              := std_logic_vector(object.phi);

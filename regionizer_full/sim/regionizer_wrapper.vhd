@@ -352,7 +352,7 @@ begin
                                     link_physics_object_buffer(0)   <= (
                                         phi                 => signed(link_data(0 + 19 downto 0 + 10)),
                                         eta                 => signed(link_data(0 + 9 downto 0 + 0)),
-                                        quality             =>        link_data(0 + 31),
+                                        quality             =>        link_data(0 + 30),
                                         --lsEM                =>        link_data(0 + 20),
                                         z0                  => signed(link_data(0 + 29 downto 0 + 20)),
                                         otherPt             => link_physics_object_buffer(0).otherPt,
@@ -380,7 +380,7 @@ begin
                                     link_physics_object_buffer(1)   <= (
                                         phi                 => signed(link_data(0 + 19 downto 0 + 10)),
                                         eta                 => signed(link_data(0 + 9 downto 0 + 0)),
-                                        quality             =>        link_data(0 + 31),
+                                        quality             =>        link_data(0 + 30),
                                         --lsEM                =>        link_data(0 + 20),
                                         z0                  => signed(link_data(0 + 29 downto 0 + 20)),
                                         otherPt             => link_physics_object_buffer(1).otherPt,
@@ -411,7 +411,7 @@ begin
                                     link_physics_object_buffer(0)   <= (
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
-                                        quality             =>        link_data(32 + 31),
+                                        quality             =>        link_data(32 + 30),
                                         --lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => link_physics_object_buffer(0).otherPt,
@@ -427,7 +427,7 @@ begin
                                     link_physics_object_buffer(0)   <= ( --aligned to 64b
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
-                                        quality             =>        link_data(32 + 31),
+                                        quality             =>        link_data(32 + 30),
                                         --lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => signed(link_data(0 + 31 downto 0 + 16)),
@@ -445,7 +445,7 @@ begin
                                     link_physics_object_buffer(0)   <= ( --aligned to 64b
                                         phi                 => signed(link_data(32 + 19 downto 32 + 10)),
                                         eta                 => signed(link_data(32 + 9 downto 32 + 0)),
-                                        quality             =>        link_data(32 + 31),
+                                        quality             =>        link_data(32 + 30),
                                         --lsEM                =>        link_data(32 + 20),
                                         z0                  => signed(link_data(32 + 29 downto 32 + 20)),
                                         otherPt             => signed(link_data(0 + 31 downto 0 + 16)),

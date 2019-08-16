@@ -26,12 +26,17 @@ end;
    
 architecture arch of infra_wrapper is
   
-    component regionizer_wrapper
-        port(
-      
+    component regionizer_wrapper 
+    port(
+     
             link_clk            : in  std_logic;
             
-            algo_in_debug       : out algo_input_physics_objects_t;
+            algo_in_debug       : out raw_physics_object_arr_t(ALGO_INPUT_OBJECTS_COUNT-1 downto 0);
+            algo_in_vertex_debug: out std_logic_vector(VERTEX_BIT_WIDTH-1 downto 0);
+            algo_in_valid_debug : out std_logic;
+            
+            algo_out_debug      : out raw_algo_object_out_arr_t(ALGO_OBJECTS_OUT-1 downto 0);
+            algo_out_valid_debug: out std_logic;
             
             -- Input Links 
             link_in_master      : in  LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
@@ -40,11 +45,11 @@ architecture arch of infra_wrapper is
             -- Output Links 
             link_out_master     : out LinkMasterArrType(MAX_FIBER_COUNT-1 downto 0);
             link_out_slave      : in  LinkSlaveArrType(MAX_FIBER_COUNT-1 downto 0);
-        
+            
             algo_reset          : in  std_logic;
             reset               : in  std_logic
-    
-        ); 
+   
+    );
     end component regionizer_wrapper;
  
     component infra

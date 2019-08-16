@@ -110,7 +110,7 @@ architecture Behavioral of level2_ram_buffers is
     signal level2_calo_out_valid    : std_logic := '0';
     
     type integer_arr_t is array(natural range <> ) of integer;
-    constant DETECTOR_OBJECTS_TO_ALGO_ARR       : integer_arr_t(2 downto 0) := (0 => TRACKER_OBJECTS_TO_ALGO, 1 => EMCALO_OBJECTS_TO_ALGO, 2 => CALO_OBJECTS_TO_ALGO);
+    constant DETECTOR_OBJECTS_TO_ALGO_ARR       : integer_arr_t(2 downto 0) := (0 => EMCALO_OBJECTS_TO_ALGO, 1 => CALO_OBJECTS_TO_ALGO, 2 => TRACKER_OBJECTS_TO_ALGO);
     constant OBJECTS_OFFSET_TO_ALGO_ARR         : integer_arr_t(2 downto 0) := (
         0 => 0, 
         1 => DETECTOR_OBJECTS_TO_ALGO_ARR(0), 
@@ -246,17 +246,17 @@ begin
             
             ---------------
             --connect the proper detector specific objects
-            tracker_detector_pipe_gen : if d = 0 generate
-                detector_pipe_in                        <= object_pipe_in(g).tracker_pipe;
-                small_region_closed(g).tracker_closed   <= detector_closed;
-            end generate;
-            emcalo_detector_pipe_gen  : if d = 1 generate
+            emcalo_detector_pipe_gen  : if d = 0 generate
                 detector_pipe_in                        <= object_pipe_in(g).emcalo_pipe;
                 small_region_closed(g).emcalo_closed    <= detector_closed;
             end generate;
-            calo_detector_pipe_gen    : if d = 2 generate
+            calo_detector_pipe_gen    : if d = 1 generate
                 detector_pipe_in                        <= object_pipe_in(g).calo_pipe;
                 small_region_closed(g).calo_closed      <= detector_closed;
+            end generate;
+            tracker_detector_pipe_gen : if d = 2 generate
+                detector_pipe_in                        <= object_pipe_in(g).tracker_pipe;
+                small_region_closed(g).tracker_closed   <= detector_closed;
             end generate;
             --end connect the proper detector specific objects
             ---------------
